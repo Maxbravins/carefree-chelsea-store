@@ -23,3 +23,10 @@ yarn-error.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# executables
+*.exe
+*.zip
+*.msi
+*.winmd
+desktop.ini
