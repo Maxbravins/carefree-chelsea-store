@@ -1,73 +1,111 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, Star, Zap } from "lucide-react";
+import { Eye, ShoppingCart } from "lucide-react";
 import { useCart } from "../CartContext";
+import toast from "react-hot-toast";
 
 export default function ProductCard({ product }) {
-  const { addItem } = useCart();
-  const imageUrl = product.image_url || product.image || "/images/chelsea-home.jpg";
+    const { addToCart } = useCart();
 
-  return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
-      <div>
-        <Link to={`/product/${product.slug}`} className="block relative overflow-hidden bg-slate-100 aspect-square">
-          <img
-            src={imageUrl}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-108 transition duration-500"
-          />
-          {product.category && (
-            <span className="absolute top-3 left-3 bg-blue-900/90 backdrop-blur-md text-white text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow">
-              {product.category}
-            </span>
-          )}
-          {product.stock <= 5 && product.stock > 0 && (
-            <span className="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full flex items-center gap-1 shadow">
-              <Zap size={10} /> Only {product.stock} Left!
-            </span>
-          )}
-        </Link>
+    return (
+        <div className="group bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300">
 
-        <div className="p-5">
-          <div className="flex items-center gap-1 text-amber-500 text-xs font-bold mb-1">
-            <Star size={14} fill="currentColor" />
-            <span>4.9</span>
-            <span className="text-slate-400 font-normal">(Official Nike Gear)</span>
-          </div>
+            {/* Product Image */}
 
-          <Link to={`/product/${product.slug}`} className="block">
-            <h3 className="font-extrabold text-slate-900 text-base group-hover:text-blue-700 transition line-clamp-1">
-              {product.name}
-            </h3>
-          </Link>
+            <div className="relative overflow-hidden">
 
-          <p className="text-slate-500 text-xs mt-1.5 line-clamp-2 leading-relaxed">
-            {product.description || "Official Chelsea Football Club jersey."}
-          </p>
+                <img
+                    src={product.image_url}
+                    alt={product.name}
+                    className="w-full h-80 object-cover group-hover:scale-110 duration-500"
+                />
+
+                {/* Category */}
+
+                <span className="absolute top-4 left-4 bg-[#034694] text-white px-4 py-2 rounded-full text-xs font-bold">
+
+                    {product.category}
+
+                </span>
+
+                {/* Hover Buttons */}
+
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-4">
+
+                    <Link
+                        to={`/product/${product.slug}`}
+                        className="text-sm font-semibold hover:text-[#034694]"
+                    >
+                        Details
+                    </Link>
+
+                    <button
+                    onClick={() => {
+                        addToCart(product);
+                        toast.success(`${product.name} added to cart`);
+                    }}
+                    className="bg-yellow-400 p-4 rounded-full hover:bg-white transition"
+                >
+                    <ShoppingCart size={20} />
+                </button>
+
+                </div>
+
+            </div>
+
+            {/* Details */}
+
+            <div className="p-6">
+
+                <h3 className="text-xl font-black text-slate-900 line-clamp-1">
+
+                    {product.name}
+
+                </h3>
+
+                <p className="text-gray-500 mt-3 line-clamp-2">
+
+                    {product.description}
+
+                </p>
+
+                <p className="text-sm text-gray-400 mt-3">
+
+                    {product.delivery_estimate}
+
+                </p>
+
+                <div className="flex justify-between items-center mt-6">
+
+                    <span className="text-3xl font-black text-[#034694]">
+
+                        KES {Number(product.price).toLocaleString()}
+
+                    </span>
+
+                    <span
+                        className={`font-semibold ${
+                            product.stock > 10
+                                ? "text-green-600"
+                                : "text-red-600"
+                        }`}
+                    >
+                        {product.stock} left
+                    </span>
+
+                </div>
+
+                <button
+                    onClick={() => {
+                        addToCart(product);
+                        toast.success(`${product.name} added to cart`);
+                    }}
+                    className="mt-8 w-full bg-[#034694] hover:bg-[#012A57] text-white py-4 rounded-xl font-bold transition"
+                >
+                    Add To Cart
+                </button>
+
+            </div>
+
         </div>
-      </div>
-
-      <div className="p-5 pt-0 flex justify-between items-center mt-2 border-t border-slate-100">
-        <div>
-          <span className="text-xs text-slate-400 block font-medium">Price</span>
-          <span className="text-xl font-extrabold text-blue-900">
-            KSh {Number(product.price).toLocaleString()}
-          </span>
-        </div>
-
-        <button
-          onClick={() =>
-            addItem({
-              ...product,
-              size: "M",
-              quantity: 1,
-            })
-          }
-          className="bg-blue-900 hover:bg-blue-950 text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md hover:shadow-lg transition active:scale-95"
-        >
-          <ShoppingBag size={16} />
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  );
-}
+    );
+}

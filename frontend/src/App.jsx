@@ -1,38 +1,62 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
 
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
 
-export default function App() {
-  return (
-    <div className="min-h-screen bg-gray-100">
+function App() {
+    return (
+        <div className="min-h-screen flex flex-col bg-white">
 
-      <Navbar />
+            <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+            <main className="flex-1">
 
-        <Routes>
+                <Routes>
 
-          <Route path="/" element={<Home />} />
+                    <Route
+                        path="/"
+                        element={<Home />}
+                    />
 
-          <Route path="/shop" element={<Shop />} />
+                    <Route
+                        path="/shop"
+                        element={<Shop />}
+                    />
 
-         <Route path="/product/:slug" element={<Product />} />
+                    <Route
+                        path="/product/:slug"
+                        element={<Product />}
+                    />
 
-          <Route path="/cart" element={<Cart />} />
+                    <Route
+                        path="/cart"
+                        element={<Cart />}
+                    />
 
-          <Route path="/checkout" element={<Checkout />} />
+                    <Route
+                        path="/checkout"
+                        element={<Checkout />}
+                    />
+                    <Route
+                        path="/success"
+                        element={<OrderSuccess />}
+                    />
 
-        </Routes>
+                </Routes>
 
-      </main>
+            </main>
 
-    </div>
-  );
+            <Footer />
+
+        </div>
+    );
 }
+
+export default App;
