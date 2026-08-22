@@ -20,4 +20,4 @@ ENV LOG_CHANNEL=stderr
 
 # Run Laravel setup before nginx and PHP-FPM start.
 ENV RUN_SCRIPTS=0
-CMD ["/bin/sh", "-c", "/var/www/html/scripts/00-laravel-deploy.sh && exec /start.sh"]
+CMD ["/bin/sh", "-c", "bash /var/www/html/scripts/00-laravel-deploy.sh && exec /start.sh"]
