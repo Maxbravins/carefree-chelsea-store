@@ -1,6 +1,7 @@
 FROM tangramor/nginx-php8-fpm:php8.4.7_withoutNodejs
 
 COPY . .
+RUN setcap -r /usr/local/bin/php
 
 RUN composer install --no-dev --working-dir=/var/www/html --no-interaction --optimize-autoloader \
     && mkdir -p storage/app/private storage/app/public storage/logs \
