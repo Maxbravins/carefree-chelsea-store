@@ -10,7 +10,7 @@ export default function Hero() {
             <div className="absolute inset-0">
 
                 <img
-                    src="/images/hero.jpg"
+                    src="/images/chelsea-nike-home.avif"
                     alt="Chelsea"
                     className="w-full h-full object-cover opacity-20"
                 />
@@ -129,7 +129,7 @@ export default function Hero() {
                             <div className="absolute -inset-10 bg-yellow-400 rounded-full blur-3xl opacity-20"></div>
 
                             <img
-                                src="/images/chelsea-home.png"
+                                src="/images/chelsea-nike-home.avif"
                                 alt="Chelsea Home Kit"
                                 className="relative w-[550px] drop-shadow-2xl hover:scale-105 transition duration-500"
                             />
