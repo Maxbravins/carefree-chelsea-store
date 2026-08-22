@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StockNotification;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class StockNotificationController extends Controller
 {
@@ -39,7 +39,7 @@ class StockNotificationController extends Controller
 
         $notification = StockNotification::create([
             'product_id' => $validated['product_id'],
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'email' => $validated['email'],
             'notified' => false,
         ]);
