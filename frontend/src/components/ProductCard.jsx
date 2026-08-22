@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Eye, ShoppingCart } from "lucide-react";
 import { useCart } from "../CartContext";
 import toast from "react-hot-toast";
+import StockNotification from "../components/products/StockNotification";
 
 export default function ProductCard({ product }) {
     const { addToCart } = useCart();
@@ -93,17 +94,20 @@ export default function ProductCard({ product }) {
                     </span>
 
                 </div>
-
-                <button
-                    onClick={() => {
-                        addToCart(product);
-                        toast.success(`${product.name} added to cart`);
-                    }}
-                    className="mt-8 w-full bg-[#034694] hover:bg-[#012A57] text-white py-4 rounded-xl font-bold transition"
-                >
-                    Add To Cart
-                </button>
-
+                {product.stock > 0 ? (
+                    <button
+                        onClick={() => {
+                            addToCart(product);
+                            toast.success(`${product.name} added to cart`);
+                        }}
+                        className="mt-8 w-full rounded-xl bg-[#034694] py-4 font-bold text-white transition hover:bg-[#012A57]"
+                    >
+                        Add To Cart
+                    </button>
+                ) : (
+                    <StockNotification product={product} />
+                )}
+               
             </div>
 
         </div>
