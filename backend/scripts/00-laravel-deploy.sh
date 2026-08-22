@@ -15,8 +15,8 @@ mkdir -p \
 chown -R nginx:nginx storage bootstrap/cache
 chmod -R ug+rwX storage bootstrap/cache
 
-php artisan optimize:clear
 php artisan migrate --force
+php artisan optimize:clear
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
