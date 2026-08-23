@@ -38,7 +38,7 @@ export default function Checkout() {
 
         try {
 
-            await api.post("/checkout", {
+            await api.post("/orders", {
 
                 ...form,
 
