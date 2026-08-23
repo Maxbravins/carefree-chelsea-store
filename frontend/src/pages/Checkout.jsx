@@ -29,41 +29,35 @@ export default function Checkout() {
         });
 
     }
-
+        
     async function handleSubmit(e) {
-
         e.preventDefault();
-
         setLoading(true);
 
         try {
+            // Expand cart items based on their quantity to create individual order items
+            const items = cart.flatMap((item) =>
+                Array.from({ length: item.quantity }, () => ({
+                    product_id: item.id,
+                    size: item.size || "M",
+                }))
+            );
 
             await api.post("/orders", {
-
                 ...form,
-
-                items: cart,
-
+                items,
             });
 
             clearCart();
-
             navigate("/success");
-
             toast.success("Order placed successfully.");
 
         } catch (error) {
-
             console.error(error);
-
             toast.error("Failed to place the order. Please try again.");
-
         } finally {
-
             setLoading(false);
-
         }
-
     }
 
     return (
