@@ -80,7 +80,7 @@ class OrderController extends Controller
                 'order_id' => $order->id,
                 'phone' => $validated['phone'],
                 'amount' => $finalTotal,
-                'status' => $orderStatus === 'paid' ? 'paid' : 'pending',
+                'status' => $orderStatus === 'paid' ? 'success' : 'pending',
                 'mpesa_receipt' => $receipt,
             ]);
 
