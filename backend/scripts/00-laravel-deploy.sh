@@ -16,6 +16,7 @@ chown -R nginx:nginx storage bootstrap/cache
 chmod -R ug+rwX storage bootstrap/cache
 
 php artisan migrate --force
+php artisan db:seed --class=ProductSeeder --force
 php artisan optimize:clear
 php artisan config:cache
 php artisan route:cache
