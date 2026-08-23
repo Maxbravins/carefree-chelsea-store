@@ -102,7 +102,7 @@ class OrderController extends Controller
                     ]);
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Log M-Pesa STK exception silently; order remains recorded in DB
             \Illuminate\Support\Facades\Log::info('STK Push skipped or offline: ' . $e->getMessage());
         }
