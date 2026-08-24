@@ -58,7 +58,7 @@ class OrderController extends Controller
             $finalTotal = $total + $deliveryFee;
 
             // Initial status: if cash or card, mark paid/processing; if mpesa, set paid or pending
-            $orderStatus = ($paymentMethod === 'cash' || $paymentMethod === 'card') ? 'paid' : 'paid';
+            $orderStatus = ($paymentMethod === 'cash') ? 'paid' : 'pending';
 
             $order = Order::create([
                 'customer_name' => $validated['customer_name'],
@@ -80,7 +80,7 @@ class OrderController extends Controller
                 'order_id' => $order->id,
                 'phone' => $validated['phone'],
                 'amount' => $finalTotal,
-                'status' => $orderStatus === 'paid' ? 'success' : 'pending',
+                'status' => 'pending',
                 'mpesa_receipt' => $receipt,
             ]);
 

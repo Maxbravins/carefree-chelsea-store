@@ -67,9 +67,9 @@ class MpesaController extends Controller
                     }
                 }
             }
-
+        // Update payment and order status
             $payment->update([
-                'status' => 'paid',
+                'status' => 'success',
                 'mpesa_receipt' => $receipt,
             ]);
 
