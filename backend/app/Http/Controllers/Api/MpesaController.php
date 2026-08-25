@@ -12,7 +12,9 @@ class MpesaController extends Controller
     public function callback(Request $request)
     {
         // Log the entire callback
-        Log::info('M-Pesa Callback Received', $request->all());
+        Log::info('M-Pesa Callback Received', [
+    'checkout_request_id' => $request->input('Body.stkCallback.CheckoutRequestID'),
+        ]);
 
         $callback = $request->input('Body.stkCallback');
 

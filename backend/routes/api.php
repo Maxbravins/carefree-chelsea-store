@@ -8,6 +8,6 @@ use App\Http\Controllers\StockNotificationController;
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{slug}', [ProductController::class, 'show']);
-Route::post('/orders', [OrderController::class, 'store']);
-Route::post('/mpesa/callback', [MpesaController::class, 'callback']);
-Route::post('/stock-notifications', [StockNotificationController::class, 'store']);
+Route::post('/orders', [OrderController::class, 'store'])->middleware('throttle:10,1');
+Route::post('/mpesa/callback', [MpesaController::class, 'callback'])->middleware('throttle:30,1');
+Route::post('/stock-notifications', [StockNotificationController::class, 'store'])->middleware('throttle:10,1');
