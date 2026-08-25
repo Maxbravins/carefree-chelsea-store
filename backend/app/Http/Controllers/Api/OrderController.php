@@ -36,12 +36,18 @@ class OrderController extends Controller
             $itemsToCreate = [];
 
             foreach ($validated['items'] as $item) {
-                $product = Product::findOrFail($item['product_id']);
-                
-                // Decrement product stock if stock is available
-                if ($product->stock > 0) {
-                    $product->decrement('stock', 1);
-                }
+            $product = Product::where('id', $item['product_id'])
+                ->where('active', true)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($product->stock < 1) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'items' => ["{$product->name} is out of stock."],
+                ]);
+            }
+
+$product->decrement('stock');
 
                 $total += $product->price;
                 $itemsToCreate[] = [
