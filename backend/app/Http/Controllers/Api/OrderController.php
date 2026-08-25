@@ -9,7 +9,9 @@ use App\Models\Product;
 use App\Services\MpesaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
@@ -21,35 +23,77 @@ class OrderController extends Controller
             'county' => ['required', 'string', 'max:100'],
             'town' => ['required', 'string', 'max:100'],
             'landmark' => ['nullable', 'string', 'max:150'],
-            'payment_method' => ['nullable', 'string', 'in:mpesa,cash,card'],
+
+            'payment_method' => [
+                'nullable',
+                'string',
+                Rule::in(['mpesa', 'cash', 'card']),
+            ],
+
             'items' => ['required', 'array', 'min:1'],
-            'items.*.product_id' => ['required', 'exists:products,id'],
-            'items.*.size' => ['required', 'string', Rule::in(['S', 'M', 'L', 'XL', 'XXL'])],
-            'items.*.custom_name' => ['nullable', 'string', 'max:50'],
-            'items.*.custom_number' => ['nullable', 'string', 'max:5'],
+
+            'items.*.product_id' => [
+                'required',
+                'exists:products,id',
+            ],
+
+            'items.*.size' => [
+                'required',
+                'string',
+                Rule::in(['S', 'M', 'L', 'XL', 'XXL']),
+            ],
+
+            'items.*.custom_name' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+
+            'items.*.custom_number' => [
+                'nullable',
+                'string',
+                'max:5',
+            ],
         ]);
 
+       // Payment method
         $paymentMethod = $validated['payment_method'] ?? 'mpesa';
 
+       // Create order and reserve stock
         $order = DB::transaction(function () use ($validated, $paymentMethod) {
             $total = 0;
             $itemsToCreate = [];
 
             foreach ($validated['items'] as $item) {
-            $product = Product::where('id', $item['product_id'])
-                ->where('active', true)
-                ->lockForUpdate()
-                ->firstOrFail();
+                
+                $product = Product::where('id', $item['product_id'])
+                    ->where('active', true)
+                    ->lockForUpdate()
+                    ->first();
 
-            if ($product->stock < 1) {
-                throw \Illuminate\Validation\ValidationException::withMessages([
-                    'items' => ["{$product->name} is out of stock."],
-                ]);
-            }
+                if (!$product) {
+                    throw ValidationException::withMessages([
+                        'items' => [
+                            'One of the selected products is no longer available.'
+                        ],
+                    ]);
+                }
 
-$product->decrement('stock');
+               // Prevent overselling by checking stock before decrementing
+                if ($product->stock < 1) {
+                    throw ValidationException::withMessages([
+                        'items' => [
+                            "{$product->name} is out of stock."
+                        ],
+                    ]);
+                }
+
+                // Decrement stock
+                $product->decrement('stock', 1);
 
                 $total += $product->price;
+
+                // Prepare order item 
                 $itemsToCreate[] = [
                     'product_id' => $product->id,
                     'size' => $item['size'],
@@ -59,13 +103,17 @@ $product->decrement('stock');
                 ];
             }
 
-            // Delivery fee logic matching frontend (Free over KSh 5,000, else KSh 300)
+           // Delivery fee 
             $deliveryFee = $total >= 5000 ? 0 : 300;
+
             $finalTotal = $total + $deliveryFee;
 
-            // Initial status: if cash or card, mark paid/processing; if mpesa, set paid or pending
-            $orderStatus = ($paymentMethod === 'cash') ? 'paid' : 'pending';
+           // Initialize order status 
+            $orderStatus = $paymentMethod === 'cash'
+                ? 'paid'
+                : 'pending';
 
+            // Create order
             $order = Order::create([
                 'customer_name' => $validated['customer_name'],
                 'phone' => $validated['phone'],
@@ -76,46 +124,77 @@ $product->decrement('stock');
                 'status' => $orderStatus,
             ]);
 
+            // Create order items
             foreach ($itemsToCreate as $itemData) {
                 $order->items()->create($itemData);
             }
 
-            $receipt = 'CFC' . strtoupper(substr(md5(uniqid()), 0, 8));
+           // Create payment record
+            $paymentStatus = $paymentMethod === 'cash'
+                ? 'success'
+                : 'pending';
+
+            
+            // This is replaced by the actual M-Pesa receipt after a successful
+            $receipt = $paymentMethod === 'cash'
+                ? 'CFC' . strtoupper(substr(md5(uniqid()), 0, 8))
+                : null;
 
             Payment::create([
                 'order_id' => $order->id,
                 'phone' => $validated['phone'],
                 'amount' => $finalTotal,
-                'status' => 'pending',
+                'status' => $paymentStatus,
                 'mpesa_receipt' => $receipt,
             ]);
 
             return $order;
         });
+        
+        // Only M-Pesa orders are allowed to trigger an STK Push.
+        if ($paymentMethod === 'mpesa') {
+            try {
+                $payment = $order->payment;
 
-        // Trigger MpesaService if available
-        try {
-            $payment = $order->payment;
-            if ($payment && class_exists(MpesaService::class)) {
-                $stkResponse = app(MpesaService::class)->stkPush(
-                    $payment->phone,
-                    $payment->amount,
-                    $order->id
-                );
-                if (isset($stkResponse['CheckoutRequestID'])) {
-                    $payment->update([
-                        'checkout_request_id' => $stkResponse['CheckoutRequestID']
+                if ($payment && class_exists(MpesaService::class)) {
+                    $stkResponse = app(MpesaService::class)->stkPush(
+                        $payment->phone,
+                        $payment->amount,
+                        $order->id
+                    );
+
+                   // Save the CheckoutRequestID for future reference 
+                    if (isset($stkResponse['CheckoutRequestID'])) {
+                        $payment->update([
+                            'checkout_request_id' =>
+                                $stkResponse['CheckoutRequestID'],
+                        ]);
+                    }
+
+                    Log::info('M-Pesa STK Push initiated', [
+                        'order_id' => $order->id,
+                        'payment_id' => $payment->id,
+                        'checkout_request_id' =>
+                            $stkResponse['CheckoutRequestID'] ?? null,
                     ]);
                 }
+            } catch (\Throwable $e) {
+
+                // Log the error but do not fail the order creation
+                Log::error('M-Pesa STK Push failed', [
+                    'order_id' => $order->id,
+                    'error' => $e->getMessage(),
+                ]);
             }
-        } catch (\Throwable $e) {
-            // Log M-Pesa STK exception silently; order remains recorded in DB
-            \Illuminate\Support\Facades\Log::info('STK Push skipped or offline: ' . $e->getMessage());
         }
 
+       // Return the order
         return response()->json([
-            'message' => 'Order placed and updated in database successfully!',
-            'order' => $order->load('items.product', 'payment'),
+            'message' => 'Order placed successfully.',
+            'order' => $order->load(
+                'items.product',
+                'payment'
+            ),
         ], 201);
     }
 }
