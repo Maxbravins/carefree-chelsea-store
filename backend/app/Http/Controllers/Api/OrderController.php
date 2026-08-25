@@ -24,10 +24,12 @@ class OrderController extends Controller
             'town' => ['required', 'string', 'max:100'],
             'landmark' => ['nullable', 'string', 'max:150'],
 
+            // M-Pesa is available now.
+            // Card is reserved for the future card-payment integration.
             'payment_method' => [
-                'nullable',
+                'required',
                 'string',
-                Rule::in(['mpesa', 'cash', 'card']),
+                Rule::in(['mpesa', 'card']),
             ],
 
             'items' => ['required', 'array', 'min:1'],
@@ -56,16 +58,17 @@ class OrderController extends Controller
             ],
         ]);
 
-       // Payment method
-        $paymentMethod = $validated['payment_method'] ?? 'mpesa';
+        $paymentMethod = $validated['payment_method'];
 
-       // Create order and reserve stock
+        // Create order
         $order = DB::transaction(function () use ($validated, $paymentMethod) {
             $total = 0;
             $itemsToCreate = [];
 
             foreach ($validated['items'] as $item) {
-                
+
+               
+            // Lock product row while checking/decreasing stock
                 $product = Product::where('id', $item['product_id'])
                     ->where('active', true)
                     ->lockForUpdate()
@@ -79,7 +82,7 @@ class OrderController extends Controller
                     ]);
                 }
 
-               // Prevent overselling by checking stock before decrementing
+             //Prevent overselling
                 if ($product->stock < 1) {
                     throw ValidationException::withMessages([
                         'items' => [
@@ -88,12 +91,11 @@ class OrderController extends Controller
                     ]);
                 }
 
-                // Decrement stock
+                // Reserve one item from stock
                 $product->decrement('stock', 1);
 
                 $total += $product->price;
 
-                // Prepare order item 
                 $itemsToCreate[] = [
                     'product_id' => $product->id,
                     'size' => $item['size'],
@@ -103,17 +105,12 @@ class OrderController extends Controller
                 ];
             }
 
-           // Delivery fee 
+           // Delivery fee
             $deliveryFee = $total >= 5000 ? 0 : 300;
 
             $finalTotal = $total + $deliveryFee;
 
-           // Initialize order status 
-            $orderStatus = $paymentMethod === 'cash'
-                ? 'paid'
-                : 'pending';
-
-            // Create order
+           //Every order starts as pending
             $order = Order::create([
                 'customer_name' => $validated['customer_name'],
                 'phone' => $validated['phone'],
@@ -121,66 +118,69 @@ class OrderController extends Controller
                 'town' => $validated['town'],
                 'landmark' => $validated['landmark'] ?? null,
                 'total' => $finalTotal,
-                'status' => $orderStatus,
+                'status' => 'pending',
             ]);
 
-            // Create order items
+           //  Create Order Items
             foreach ($itemsToCreate as $itemData) {
                 $order->items()->create($itemData);
             }
 
-           // Create payment record
-            $paymentStatus = $paymentMethod === 'cash'
-                ? 'success'
-                : 'pending';
-
             
-            // This is replaced by the actual M-Pesa receipt after a successful
-            $receipt = $paymentMethod === 'cash'
-                ? 'CFC' . strtoupper(substr(md5(uniqid()), 0, 8))
-                : null;
-
+            // Create Payment Record
             Payment::create([
                 'order_id' => $order->id,
                 'phone' => $validated['phone'],
                 'amount' => $finalTotal,
-                'status' => $paymentStatus,
-                'mpesa_receipt' => $receipt,
+                'status' => 'pending',
+                'mpesa_receipt' => null,
+                'checkout_request_id' => null,
             ]);
 
             return $order;
         });
-        
-        // Only M-Pesa orders are allowed to trigger an STK Push.
+
+        // M-Pesa STK Push       
         if ($paymentMethod === 'mpesa') {
             try {
                 $payment = $order->payment;
 
                 if ($payment && class_exists(MpesaService::class)) {
+
                     $stkResponse = app(MpesaService::class)->stkPush(
                         $payment->phone,
                         $payment->amount,
                         $order->id
                     );
 
-                   // Save the CheckoutRequestID for future reference 
-                    if (isset($stkResponse['CheckoutRequestID'])) {
+                    // Save M-Pesa CheckoutRequestID                  
+                    if (!empty($stkResponse['CheckoutRequestID'])) {
+
                         $payment->update([
                             'checkout_request_id' =>
                                 $stkResponse['CheckoutRequestID'],
                         ]);
-                    }
 
-                    Log::info('M-Pesa STK Push initiated', [
-                        'order_id' => $order->id,
-                        'payment_id' => $payment->id,
-                        'checkout_request_id' =>
-                            $stkResponse['CheckoutRequestID'] ?? null,
-                    ]);
+                        Log::info('M-Pesa STK Push initiated', [
+                            'order_id' => $order->id,
+                            'payment_id' => $payment->id,
+                            'checkout_request_id' =>
+                                $stkResponse['CheckoutRequestID'],
+                        ]);
+                    } else {
+                        Log::warning(
+                            'M-Pesa STK Push returned no CheckoutRequestID',
+                            [
+                                'order_id' => $order->id,
+                                'response' => $stkResponse,
+                            ]
+                        );
+                    }
                 }
             } catch (\Throwable $e) {
 
-                // Log the error but do not fail the order creation
+              
+                // Do not delete the order if STK Push fails           
                 Log::error('M-Pesa STK Push failed', [
                     'order_id' => $order->id,
                     'error' => $e->getMessage(),
@@ -188,9 +188,21 @@ class OrderController extends Controller
             }
         }
 
-       // Return the order
+        
+        // Card support is reserved for the future.   
+        if ($paymentMethod === 'card') {
+            Log::info('Card payment selected but gateway not yet integrated', [
+                'order_id' => $order->id,
+                'amount' => $order->total,
+            ]);
+        }
+
+        // Response
         return response()->json([
-            'message' => 'Order placed successfully.',
+            'message' => $paymentMethod === 'mpesa'
+                ? 'Order created. Please complete the M-Pesa payment on your phone.'
+                : 'Order created. Card payment will be available soon.',
+
             'order' => $order->load(
                 'items.product',
                 'payment'
