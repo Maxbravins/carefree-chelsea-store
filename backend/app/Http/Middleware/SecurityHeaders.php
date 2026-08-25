@@ -20,12 +20,12 @@ class SecurityHeaders
             'camera=(), microphone=(), geolocation=()'
         );
 
-        if ($request->isSecure()) {
-            $response->headers->set(
-                'Strict-Transport-Security',
-                'max-age=31536000; includeSubDomains'
-            );
-        }
+    if (app()->environment('production')) {
+        $response->headers->set(
+            'Strict-Transport-Security',
+            'max-age=31536000; includeSubDomains'
+        );
+    }
 
         return $response;
     }
