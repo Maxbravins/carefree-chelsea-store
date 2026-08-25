@@ -1,5 +1,7 @@
 FROM tangramor/nginx-php8-fpm:php8.4.7_withoutNodejs
 
+RUN echo "expose_php=Off" > /usr/local/etc/php/conf.d/security.ini
+
 COPY . .
 RUN setcap -r /usr/local/bin/php
 
