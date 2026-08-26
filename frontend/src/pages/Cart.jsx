@@ -88,7 +88,7 @@ export default function Cart() {
                         {cart.map((item) => (
 
                             <div
-                                key={item.id}
+                                key={`${item.id}-${item.size}`}
                                 className="bg-white rounded-3xl shadow-lg p-6 flex flex-col md:flex-row gap-6"
                             >
 
@@ -109,7 +109,11 @@ export default function Cart() {
                                     <p className="text-gray-500 mt-2">
 
                                         {item.category}
-
+                                        {item.size && (
+                                            <span className="ml-2 inline-block bg-gray-100 text-gray-700 px-2 py-0.5 rounded-md text-sm font-semibold">
+                                                Size {item.size}
+                                            </span>
+                                        )}
                                     </p>
 
                                     <p className="text-[#034694] text-3xl font-black mt-6">
@@ -121,7 +125,7 @@ export default function Cart() {
                                     <div className="flex items-center gap-4 mt-8">
 
                                         <button
-                                            onClick={() => decreaseQuantity(item.id)}
+                                            onClick={() => decreaseQuantity(item.id, item.size)}
                                             className="w-10 h-10 rounded-full bg-gray-100"
                                         >
                                             <Minus size={18} />
@@ -134,7 +138,7 @@ export default function Cart() {
                                         </span>
 
                                         <button
-                                            onClick={() => increaseQuantity(item.id)}
+                                            onClick={() => increaseQuantity(item.id, item.size)}
                                             className="w-10 h-10 rounded-full bg-gray-100"
                                         >
                                             <Plus size={18} />
@@ -147,7 +151,7 @@ export default function Cart() {
                                 <div className="flex flex-col justify-between">
 
                                     <button
-                                        onClick={() => removeFromCart(item.id)}
+                                        onClick={() => removeFromCart(item.id, item.size)}
                                         className="text-red-600 hover:text-red-700"
                                     >
 

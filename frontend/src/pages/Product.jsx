@@ -6,9 +6,12 @@ import {
     ShieldCheck,
     Star,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 import { getProduct } from "../services/productService";
 import { useCart } from "../CartContext";
+
+const SIZES = ["S", "M", "L", "XL", "XXL"];
 
 export default function Product() {
 
@@ -19,6 +22,8 @@ export default function Product() {
     const [product, setProduct] = useState(null);
 
     const [loading, setLoading] = useState(true);
+
+    const [selectedSize, setSelectedSize] = useState(null);
 
     useEffect(() => {
 
@@ -43,6 +48,18 @@ export default function Product() {
             setLoading(false);
 
         }
+
+    }
+
+    function handleAddToCart() {
+
+        if (!selectedSize) {
+            toast.error("Please select a size first.");
+            return;
+        }
+
+        addToCart({ ...product, size: selectedSize });
+        toast.success(`Added ${product.name} (${selectedSize}) to cart.`);
 
     }
 
@@ -175,10 +192,39 @@ export default function Product() {
 
                         </div>
 
-                        <div className="mt-12">
+                        {/* Size Selector */}
+
+                        <div className="mt-10">
+
+                            <h3 className="font-bold text-lg mb-3">
+                                Select Size
+                            </h3>
+
+                            <div className="flex flex-wrap gap-3">
+
+                                {SIZES.map((size) => (
+                                    <button
+                                        key={size}
+                                        type="button"
+                                        onClick={() => setSelectedSize(size)}
+                                        className={`w-14 h-14 rounded-xl border-2 font-bold transition ${
+                                            selectedSize === size
+                                                ? "bg-[#034694] border-[#034694] text-white"
+                                                : "border-gray-300 text-gray-700 hover:border-[#034694]"
+                                        }`}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
+
+                            </div>
+
+                        </div>
+
+                        <div className="mt-10">
 
                             <button
-                                onClick={() => addToCart(product)}
+                                onClick={handleAddToCart}
                                 className="w-full bg-[#034694] hover:bg-[#012A57] text-white py-5 rounded-xl text-lg font-bold flex justify-center items-center gap-3 transition"
                             >
 
