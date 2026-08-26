@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Eye, ShoppingCart } from "lucide-react";
+import { Eye, ShoppingCart, Zap } from "lucide-react";
 import { useCart } from "../CartContext";
 import toast from "react-hot-toast";
-import StockNotification from "../components/products/StockNotification";
+import StockNotification from "./products/StockNotification";
 
 const SIZES = ["S", "M", "L", "XL", "XXL"];
 
@@ -11,132 +11,167 @@ export default function ProductCard({ product }) {
     const { addToCart } = useCart();
     const [selectedSize, setSelectedSize] = useState(null);
 
+    const imageUrl =
+        product.image_url ||
+        product.image ||
+        "/images/chelsea-home.jpg";
+
+    const stock = Number(product.stock || 0);
+
     function handleAddToCart() {
+        if (stock <= 0) {
+            toast.error("This product is currently out of stock.");
+            return;
+        }
+
         if (!selectedSize) {
             toast.error("Please select a size first.");
             return;
         }
-        addToCart({ ...product, size: selectedSize });
-        toast.success(`${product.name} (${selectedSize}) added to cart`);
+
+        addToCart({
+            ...product,
+            size: selectedSize,
+        });
+
+        toast.success(
+            `${product.name} (${selectedSize}) added to cart`
+        );
     }
 
     return (
-        <div className="group bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300">
+        <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div className="relative overflow-hidden bg-slate-100">
+                <Link
+                    to={`/product/${product.slug}`}
+                    className="block aspect-square"
+                >
+                    <img
+                        src={imageUrl}
+                        alt={product.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                </Link>
 
-            {/* Product Image */}
-
-            <div className="relative overflow-hidden">
-
-                <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="w-full h-80 object-cover group-hover:scale-110 duration-500"
-                />
-
-                {/* Category */}
-
-                <span className="absolute top-4 left-4 bg-[#034694] text-white px-4 py-2 rounded-full text-xs font-bold">
-
-                    {product.category}
-
-                </span>
-
-                {/* Hover Buttons */}
-
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-4">
-
-                    <Link
-                        to={`/product/${product.slug}`}
-                        className="text-sm font-semibold hover:text-[#034694]"
-                    >
-                        Details
-                    </Link>
-
-                    <button
-                        onClick={handleAddToCart}
-                        className="bg-yellow-400 p-4 rounded-full hover:bg-white transition"
-                    >
-                        <ShoppingCart size={20} />
-                    </button>
-
-                </div>
-
-            </div>
-
-            {/* Details */}
-
-            <div className="p-6">
-
-                <h3 className="text-xl font-black text-slate-900 line-clamp-1">
-
-                    {product.name}
-
-                </h3>
-
-                <p className="text-gray-500 mt-3 line-clamp-2">
-
-                    {product.description}
-
-                </p>
-
-                <p className="text-sm text-gray-400 mt-3">
-
-                    {product.delivery_estimate}
-
-                </p>
-
-                <div className="flex justify-between items-center mt-6">
-
-                    <span className="text-3xl font-black text-[#034694]">
-
-                        KES {Number(product.price).toLocaleString()}
-
+                {product.category && (
+                    <span className="absolute left-3 top-3 rounded-full bg-[#034694]/95 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow">
+                        {product.category}
                     </span>
-
-                    <span
-                        className={`font-semibold ${
-                            product.stock > 10
-                                ? "text-green-600"
-                                : "text-red-600"
-                        }`}
-                    >
-                        {product.stock} left
-                    </span>
-
-                </div>
-
-                {product.stock > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-5">
-                        {SIZES.map((size) => (
-                            <button
-                                key={size}
-                                type="button"
-                                onClick={() => setSelectedSize(size)}
-                                className={`w-10 h-10 rounded-lg border-2 text-sm font-bold transition ${
-                                    selectedSize === size
-                                        ? "bg-[#034694] border-[#034694] text-white"
-                                        : "border-gray-300 text-gray-700 hover:border-[#034694]"
-                                }`}
-                            >
-                                {size}
-                            </button>
-                        ))}
-                    </div>
                 )}
 
-                {product.stock > 0 ? (
-                    <button
-                        onClick={handleAddToCart}
-                        className="mt-6 w-full rounded-xl bg-[#034694] py-4 font-bold text-white transition hover:bg-[#012A57]"
+                {stock > 0 && stock <= 5 && (
+                    <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-rose-600 px-2.5 py-1.5 text-[10px] font-extrabold text-white shadow">
+                        <Zap size={11} />
+                        Only {stock} left
+                    </span>
+                )}
+
+                {stock <= 0 && (
+                    <span className="absolute right-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-white shadow">
+                        Sold Out
+                    </span>
+                )}
+
+                <div className="absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 transition-transform duration-300 group-hover:translate-y-0">
+                    <Link
+                        to={`/product/${product.slug}`}
+                        className="flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-slate-900 shadow-md transition hover:bg-[#034694] hover:text-white"
                     >
-                        Add To Cart
-                    </button>
+                        <Eye size={15} />
+                        View Details
+                    </Link>
+                </div>
+            </div>
+
+            <div className="flex flex-1 flex-col p-5">
+                <Link to={`/product/${product.slug}`}>
+                    <h3 className="line-clamp-1 text-base font-extrabold text-slate-900 transition-colors hover:text-[#034694]">
+                        {product.name}
+                    </h3>
+                </Link>
+
+                <p className="mt-1.5 line-clamp-2 min-h-[2.5rem] text-xs leading-relaxed text-slate-500">
+                    {product.description ||
+                        "Official Chelsea Football Club merchandise."}
+                </p>
+
+                <div className="mt-4 flex items-end justify-between gap-3">
+                    <div>
+                        <span className="block text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            Price
+                        </span>
+
+                        <span className="text-xl font-extrabold text-[#034694]">
+                            KSh{" "}
+                            {Number(product.price).toLocaleString()}
+                        </span>
+                    </div>
+
+                    {stock > 0 && (
+                        <span
+                            className={`text-xs font-bold ${
+                                stock <= 5
+                                    ? "text-rose-600"
+                                    : "text-emerald-600"
+                            }`}
+                        >
+                            {stock} in stock
+                        </span>
+                    )}
+                </div>
+
+                {stock > 0 ? (
+                    <>
+                        <div className="mt-4">
+                            <div className="mb-2 flex items-center justify-between">
+                                <span className="text-xs font-bold text-slate-700">
+                                    Select Size
+                                </span>
+
+                                {selectedSize && (
+                                    <span className="text-xs font-bold text-[#034694]">
+                                        {selectedSize}
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className="flex flex-wrap gap-2">
+                                {SIZES.map((size) => (
+                                    <button
+                                        key={size}
+                                        type="button"
+                                        onClick={() =>
+                                            setSelectedSize(size)
+                                        }
+                                        aria-label={`Select size ${size}`}
+                                        aria-pressed={
+                                            selectedSize === size
+                                        }
+                                        className={`flex h-9 min-w-9 items-center justify-center rounded-lg border-2 px-2.5 text-xs font-bold transition ${
+                                            selectedSize === size
+                                                ? "border-[#034694] bg-[#034694] text-white shadow-sm"
+                                                : "border-slate-200 bg-white text-slate-700 hover:border-[#034694] hover:text-[#034694]"
+                                        }`}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={handleAddToCart}
+                            className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#034694] py-3.5 text-sm font-bold text-white shadow-md transition hover:bg-[#012A57] hover:shadow-lg active:scale-[0.98]"
+                        >
+                            <ShoppingCart size={17} />
+                            Add To Cart
+                        </button>
+                    </>
                 ) : (
                     <StockNotification product={product} />
                 )}
-
             </div>
-
-        </div>
+        </article>
     );
 }
