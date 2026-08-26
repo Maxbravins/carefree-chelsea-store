@@ -217,4 +217,22 @@ class OrderController extends Controller
             ),
         ], 201);
     }
+
+    public function status(Order $order)
+{
+    $order->load('payment');
+
+    return response()->json([
+        'order' => [
+            'id' => $order->id,
+            'status' => $order->status,
+            'total' => $order->total,
+        ],
+        'payment' => $order->payment ? [
+            'status' => $order->payment->status,
+            'mpesa_receipt' => $order->payment->mpesa_receipt,
+        ] : null,
+    ]);
+}
+
 }
