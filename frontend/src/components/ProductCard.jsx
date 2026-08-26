@@ -1,11 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Eye, ShoppingCart } from "lucide-react";
 import { useCart } from "../CartContext";
 import toast from "react-hot-toast";
 import StockNotification from "../components/products/StockNotification";
 
+const SIZES = ["S", "M", "L", "XL", "XXL"];
+
 export default function ProductCard({ product }) {
     const { addToCart } = useCart();
+    const [selectedSize, setSelectedSize] = useState(null);
+
+    function handleAddToCart() {
+        if (!selectedSize) {
+            toast.error("Please select a size first.");
+            return;
+        }
+        addToCart({ ...product, size: selectedSize });
+        toast.success(`${product.name} (${selectedSize}) added to cart`);
+    }
 
     return (
         <div className="group bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300">
@@ -40,14 +53,11 @@ export default function ProductCard({ product }) {
                     </Link>
 
                     <button
-                    onClick={() => {
-                        addToCart(product);
-                        toast.success(`${product.name} added to cart`);
-                    }}
-                    className="bg-yellow-400 p-4 rounded-full hover:bg-white transition"
-                >
-                    <ShoppingCart size={20} />
-                </button>
+                        onClick={handleAddToCart}
+                        className="bg-yellow-400 p-4 rounded-full hover:bg-white transition"
+                    >
+                        <ShoppingCart size={20} />
+                    </button>
 
                 </div>
 
@@ -94,20 +104,37 @@ export default function ProductCard({ product }) {
                     </span>
 
                 </div>
+
+                {product.stock > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-5">
+                        {SIZES.map((size) => (
+                            <button
+                                key={size}
+                                type="button"
+                                onClick={() => setSelectedSize(size)}
+                                className={`w-10 h-10 rounded-lg border-2 text-sm font-bold transition ${
+                                    selectedSize === size
+                                        ? "bg-[#034694] border-[#034694] text-white"
+                                        : "border-gray-300 text-gray-700 hover:border-[#034694]"
+                                }`}
+                            >
+                                {size}
+                            </button>
+                        ))}
+                    </div>
+                )}
+
                 {product.stock > 0 ? (
                     <button
-                        onClick={() => {
-                            addToCart(product);
-                            toast.success(`${product.name} added to cart`);
-                        }}
-                        className="mt-8 w-full rounded-xl bg-[#034694] py-4 font-bold text-white transition hover:bg-[#012A57]"
+                        onClick={handleAddToCart}
+                        className="mt-6 w-full rounded-xl bg-[#034694] py-4 font-bold text-white transition hover:bg-[#012A57]"
                     >
                         Add To Cart
                     </button>
                 ) : (
                     <StockNotification product={product} />
                 )}
-               
+
             </div>
 
         </div>
