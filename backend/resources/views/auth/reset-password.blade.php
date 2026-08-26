@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Login - Carefree Chelsea Store</title>
+    <title>Set New Password - Carefree Chelsea Store</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body { font-family: system-ui, sans-serif; background: #f3f4f6; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        form { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 320px; }
+        form { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 340px; }
         h1 { font-size: 1.25rem; margin-bottom: 1.5rem; color: #034694; }
         label { display: block; font-size: 0.875rem; margin-bottom: 0.25rem; color: #374151; }
         input { width: 100%; padding: 0.6rem; margin-bottom: 1rem; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; }
@@ -14,21 +14,26 @@
     </style>
 </head>
 <body>
-    <form method="POST" action="{{ route('login.attempt') }}">
+    <form method="POST" action="{{ route('password.update') }}">
         @csrf
-        <h1>Carefree Chelsea Admin</h1>
+        <h1>Set a New Password</h1>
 
         @if ($errors->any())
             <div class="error">{{ $errors->first() }}</div>
         @endif
 
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus>
+        <input type="hidden" name="token" value="{{ $token }}">
 
-        <label for="password">Password</label>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" value="{{ old('email', $email) }}" required autofocus>
+
+        <label for="password">New Password</label>
         <input type="password" name="password" id="password" required>
-        <a href="{{ route('password.request') }}" style="font-size: 0.8rem; color: #034694; display: block; margin-bottom: 1rem;">Forgot password?</a>
-        <button type="submit">Log In</button>
+
+        <label for="password_confirmation">Confirm New Password</label>
+        <input type="password" name="password_confirmation" id="password_confirmation" required>
+
+        <button type="submit">Reset Password</button>
     </form>
 </body>
 </html>
