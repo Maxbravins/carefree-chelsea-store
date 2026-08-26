@@ -43,6 +43,7 @@ export default function Checkout() {
 
       await api.post("/orders", {
         ...form,
+        payment_method: "mpesa",
         items,
       });
 
