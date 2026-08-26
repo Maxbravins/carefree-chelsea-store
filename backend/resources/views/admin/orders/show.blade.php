@@ -2,294 +2,123 @@
 
 @section('content')
 
-<div class="mb-8 flex justify-between items-center">
-
+<div class="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div>
-
-        <h1 class="text-3xl font-bold">
-            Order #{{ $order->id }}
-        </h1>
-
-        <p class="text-gray-500">
-            {{ $order->created_at->format('d M Y H:i') }}
-        </p>
-
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Order #{{ $order->id }}</h1>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Placed on {{ $order->created_at->format('d M Y \a\t H:i') }}</p>
     </div>
-
-    <a href="{{ route('admin.orders.index') }}"
-       class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-lg">
-
-        ← Back
-
-    </a>
-
+    <div>
+        <a href="{{ route('admin.orders.index') }}"
+           class="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition w-full sm:w-auto">
+            ← Back to Orders
+        </a>
+    </div>
 </div>
 
-
-@if(session('success'))
-
-<div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-
-    {{ session('success') }}
-
-</div>
-
-@endif
-
-
-<div class="grid lg:grid-cols-2 gap-8">
-
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
     {{-- Customer Details --}}
-    <div class="bg-white rounded-xl shadow p-6">
-
-        <h2 class="text-xl font-bold mb-5">
-            Customer Information
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 sm:p-6">
+        <h2 class="text-lg font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100">
+            Customer Shipping Details
         </h2>
-
-        <div class="space-y-3">
-
-            <p><strong>Name:</strong> {{ $order->customer_name }}</p>
-
-            <p><strong>Phone:</strong> {{ $order->phone }}</p>
-
+        <div class="space-y-3 text-sm text-slate-700">
+            <p><strong>Full Name:</strong> {{ $order->customer_name }}</p>
+            <p><strong>Phone Number:</strong> {{ $order->phone }}</p>
+            @if($order->email)<p><strong>Email Address:</strong> {{ $order->email }}</p>@endif
             <p><strong>County:</strong> {{ $order->county }}</p>
-
             <p><strong>Town:</strong> {{ $order->town }}</p>
-
-            <p><strong>Landmark:</strong> {{ $order->landmark ?? '-' }}</p>
-
-            <p class="text-lg font-bold">
-                Total:
-                KES {{ number_format($order->total) }}
+            <p><strong>Landmark / Address:</strong> {{ $order->landmark ?? '-' }}</p>
+            <p class="text-lg font-extrabold text-blue-900 pt-2 border-t border-slate-100">
+                Order Total: KSh {{ number_format($order->total) }}
             </p>
-
         </div>
-
     </div>
-
 
     {{-- Payment Details --}}
-    <div class="bg-white rounded-xl shadow p-6">
-
-        <h2 class="text-xl font-bold mb-5">
-
-            Payment Details
-
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 sm:p-6">
+        <h2 class="text-lg font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100">
+            Payment Transaction Summary
         </h2>
-
         @if($order->payment)
-
-            <div class="space-y-3">
-
+            <div class="space-y-3 text-sm text-slate-700">
                 <p>
-
-                    <strong>Status:</strong>
-
-                    {{ ucfirst(str_replace('_',' ',$order->payment->status)) }}
-
+                    <strong>Payment Status:</strong>
+                    <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-extrabold {{ $order->payment->status === 'success' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
+                        {{ ucfirst(str_replace('_',' ',$order->payment->status)) }}
+                    </span>
                 </p>
-
-                <p>
-
-                    <strong>Checkout ID:</strong>
-
-                    {{ $order->payment->checkout_request_id ?? '-' }}
-
-                </p>
-
-                <p>
-
-                    <strong>M-Pesa Receipt:</strong>
-
-                    {{ $order->payment->mpesa_receipt ?? '-' }}
-
-                </p>
-
-                <p>
-
-                    <strong>Amount:</strong>
-
-                    KES {{ number_format($order->payment->amount) }}
-
-                </p>
-
+                <p><strong>Checkout Request ID:</strong> <span class="font-mono text-xs">{{ $order->payment->checkout_request_id ?? '-' }}</span></p>
+                <p><strong>M-Pesa Receipt Code:</strong> <span class="font-mono text-xs font-bold text-emerald-700">{{ $order->payment->mpesa_receipt ?? '-' }}</span></p>
+                <p><strong>Amount Paid:</strong> KSh {{ number_format($order->payment->amount) }}</p>
             </div>
-
         @else
-
-            <p>No payment record.</p>
-
+            <p class="text-slate-500 text-sm">No payment record found for this order.</p>
         @endif
-
     </div>
-
 </div>
 
-
-
-<div class="bg-white rounded-xl shadow mt-8">
-
-    <div class="p-6 border-b">
-
-        <h2 class="text-xl font-bold">
-
-            Ordered Items
-
-        </h2>
-
+{{-- Ordered Items Table --}}
+<div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm mt-6 sm:mt-8 overflow-hidden">
+    <div class="p-4 sm:p-6 border-b border-slate-100">
+        <h2 class="text-lg font-bold text-slate-900">Ordered Products</h2>
     </div>
-
-    <table class="min-w-full">
-
-        <thead class="bg-gray-100">
-
-        <tr>
-
-            <th class="px-6 py-4 text-left">Product</th>
-
-            <th class="px-6 py-4 text-left">Size</th>
-
-            <th class="px-6 py-4 text-left">Custom Name</th>
-
-            <th class="px-6 py-4 text-left">Custom Number</th>
-
-            <th class="px-6 py-4 text-left">Price</th>
-
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-        @foreach($order->items as $item)
-
-        <tr class="border-b">
-
-            <td class="px-6 py-4">
-
-                {{ $item->product->name }}
-
-            </td>
-
-            <td class="px-6 py-4">
-
-                {{ $item->size }}
-
-            </td>
-
-            <td class="px-6 py-4">
-
-                {{ $item->custom_name ?: '-' }}
-
-            </td>
-
-            <td class="px-6 py-4">
-
-                {{ $item->custom_number ?: '-' }}
-
-            </td>
-
-            <td class="px-6 py-4">
-
-                KES {{ number_format($item->price) }}
-
-            </td>
-
-        </tr>
-
-        @endforeach
-
-        </tbody>
-
-    </table>
-
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[500px]">
+            <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500 tracking-wider">
+                <tr>
+                    <th class="px-4 sm:px-6 py-3">Product</th>
+                    <th class="px-4 sm:px-6 py-3">Size</th>
+                    <th class="px-4 sm:px-6 py-3">Custom Name</th>
+                    <th class="px-4 sm:px-6 py-3">Custom Number</th>
+                    <th class="px-4 sm:px-6 py-3 text-right">Price</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-sm font-medium">
+                @foreach($order->items as $item)
+                <tr>
+                    <td class="px-4 sm:px-6 py-4 font-bold text-slate-900">
+                        {{ $item->product->name ?? 'Product' }}
+                    </td>
+                    <td class="px-4 sm:px-6 py-4">
+                        <span class="px-2.5 py-1 rounded bg-slate-100 text-slate-800 font-bold text-xs">{{ $item->size }}</span>
+                    </td>
+                    <td class="px-4 sm:px-6 py-4 text-slate-600">
+                        {{ $item->custom_name ?: '-' }}
+                    </td>
+                    <td class="px-4 sm:px-6 py-4 text-slate-600">
+                        {{ $item->custom_number ?: '-' }}
+                    </td>
+                    <td class="px-4 sm:px-6 py-4 text-right font-bold text-slate-900">
+                        KSh {{ number_format($item->price) }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 
-
-
-<div class="bg-white rounded-xl shadow mt-8 p-6">
-
-    <h2 class="text-xl font-bold mb-5">
-
-        Update Order Status
-
-    </h2>
-
-    <form action="{{ route('admin.orders.update',$order) }}"
-          method="POST">
-
+{{-- Update Order Status Form --}}
+<div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm mt-6 sm:mt-8 p-5 sm:p-6">
+    <h2 class="text-lg font-bold text-slate-900 mb-4">Update Order Fulfillment Status</h2>
+    <form action="{{ route('admin.orders.update', $order) }}" method="POST">
         @csrf
-
         @method('PUT')
-
-        <div class="flex gap-4 items-center">
-
-            <select
-                name="status"
-                class="border rounded-lg px-4 py-2">
-
-                <option value="pending"
-                    @selected($order->status=='pending')>
-
-                    Pending
-
-                </option>
-
-                <option value="paid"
-                    @selected($order->status=='paid')>
-
-                    Paid
-
-                </option>
-
-                <option value="payment_failed"
-                    @selected($order->status=='payment_failed')>
-
-                    Payment Failed
-
-                </option>
-
-                <option value="processing"
-                    @selected($order->status=='processing')>
-
-                    Processing
-
-                </option>
-
-                <option value="shipped"
-                    @selected($order->status=='shipped')>
-
-                    Shipped
-
-                </option>
-
-                <option value="delivered"
-                    @selected($order->status=='delivered')>
-
-                    Delivered
-
-                </option>
-
-                <option value="cancelled"
-                    @selected($order->status=='cancelled')>
-
-                    Cancelled
-
-                </option>
-
+        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center max-w-lg">
+            <select name="status" class="w-full sm:flex-1 border rounded-xl px-4 py-2.5 text-sm bg-white outline-none focus:ring-2 focus:ring-blue-600">
+                <option value="pending" @selected($order->status=='pending')>Pending</option>
+                <option value="paid" @selected($order->status=='paid')>Paid</option>
+                <option value="payment_failed" @selected($order->status=='payment_failed')>Payment Failed</option>
+                <option value="processing" @selected($order->status=='processing')>Processing</option>
+                <option value="shipped" @selected($order->status=='shipped')>Shipped</option>
+                <option value="delivered" @selected($order->status=='delivered')>Delivered</option>
+                <option value="cancelled" @selected($order->status=='cancelled')>Cancelled</option>
             </select>
-
-            <button
-                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
-
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition">
                 Update Status
-
             </button>
-
         </div>
-
     </form>
-
 </div>
 
 @endsection

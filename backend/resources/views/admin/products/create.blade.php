@@ -2,9 +2,12 @@
 
 @section('content')
 
-<div class="max-w-4xl mx-auto px-4 py-8 bg-white rounded-lg shadow-md">
+<div class="max-w-3xl mx-auto bg-white border border-slate-200/80 rounded-2xl p-5 sm:p-8 shadow-sm">
 
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">Add Product</h2>
+    <div class="mb-6 flex items-center justify-between">
+        <h2 class="text-2xl font-extrabold text-slate-900">Add New Product</h2>
+        <a href="{{ route('admin.products.index') }}" class="text-xs font-bold text-slate-500 hover:text-slate-700">← Back</a>
+    </div>
 
     <form action="{{ route('admin.products.store') }}"
           method="POST"
@@ -12,71 +15,76 @@
 
         @csrf
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <div class="mb-5">
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Product Name</label>
             <input
                 type="text"
                 name="name"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-2.5 border rounded-xl outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                 required>
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <div class="mb-5">
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Description</label>
             <textarea
                 name="description"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-2.5 border rounded-xl outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                 rows="4"
                 required></textarea>
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-            <input
-                type="number"
-                name="price"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Price (KES)</label>
+                <input
+                    type="number"
+                    name="price"
+                    class="w-full px-4 py-2.5 border rounded-xl outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                    required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Category</label>
+                <input
+                    type="text"
+                    name="category"
+                    placeholder="e.g. Home Kit, Away Kit, Training"
+                    class="w-full px-4 py-2.5 border rounded-xl outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                    required>
+            </div>
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-            <input
-                type="text"
-                name="category"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required>
-        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Stock Quantity</label>
+                <input
+                    type="number"
+                    name="stock"
+                    class="w-full px-4 py-2.5 border rounded-xl outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                    required>
+            </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-            <input
-                type="number"
-                name="stock"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required>
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Estimate</label>
-            <input
-                type="text"
-                name="delivery_estimate"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Ships in 3-5 business days"
-                required>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Delivery Estimate</label>
+                <input
+                    type="text"
+                    name="delivery_estimate"
+                    class="w-full px-4 py-2.5 border rounded-xl outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                    placeholder="Ships in 3-5 business days"
+                    required>
+            </div>
         </div>
 
         <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Image</label>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Product Image</label>
             <input
                 type="file"
                 name="image"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
         </div>
 
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200">
-            Save Product
+        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-sm transition">
+            Save Product to Catalog
         </button>
 
     </form>
