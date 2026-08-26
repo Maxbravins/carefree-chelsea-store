@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
                 'price' => 2500,
                 'stock' => 25,
                 'delivery_estimate' => 'Ships within 2-5 business days',
-                'image' => 'products/home.jpg',
+                'image' => 'images/chelsea-nike-home.avif',
                 'description' => 'Official Chelsea Home Jersey for the 2026/27 season. Premium Dri-FIT technology with breathable mesh panels and official club crest.',
                 'active' => true,
             ],
@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
                 'price' => 2500,
                 'stock' => 18,
                 'delivery_estimate' => 'Ships within 2-5 business days',
-                'image' => 'products/away.jpg',
+                'image' => 'images/chelsea-nike-away-stadium-shirt-2025-26.avif',
                 'description' => 'Official Chelsea Away Jersey featuring sleek futuristic detailing, lightweight performance fabric, and athletic fit.',
                 'active' => true,
             ],
@@ -40,7 +40,7 @@ class ProductSeeder extends Seeder
                 'price' => 2500,
                 'stock' => 12,
                 'delivery_estimate' => 'Ships within 2-5 business days',
-                'image' => 'products/third.jpg',
+                'image' => 'images/chelsea-nike-third-stadium-shirt.avif',
                 'description' => 'Bold Chelsea Third Kit with dynamic graphic pattern, gold accents, and moisture-wicking technology.',
                 'active' => true,
             ],
@@ -51,7 +51,7 @@ class ProductSeeder extends Seeder
                 'price' => 3200,
                 'stock' => 8,
                 'delivery_estimate' => 'Ships within 3-6 business days',
-                'image' => 'products/retro.jpg',
+                'image' => 'images/chelsea-nike-stadium-home-long-sleeve-shirt-2025-26.jpg',
                 'description' => 'Iconic 2012 Munich Champions League Victory commemorative retro edition with Munich 2012 embroidery.',
                 'active' => true,
             ],
@@ -62,7 +62,7 @@ class ProductSeeder extends Seeder
                 'price' => 2200,
                 'stock' => 20,
                 'delivery_estimate' => 'Ships within 2-5 business days',
-                'image' => 'products/training.jpg',
+                'image' => 'images/chelsea-nike-strike-training.avif',
                 'description' => 'Official Nike training shirt worn by players during pre-match warmups. Ultra-light and flexible.',
                 'active' => true,
             ],
@@ -73,7 +73,7 @@ class ProductSeeder extends Seeder
                 'price' => 3500,
                 'stock' => 10,
                 'delivery_estimate' => 'Ships within 2-5 business days',
-                'image' => 'products/black.jpg',
+                'image' => 'images/chelsea-nike-home.avif',
                 'description' => 'Exclusive blackout edition jersey with metallic crest detail and premium gold badges.',
                 'active' => true,
             ],
@@ -84,4 +84,3 @@ class ProductSeeder extends Seeder
         }
     }
 }
-
