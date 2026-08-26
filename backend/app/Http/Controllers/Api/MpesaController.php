@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\MpesaService;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,76 @@ use Illuminate\Support\Facades\Log;
 
 class MpesaController extends Controller
 {
+     protected MpesaService $mpesaService;
+
+    public function __construct(MpesaService $mpesaService)
+    {
+        $this->mpesaService = $mpesaService;
+    }
+
+    public function stkPush(Request $request)
+{
+    $validated = $request->validate([
+        'phone' => ['required', 'string'],
+        'amount' => ['required', 'integer', 'min:1'],
+        'order_id' => ['required', 'integer', 'exists:orders,id'],
+    ]);
+
+    try {
+        $response = $this->mpesaService->stkPush(
+            $validated['phone'],
+            $validated['amount'],
+            $validated['order_id']
+        );
+
+        // Make sure Safaricom accepted the STK Push request
+        if (($response['ResponseCode'] ?? null) !== '0') {
+            Log::warning('M-Pesa STK Push rejected', [
+                'response' => $response,
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => $response['ResponseDescription']
+                    ?? 'M-Pesa STK Push was rejected.',
+                'data' => $response,
+            ], 400);
+        }
+
+        // Save the payment as pending
+        $payment = Payment::create([
+            'order_id' => $validated['order_id'],
+            'phone' => $validated['phone'],
+            'amount' => $validated['amount'],
+            'checkout_request_id' => $response['CheckoutRequestID'],
+            'status' => 'pending',
+        ]);
+
+        Log::info('M-Pesa STK Push initiated', [
+            'payment_id' => $payment->id,
+            'order_id' => $payment->order_id,
+            'checkout_request_id' => $payment->checkout_request_id,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'STK Push sent successfully.',
+            'payment_id' => $payment->id,
+            'checkout_request_id' => $response['CheckoutRequestID'],
+        ]);
+
+    } catch (\Throwable $e) {
+        Log::error('M-Pesa STK Push Error', [
+            'message' => $e->getMessage(),
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Unable to initiate M-Pesa payment.',
+        ], 500);
+    }
+}
+
     public function callback(Request $request)
     {
         $callback = $request->input('Body.stkCallback');
@@ -99,11 +170,11 @@ class MpesaController extends Controller
                 }
 
                 $payment->update([
-                    'status' => 'payment_failed',
+                    'status' => 'failed',
                 ]);
 
                 $order->update([
-                    'status' => 'payment_failed',
+                    'status' => 'failed',
                 ]);
 
                 Log::warning('M-Pesa Payment Failed - Stock Restored', [

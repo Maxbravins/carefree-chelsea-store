@@ -21,74 +21,68 @@ class MpesaService
         $this->callbackUrl = config('services.mpesa.callback_url');
     }
 
-    public function getAccessToken()
-{
-   $response = Http::withOptions([
-    'verify' => false,
-])->withBasicAuth(
-    $this->consumerKey,
-    $this->consumerSecret
-)->get(
-    'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
-);
-
-    if (!$response->successful()) {
-        throw new \Exception(
-            'Failed to get M-Pesa access token: ' . $response->body()
+    public function getAccessToken(): string
+    {
+        $response = Http::withBasicAuth(
+            $this->consumerKey,
+            $this->consumerSecret
+        )->get(
+            'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
         );
+
+        if (! $response->successful()) {
+            throw new \Exception(
+                'Failed to get M-Pesa access token: ' . $response->body()
+            );
+        }
+
+        return $response->json('access_token');
     }
 
-    return $response->json()['access_token'];
-}
+    public function stkPush(string $phone, int $amount, int $orderId): array
+    {
+        $token = $this->getAccessToken();
 
-public function stkPush(string $phone, int $amount, int $orderId): array
-{
-    $token = $this->getAccessToken();
+        // Generate timestamp
+        $timestamp = now()->format('YmdHis');
 
-    $timestamp = now()->format('YmdHis');
-
-    $password = base64_encode(
-        $this->shortCode .
-        $this->passkey .
-        $timestamp
-    );
-
-    // Convert Kenyan numbers to 2547XXXXXXXX
-    $phone = preg_replace('/\D/', '', $phone);
-
-    if (str_starts_with($phone, '0')) {
-        $phone = '254' . substr($phone, 1);
-    }
-
-    $response = Http::withOptions([
-        // Remove this when your PHP SSL certificates are properly configured
-        'verify' => false,
-    ])
-    ->withToken($token)
-    ->post(
-        'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
-        [
-            "BusinessShortCode" => $this->shortCode,
-            "Password" => $password,
-            "Timestamp" => $timestamp,
-            "TransactionType" => "CustomerPayBillOnline",
-            "Amount" => $amount,
-            "PartyA" => $phone,
-            "PartyB" => $this->shortCode,
-            "PhoneNumber" => $phone,
-            "CallBackURL" => $this->callbackUrl,
-            "AccountReference" => "Order {$orderId}",
-            "TransactionDesc" => "Carefree Chelsea Store",
-        ]
-    );
-
-    if (! $response->successful()) {
-        throw new \Exception(
-            'STK Push failed: ' . $response->body()
+        // Generate STK password
+        $password = base64_encode(
+            $this->shortCode .
+            $this->passkey .
+            $timestamp
         );
+
+        // Convert phone number to 2547XXXXXXXX
+        $phone = preg_replace('/\D/', '', $phone);
+
+        if (str_starts_with($phone, '0')) {
+            $phone = '254' . substr($phone, 1);
+        }
+
+        $response = Http::withToken($token)->post(
+            'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
+            [
+                'BusinessShortCode' => $this->shortCode,
+                'Password' => $password,
+                'Timestamp' => $timestamp,
+                'TransactionType' => 'CustomerPayBillOnline',
+                'Amount' => $amount,
+                'PartyA' => $phone,
+                'PartyB' => $this->shortCode,
+                'PhoneNumber' => $phone,
+                'CallBackURL' => $this->callbackUrl,
+                'AccountReference' => "Order {$orderId}",
+                'TransactionDesc' => 'Carefree Chelsea Store',
+            ]
+        );
+
+        if (! $response->successful()) {
+            throw new \Exception(
+                'STK Push failed: ' . $response->body()
+            );
+        }
+
+        return $response->json();
     }
-
-    return $response->json();
-}
-
 }
