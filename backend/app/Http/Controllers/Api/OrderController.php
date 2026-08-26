@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderConfirmationMail;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
@@ -10,6 +11,7 @@ use App\Services\MpesaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -19,6 +21,7 @@ class OrderController extends Controller
     {
         $validated = $request->validate([
             'customer_name' => ['required', 'string', 'max:100'],
+            'email' => ['nullable', 'email', 'max:150'],
             'phone' => ['required', 'string', 'max:20'],
             'county' => ['required', 'string', 'max:100'],
             'town' => ['required', 'string', 'max:100'],
@@ -61,14 +64,13 @@ class OrderController extends Controller
         $paymentMethod = $validated['payment_method'];
 
         // Create order
-        $order = DB::transaction(function () use ($validated, $paymentMethod) {
+        $order = DB::transaction(function () use ($validated) {
             $total = 0;
             $itemsToCreate = [];
 
             foreach ($validated['items'] as $item) {
 
-               
-            // Lock product row while checking/decreasing stock
+                // Lock product row while checking/decreasing stock
                 $product = Product::where('id', $item['product_id'])
                     ->where('active', true)
                     ->lockForUpdate()
@@ -82,7 +84,7 @@ class OrderController extends Controller
                     ]);
                 }
 
-             //Prevent overselling
+                // Prevent overselling
                 if ($product->stock < 1) {
                     throw ValidationException::withMessages([
                         'items' => [
@@ -105,14 +107,15 @@ class OrderController extends Controller
                 ];
             }
 
-           // Delivery fee
+            // Delivery fee
             $deliveryFee = $total >= 5000 ? 0 : 300;
 
             $finalTotal = $total + $deliveryFee;
 
-           //Every order starts as pending
+            // Every order starts as pending
             $order = Order::create([
                 'customer_name' => $validated['customer_name'],
+                'email' => $validated['email'] ?? null,
                 'phone' => $validated['phone'],
                 'county' => $validated['county'],
                 'town' => $validated['town'],
@@ -121,12 +124,11 @@ class OrderController extends Controller
                 'status' => 'pending',
             ]);
 
-           //  Create Order Items
+            // Create Order Items
             foreach ($itemsToCreate as $itemData) {
                 $order->items()->create($itemData);
             }
 
-            
             // Create Payment Record
             Payment::create([
                 'order_id' => $order->id,
@@ -140,7 +142,7 @@ class OrderController extends Controller
             return $order;
         });
 
-        // M-Pesa STK Push       
+        // M-Pesa STK Push
         if ($paymentMethod === 'mpesa') {
             try {
                 $payment = $order->payment;
@@ -153,7 +155,7 @@ class OrderController extends Controller
                         $order->id
                     );
 
-                    // Save M-Pesa CheckoutRequestID                  
+                    // Save M-Pesa CheckoutRequestID
                     if (!empty($stkResponse['CheckoutRequestID'])) {
 
                         $payment->update([
@@ -178,9 +180,7 @@ class OrderController extends Controller
                     }
                 }
             } catch (\Throwable $e) {
-
-              
-                // Do not delete the order if STK Push fails           
+                // Do not delete the order if STK Push fails
                 Log::error('M-Pesa STK Push failed', [
                     'order_id' => $order->id,
                     'error' => $e->getMessage(),
@@ -188,13 +188,21 @@ class OrderController extends Controller
             }
         }
 
-        
-        // Card support is reserved for the future.   
+        // Card support is reserved for the future.
         if ($paymentMethod === 'card') {
             Log::info('Card payment selected but gateway not yet integrated', [
                 'order_id' => $order->id,
                 'amount' => $order->total,
             ]);
+        }
+
+        // Send order confirmation email (applies to any payment method)
+        if ($order->email) {
+            try {
+                Mail::to($order->email)->send(new OrderConfirmationMail($order));
+            } catch (\Throwable $e) {
+                Log::warning('Order confirmation email failed: ' . $e->getMessage());
+            }
         }
 
         // Response

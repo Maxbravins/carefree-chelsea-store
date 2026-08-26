@@ -14,6 +14,7 @@ export default function Checkout() {
 
   const [form, setForm] = useState({
     customer_name: "",
+    email: "",
     phone: "",
     county: "",
     town: "",
@@ -81,6 +82,15 @@ export default function Checkout() {
                 onChange={handleChange}
                 className="border rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-[#034694]"
               />
+
+              <input
+                name="email"
+                type="email"
+                placeholder="Email (for order confirmation)"
+                value={form.email}
+                onChange={handleChange}
+                className="border rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-[#034694]"
+            />
 
               <input
                 name="phone"
