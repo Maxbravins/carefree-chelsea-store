@@ -127,55 +127,72 @@ export default function Checkout() {
   }
 
   async function handlePlaceOrder() {
-    if (!cart.length) {
-      toast.error("Your cart is empty.");
+  setLoading(true);
+
+  try {
+    const items = cart.flatMap((item) =>
+      Array.from({ length: item.quantity }, () => ({
+        product_id: item.id,
+        size: item.size || "M",
+      })),
+    );
+
+    const response = await api.post("/orders", {
+      ...form,
+      payment_method: "mpesa",
+      items,
+    });
+
+    const orderId = response.data.order.id;
+
+    toast.success("M-Pesa prompt sent. Enter your PIN on your phone.");
+
+    // Wait for M-Pesa callback/payment confirmation.
+    let paid = false;
+
+    for (let attempt = 0; attempt < 30; attempt++) {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const statusResponse = await api.get(`/orders/${orderId}/status`);
+
+      const orderStatus = statusResponse.data.order?.status;
+      const paymentStatus = statusResponse.data.payment?.status;
+
+      if (orderStatus === "paid" || paymentStatus === "success") {
+        paid = true;
+        break;
+      }
+
+      if (
+        orderStatus === "payment_failed" ||
+        paymentStatus === "payment_failed"
+      ) {
+        throw new Error("M-Pesa payment failed.");
+      }
+    }
+
+    if (!paid) {
+      toast.error(
+        "Payment confirmation is taking longer than expected. Please check your M-Pesa message."
+      );
       return;
     }
 
-    setLoading(true);
-    setPaymentError("");
-    setPaymentWaiting(false);
+    clearCart();
+    navigate("/success");
+  } catch (error) {
+    console.error(error);
 
-    try {
-      const items = cart.flatMap((item) =>
-        Array.from({ length: item.quantity }, () => ({
-          product_id: item.id,
-          size: item.size || "M",
-        }))
-      );
-
-      const response = await api.post("/orders", {
-        ...form,
-        payment_method: "mpesa",
-        items,
-      });
-
-      const orderId = response.data?.order?.id;
-
-      if (!orderId) {
-        throw new Error("The server did not return an order ID.");
-      }
-
-      setPaymentWaiting(true);
-      pollAttemptsRef.current = 0;
-
-      toast.success(
-        "M-Pesa prompt sent. Check your phone and enter your PIN."
-      );
-
-      checkPaymentStatus(orderId);
-    } catch (error) {
-      console.error(error);
-
-      const message =
-        error.response?.data?.message ||
-        "Failed to place the order. Please try again.";
-
-      setPaymentError(message);
-      toast.error(message);
-      setLoading(false);
-    }
+    toast.error(
+      error.response?.data?.message ||
+        error.message ||
+        "Failed to complete payment. Please try again.",
+    );
+  } finally {
+    setLoading(false);
   }
+}
+
 
   return (
     <section className="bg-gray-50 py-20">
