@@ -20,13 +20,23 @@ export default function Checkout() {
   const pollTimerRef = useRef(null);
   const pollAttemptsRef = useRef(0);
 
-  const [form, setForm] = useState({
-    customer_name: "",
-    email: "",
-    phone: "",
-    county: "",
-    town: "",
-    address: "",
+  const [form, setForm] = useState(() => {
+    try {
+      const saved = localStorage.getItem("carefree_customer_info");
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch (e) {
+      console.error("Could not parse saved customer info:", e);
+    }
+    return {
+      customer_name: "",
+      email: "",
+      phone: "",
+      county: "",
+      town: "",
+      address: "",
+    };
   });
 
   const deliveryFee = totalPrice >= 5000 ? 0 : 300;
@@ -41,14 +51,25 @@ export default function Checkout() {
   }, []);
 
   function handleChange(e) {
-    setForm({
+    const updated = {
       ...form,
       [e.target.name]: e.target.value,
-    });
+    };
+    setForm(updated);
+    try {
+      localStorage.setItem("carefree_customer_info", JSON.stringify(updated));
+    } catch (err) {
+      console.error("Failed to save customer info to localStorage:", err);
+    }
   }
 
   function handleContinue(e) {
     e.preventDefault();
+    try {
+      localStorage.setItem("carefree_customer_info", JSON.stringify(form));
+    } catch (err) {
+      console.error("Failed to save customer info to localStorage:", err);
+    }
     setStep(2);
     window.scrollTo({
       top: 0,

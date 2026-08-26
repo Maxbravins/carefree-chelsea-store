@@ -101,7 +101,7 @@ export default function Shop() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="border rounded-xl px-4"
+            className="w-full border rounded-xl px-4 py-4 bg-white outline-none focus:ring-2 focus:ring-[#034694]"
           >
             {categories.map((cat) => (
               <option key={cat}>{cat}</option>

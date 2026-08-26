@@ -102,7 +102,7 @@ export default function Hero() {
 
               {/* Floating Card */}
 
-              <div className="absolute top-16 -left-10 bg-white rounded-2xl shadow-2xl p-5">
+              <div className="absolute top-16 left-0 xl:-left-10 bg-white rounded-2xl shadow-2xl p-5">
                 <p className="text-gray-500 text-sm">Best Seller</p>
 
                 <h3 className="font-black mt-1">Home Kit 2026/27</h3>
@@ -112,7 +112,7 @@ export default function Hero() {
                 </p>
               </div>
 
-              <div className="absolute bottom-10 -right-10 bg-white rounded-2xl shadow-2xl p-5">
+              <div className="absolute bottom-10 right-0 xl:-right-10 bg-white rounded-2xl shadow-2xl p-5">
                 <p className="text-green-600 font-bold">✓ In Stock</p>
 
                 <p className="text-gray-500 mt-2">Fast Delivery</p>

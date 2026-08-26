@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusUpdatedMail;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -81,9 +84,20 @@ class OrderController extends Controller
             ]
         ]);
 
+        $oldStatus = $order->status;
+        $newStatus = $request->status;
+
         $order->update([
-            'status' => $request->status,
+            'status' => $newStatus,
         ]);
+
+        if ($oldStatus !== $newStatus && $order->email) {
+            try {
+                Mail::to($order->email)->send(new OrderStatusUpdatedMail($order, $newStatus));
+            } catch (\Throwable $e) {
+                Log::warning("Order status email notification failed for order #{$order->id}: " . $e->getMessage());
+            }
+        }
 
         return redirect()
             ->route('admin.orders.show', $order)

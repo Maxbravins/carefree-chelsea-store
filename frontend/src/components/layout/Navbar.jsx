@@ -128,16 +128,31 @@ export default function Navbar() {
 
                     </div>
 
-                    {/* Mobile */}
+                    {/* Mobile top bar icons */}
+                    <div className="flex items-center gap-4 lg:hidden">
+                        <Link
+                            to="/cart"
+                            className="relative p-2"
+                        >
+                            <ShoppingBag
+                                size={24}
+                                className="text-[#034694]"
+                            />
+                            {cartCount > 0 && (
+                                <span className="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex justify-center items-center font-bold">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </Link>
 
-                    <button
-                        onClick={() => setMobileOpen(!mobileOpen)}
-                        className="lg:hidden"
-                    >
-
-                        {mobileOpen ? <X /> : <Menu />}
-
-                    </button>
+                        <button
+                            onClick={() => setMobileOpen(!mobileOpen)}
+                            className="p-2 text-gray-700 hover:text-[#034694]"
+                            aria-label="Toggle Navigation Menu"
+                        >
+                            {mobileOpen ? <X size={26} /> : <Menu size={26} />}
+                        </button>
+                    </div>
 
                 </div>
 
@@ -147,9 +162,9 @@ export default function Navbar() {
 
             {mobileOpen && (
 
-                <div className="lg:hidden border-t bg-white">
+                <div className="lg:hidden border-t bg-white shadow-xl">
 
-                    <div className="px-6 py-6 space-y-5">
+                    <div className="px-6 py-6 flex flex-col space-y-4">
 
                         <NavLink
                             to="/"
@@ -164,7 +179,7 @@ export default function Navbar() {
                             className={navLink}
                             onClick={() => setMobileOpen(false)}
                         >
-                            Shop
+                            Shop Collection
                         </NavLink>
 
                         <NavLink
@@ -172,7 +187,7 @@ export default function Navbar() {
                             className={navLink}
                             onClick={() => setMobileOpen(false)}
                         >
-                            Cart ({cartCount})
+                            Shopping Cart ({cartCount})
                         </NavLink>
 
                         <NavLink

@@ -97,11 +97,11 @@ export default function Product() {
 
     return (
 
-        <section className="bg-gray-50 py-20">
+        <section className="bg-gray-50 py-10 sm:py-16 lg:py-20">
 
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-                <div className="grid lg:grid-cols-2 gap-16">
+                <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
 
                     {/* Image */}
 
@@ -110,7 +110,7 @@ export default function Product() {
                         <img
                             src={product.image_url}
                             alt={product.name}
-                            className="w-full h-[700px] object-cover"
+                            className="w-full h-80 sm:h-[480px] lg:h-[650px] object-cover"
                         />
 
                     </div>
@@ -119,13 +119,13 @@ export default function Product() {
 
                     <div>
 
-                        <span className="bg-[#034694] text-white px-4 py-2 rounded-full text-sm">
+                        <span className="bg-[#034694] text-white px-4 py-2 rounded-full text-sm font-semibold">
 
                             {product.category}
 
                         </span>
 
-                        <h1 className="text-5xl font-black mt-6">
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-6">
 
                             {product.name}
 

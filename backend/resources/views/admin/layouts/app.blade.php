@@ -38,7 +38,7 @@
             </nav>
         </div>
         <div class="p-4 border-t border-slate-800">
-            <a href="http://127.0.0.1:5173" target="_blank" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition">
+            <a href="{{ env('FRONTEND_URL', 'http://127.0.0.1:5173') }}" target="_blank" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition">
                 🌐 Visit Main Store ↗
             </a>
         </div>
