@@ -27,7 +27,7 @@
             <h2 class="greeting">Hi {{ $order->customer_name }},</h2>
             <p style="color: #475569; line-height: 1.6;">The status of your Order <strong>#{{ $order->id }}</strong> has been updated to:</p>
             
-            <div className="status-badge" style="display: inline-block; background: #dbeafe; color: #1e40af; padding: 8px 18px; border-radius: 20px; font-weight: 800; font-size: 15px; margin-bottom: 20px;">
+            <div class="status-badge" style="display: inline-block; background: #dbeafe; color: #1e40af; padding: 8px 18px; border-radius: 20px; font-weight: 800; font-size: 15px; margin-bottom: 20px;">
                 Status: {{ ucfirst(str_replace('_', ' ', $status)) }}
             </div>
 
