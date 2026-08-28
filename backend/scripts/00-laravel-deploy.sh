@@ -12,6 +12,7 @@ mkdir -p \
 chown -R nginx:nginx storage bootstrap/cache
 chmod -R ug+rwX storage bootstrap/cache
 php artisan migrate --force
+php artisan storage:link || true
 php artisan db:seed --class=ProductSeeder --force
 php artisan tinker --execute="\App\Models\User::firstOrCreate(['email' => env('ADMIN_EMAIL')], ['name' => 'Admin', 'password' => bcrypt(env('ADMIN_PASSWORD'))]);"
 php artisan optimize:clear
