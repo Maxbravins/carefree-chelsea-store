@@ -99,8 +99,8 @@ export default function Checkout() {
       }
 
       if (
-        orderStatus === "payment_failed" ||
-        paymentStatus === "payment_failed"
+        orderStatus === "failed" ||
+        paymentStatus === "failed"
       ) {
         setPaymentWaiting(false);
         setLoading(false);
@@ -185,8 +185,8 @@ export default function Checkout() {
       }
 
       if (
-        orderStatus === "payment_failed" ||
-        paymentStatus === "payment_failed"
+        orderStatus === "failed" ||
+        paymentStatus === "failed"
       ) {
         throw new Error("M-Pesa payment failed.");
       }
