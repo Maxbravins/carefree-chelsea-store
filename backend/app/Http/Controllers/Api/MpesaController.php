@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-//use App\Mail\PaymentReceiptMail;
-use App\Mail\OrderConfirmationMail;
+use App\Mail\PaymentReceiptMail;
+//use App\Mail\OrderConfirmationMail;
 use App\Models\Payment;
 use App\Services\MpesaService;
 use Illuminate\Http\Request;
@@ -159,8 +159,8 @@ class MpesaController extends Controller
         if ($payment->order && $payment->order->email) {
             try {
                 Mail::to($payment->order->email)->send(
-                    new OrderConfirmationMail($payment->order)
-                );
+                new PaymentReceiptMail($payment->order, $receipt)
+            );
                 } catch (\Throwable $e) {
                     Log::warning('Order confirmation email failed', [
                         'order_id' => $payment->order->id,

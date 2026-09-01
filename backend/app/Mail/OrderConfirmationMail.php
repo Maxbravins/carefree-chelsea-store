@@ -14,10 +14,12 @@ class OrderConfirmationMail extends Mailable
     use Queueable, SerializesModels;
 
     public Order $order;
+    public ?string $receipt;
 
-    public function __construct(Order $order)
+    public function __construct(Order $order, ?string $receipt = null)
     {
         $this->order = $order->load('items.product', 'payment');
+        $this->receipt = $receipt;
     }
 
     public function envelope(): Envelope
