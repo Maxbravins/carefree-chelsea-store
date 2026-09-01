@@ -1,11 +1,16 @@
-import { ArrowRight, ShoppingBag } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  ShoppingBag,
+  Star,
+  Truck,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-r from-[#021B3A] via-[#034694] to-[#0055B8]">
       {/* Background */}
-
       <div className="absolute inset-0">
         <img
           src="/images/chelsea-nike-home.avif"
@@ -13,13 +18,13 @@ export default function Hero() {
           className="w-full h-full object-cover opacity-20"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#021B3A]/95 via-[#034694]/80 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#021B3A]/95 via-[#034694]/80 to-transparent" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid lg:grid-cols-2 items-center min-h-[70vh] sm:min-h-[80vh] lg:min-h-[90vh] gap-10 lg:gap-16 py-14 lg:py-0">
-          {/* LEFT */}
+        <div className="grid lg:grid-cols-2 items-center min-h-[70vh] sm:min-h-[80vh] lg:min-h-[90vh] gap-10 lg:gap-12 xl:gap-16 py-14 lg:py-0">
 
+          {/* ================= LEFT ================= */}
           <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
             <span className="inline-flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-sm text-yellow-300 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold">
               ⚽ Official Chelsea Fan Store
@@ -27,7 +32,9 @@ export default function Hero() {
 
             <h1 className="mt-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight">
               Wear The
-              <span className="block text-yellow-400">Pride Of London</span>
+              <span className="block text-yellow-400">
+                Pride Of London
+              </span>
             </h1>
 
             <p className="mt-8 text-base sm:text-lg md:text-xl text-blue-100 leading-7 sm:leading-8 md:leading-9 max-w-xl mx-auto lg:mx-0">
@@ -54,7 +61,6 @@ export default function Hero() {
             </div>
 
             {/* Stats */}
-
             <div className="grid grid-cols-3 gap-4 sm:gap-8 mt-16 lg:mt-20">
               <div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-yellow-400">
@@ -88,34 +94,114 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT */}
+          {/* ================= RIGHT / PRODUCT ================= */}
+          <div className="hidden lg:flex justify-center items-center relative">
+            <div className="relative w-[460px] xl:w-[540px]">
 
-          <div className="hidden lg:flex justify-center relative">
-            <div className="relative">
-              <div className="absolute -inset-10 bg-yellow-400 rounded-full blur-3xl opacity-20"></div>
+              {/* Glow */}
+              <div className="absolute -inset-10 bg-yellow-400 rounded-full blur-3xl opacity-20" />
 
+              {/* Product Image */}
               <img
                 src="/images/chelsea-nike-home.avif"
                 alt="Chelsea Home Kit"
-                className="relative w-[550px] drop-shadow-2xl hover:scale-105 transition duration-500"
+                className="
+                  relative
+                  z-10
+                  w-full
+                  drop-shadow-2xl
+                  transition-transform
+                  duration-500
+                  hover:scale-[1.03]
+                "
               />
 
-              {/* Floating Card */}
+              {/* ================= BEST SELLER CARD ================= */}
+              <div
+                className="
+                  absolute
+                  z-20
+                  top-[80%]
+                  left-[-10px]
+                  xl:left-[-28px]
 
-              <div className="absolute top-16 left-0 xl:-left-10 bg-white rounded-2xl shadow-2xl p-5">
-                <p className="text-gray-500 text-sm">Best Seller</p>
+                  w-[190px]
 
-                <h3 className="font-black mt-1">Home Kit 2026/27</h3>
+                  bg-white
+                  border
+                  border-gray-100
+                  rounded-2xl
+                  shadow-[0_15px_40px_rgba(0,0,0,0.18)]
+                  p-4
 
-                <p className="text-[#034694] font-black text-2xl mt-2">
+                  transition-transform
+                  duration-300
+                  hover:-translate-y-1
+                "
+              >
+                <div className="flex items-center gap-2 text-xs font-semibold text-gray-500">
+                  <Star
+                    size={14}
+                    className="fill-yellow-400 text-yellow-400"
+                  />
+                  Best Seller
+                </div>
+
+                <h3 className="mt-2 text-sm font-black text-gray-900">
+                  Home Kit 2026/27
+                </h3>
+
+                <p className="mt-1 text-xl font-black text-[#034694]">
                   KES 2,500
                 </p>
               </div>
 
-              <div className="absolute bottom-10 right-0 xl:-right-10 bg-white rounded-2xl shadow-2xl p-5">
-                <p className="text-green-600 font-bold">✓ In Stock</p>
+              {/* ================= AVAILABILITY CARD ================= */}
+              <div
+                className="
+                  absolute
+                  z-20
+                  bottom-[82%]
+                  right-[-5px]
+                  xl:right-[-48px]
 
-                <p className="text-gray-500 mt-2">Fast Delivery</p>
+                  w-[180px]
+
+                  bg-white
+                  border
+                  border-gray-100
+                  rounded-2xl
+                  shadow-[0_15px_40px_rgba(0,0,0,0.18)]
+                  p-4
+
+                  transition-transform
+                  duration-300
+                  hover:-translate-y-1
+                "
+              >
+                {/* Stock */}
+                <div className="flex items-center gap-2">
+                  <CheckCircle2
+                    size={18}
+                    className="text-green-500"
+                  />
+
+                  <span className="text-sm font-bold text-green-600">
+                    In Stock
+                  </span>
+                </div>
+
+                {/* Delivery */}
+                <div className="flex items-center gap-2 mt-3">
+                  <Truck
+                    size={17}
+                    className="text-[#034694]"
+                  />
+
+                  <span className="text-xs font-medium text-gray-500">
+                    Fast delivery across Kenya
+                  </span>
+                </div>
               </div>
             </div>
           </div>

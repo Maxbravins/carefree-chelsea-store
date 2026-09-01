@@ -41,22 +41,23 @@ export default function Footer() {
 
                     </div>
 
-                    <form className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
 
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            className="flex-1 rounded-xl px-5 py-4 text-black outline-none"
-                        />
+                    <input
+                        type="email"
+                        placeholder="Enter your email"
+                        className="flex-1 rounded-xl px-5 py-4 text-black outline-none"
+                    />
 
-                        <button
-                            className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 rounded-xl flex items-center justify-center gap-2 transition"
-                        >
-                            Subscribe
-                            <ArrowRight size={18}/>
-                        </button>
+                    <Link
+                        to="/newsletter"
+                        className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 transition"
+                    >
+                        Subscribe
+                        <ArrowRight size={18} />
+                    </Link>
 
-                    </form>
+                </div>
 
                 </div>
 

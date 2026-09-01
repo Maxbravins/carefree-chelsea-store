@@ -13,7 +13,7 @@ export default function Newsletter() {
 
     try {
       await api.post("/subscribers", { email });
-      toast.success("You're subscribed! Watch your inbox for the latest drops.");
+      toast.success("You have successfully subscribed to Carefree Chelsea! 💙");
       setEmail("");
     } catch (error) {
       console.error(error);

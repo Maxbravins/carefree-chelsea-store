@@ -9,6 +9,7 @@ import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
+import Newsletter from "./components/home/Newsletter";
 
 function App() {
     return (
@@ -47,6 +48,11 @@ function App() {
                     <Route
                         path="/success"
                         element={<OrderSuccess />}
+                    />
+
+                    <Route
+                        path="/newsletter"
+                        element={<Newsletter />}
                     />
 
                 </Routes>
