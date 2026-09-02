@@ -75,5 +75,10 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
+    // Global "Reply-To" Address
+    'contact_recipient' => env(
+    'CONTACT_RECIPIENT_EMAIL',
+    'maxbravinso@gmail.com'
+    ),
 
 ];

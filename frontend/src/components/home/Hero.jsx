@@ -141,7 +141,7 @@ export default function Hero() {
               >
                 <div className="flex items-center gap-2 text-xs font-semibold text-gray-500">
                   <Star
-                    size={14}
+                    size={18}
                     className="fill-yellow-400 text-yellow-400"
                   />
                   Best Seller
@@ -194,7 +194,7 @@ export default function Hero() {
                 {/* Delivery */}
                 <div className="flex items-center gap-2 mt-3">
                   <Truck
-                    size={17}
+                    size={18}
                     className="text-[#034694]"
                   />
 
