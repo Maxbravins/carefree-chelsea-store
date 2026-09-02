@@ -75,6 +75,7 @@
                     <th class="px-4 sm:px-6 py-4">Order #</th>
                     <th class="px-4 sm:px-6 py-4">Customer</th>
                     <th class="px-4 sm:px-6 py-4">Phone</th>
+                    <th class="px-4 sm:px-6 py-4">Email</th>
                     <th class="px-4 sm:px-6 py-4">Location</th>
                     <th class="px-4 sm:px-6 py-4">Total</th>
                     <th class="px-4 sm:px-6 py-4">Status</th>
@@ -93,6 +94,9 @@
                     </td>
                     <td class="px-4 sm:px-6 py-4 text-slate-600">
                         {{ $order->phone }}
+                    </td>
+                    <td class="px-4 sm:px-6 py-4 text-slate-600">
+                        {{ $order->email }}
                     </td>
                     <td class="px-4 sm:px-6 py-4 text-slate-600">
                         {{ $order->town }}, {{ $order->county }}
@@ -139,7 +143,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="text-center py-10 text-slate-400">
+                    <td colspan="9" class="text-center py-10 text-slate-400">
                         No orders found matching your criteria.
                     </td>
                 </tr>
