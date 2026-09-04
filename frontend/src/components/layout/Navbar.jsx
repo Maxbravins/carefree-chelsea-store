@@ -5,16 +5,17 @@ import {
     X,
     ShoppingBag,
     Search,
-    User,
     Heart,
 } from "lucide-react";
 
 import { useCart } from "../../CartContext";
+import { useWishlist } from "../../WishlistContext";
 
 export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
 
-    const { cartCount } = useCart();
+    const { totalItems: cartCount } = useCart();
+    const { wishlistCount } = useWishlist();
 
     const navLink = ({ isActive }) =>
         isActive
@@ -92,17 +93,30 @@ export default function Navbar() {
 
                     <div className="hidden lg:flex items-center gap-6">
 
-                        <button className="hover:text-[#034694]">
+                        <Link
+                            to="/shop"
+                            className="hover:text-[#034694]"
+                        >
                             <Search />
-                        </button>
+                        </Link>
 
-                        <button className="hover:text-[#034694]">
+                        <Link
+                            to="/wishlist"
+                            className="relative hover:text-[#034694]"
+                        >
                             <Heart />
-                        </button>
 
-                        <button className="hover:text-[#034694]">
-                            <User />
-                        </button>
+                            {wishlistCount > 0 && (
+
+                                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex justify-center items-center font-bold">
+
+                                    {wishlistCount}
+
+                                </span>
+
+                            )}
+
+                        </Link>
 
                         <Link
                             to="/cart"
@@ -130,6 +144,21 @@ export default function Navbar() {
 
                     {/* Mobile top bar icons */}
                     <div className="flex items-center gap-4 lg:hidden">
+                        <Link
+                            to="/wishlist"
+                            className="relative p-2"
+                        >
+                            <Heart
+                                size={24}
+                                className="text-[#034694]"
+                            />
+                            {wishlistCount > 0 && (
+                                <span className="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex justify-center items-center font-bold">
+                                    {wishlistCount}
+                                </span>
+                            )}
+                        </Link>
+
                         <Link
                             to="/cart"
                             className="relative p-2"
@@ -180,6 +209,14 @@ export default function Navbar() {
                             onClick={() => setMobileOpen(false)}
                         >
                             Shop Collection
+                        </NavLink>
+
+                        <NavLink
+                            to="/wishlist"
+                            className={navLink}
+                            onClick={() => setMobileOpen(false)}
+                        >
+                            Wishlist ({wishlistCount})
                         </NavLink>
 
                         <NavLink

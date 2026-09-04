@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Eye, ShoppingCart, Zap } from "lucide-react";
+import { Eye, ShoppingCart, Zap, Heart } from "lucide-react";
 import { useCart } from "../CartContext";
+import { useWishlist } from "../WishlistContext";
 import toast from "react-hot-toast";
 import StockNotification from "./products/StockNotification";
 
@@ -9,6 +10,7 @@ const SIZES = ["S", "M", "L", "XL", "XXL"];
 
 export default function ProductCard({ product }) {
     const { addToCart } = useCart();
+    const { toggleWishlist, isInWishlist } = useWishlist();
     const [selectedSize, setSelectedSize] = useState(null);
 
     const imageUrl =
@@ -17,6 +19,7 @@ export default function ProductCard({ product }) {
         "/images/chelsea-home.jpg";
 
     const stock = Number(product.stock || 0);
+    const inWishlist = isInWishlist(product.id);
 
     function handleAddToCart() {
         if (stock <= 0) {
@@ -36,6 +39,15 @@ export default function ProductCard({ product }) {
 
         toast.success(
             `${product.name} (${selectedSize}) added to cart`
+        );
+    }
+
+    function handleToggleWishlist() {
+        toggleWishlist(product);
+        toast.success(
+            inWishlist
+                ? `${product.name} removed from wishlist`
+                : `${product.name} added to wishlist`
         );
     }
 
@@ -59,6 +71,22 @@ export default function ProductCard({ product }) {
                     </span>
                 )}
 
+                <button
+                    type="button"
+                    onClick={handleToggleWishlist}
+                    aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                    aria-pressed={inWishlist}
+                    className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full shadow transition ${
+                        stock > 0 && stock <= 5 ? "mt-9" : ""
+                    } ${
+                        inWishlist
+                            ? "bg-red-600 text-white"
+                            : "bg-white/90 text-slate-700 hover:text-red-600"
+                    }`}
+                >
+                    <Heart size={16} fill={inWishlist ? "currentColor" : "none"} />
+                </button>
+
                 {stock > 0 && stock <= 5 && (
                     <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-rose-600 px-2.5 py-1.5 text-[10px] font-extrabold text-white shadow">
                         <Zap size={11} />
@@ -67,7 +95,7 @@ export default function ProductCard({ product }) {
                 )}
 
                 {stock <= 0 && (
-                    <span className="absolute right-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-white shadow">
+                    <span className="absolute right-3 top-12 rounded-full bg-slate-900/90 px-2.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-white shadow">
                         Sold Out
                     </span>
                 )}

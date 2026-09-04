@@ -12,6 +12,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import Newsletter from "./components/home/Newsletter";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
     return (
@@ -65,6 +66,11 @@ function App() {
                     <Route
                         path="/newsletter"
                         element={<Newsletter />}
+                    />
+
+                    <Route
+                        path="/wishlist"
+                        element={<Wishlist />}
                     />
 
                 </Routes>

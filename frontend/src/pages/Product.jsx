@@ -5,11 +5,13 @@ import {
     Truck,
     ShieldCheck,
     Star,
+    Heart,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { getProduct } from "../services/productService";
 import { useCart } from "../CartContext";
+import { useWishlist } from "../WishlistContext";
 
 const SIZES = ["S", "M", "L", "XL", "XXL"];
 
@@ -18,6 +20,7 @@ export default function Product() {
     const { slug } = useParams();
 
     const { addToCart } = useCart();
+    const { toggleWishlist, isInWishlist } = useWishlist();
 
     const [product, setProduct] = useState(null);
 
@@ -63,6 +66,17 @@ export default function Product() {
 
     }
 
+    function handleToggleWishlist() {
+
+        toggleWishlist(product);
+        toast.success(
+            isInWishlist(product.id)
+                ? `${product.name} removed from wishlist`
+                : `${product.name} added to wishlist`
+        );
+
+    }
+
     if (loading) {
 
         return (
@@ -95,6 +109,8 @@ export default function Product() {
 
     }
 
+    const inWishlist = isInWishlist(product.id);
+
     return (
 
         <section className="bg-gray-50 py-10 sm:py-16 lg:py-20">
@@ -105,7 +121,21 @@ export default function Product() {
 
                     {/* Image */}
 
-                    <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
+                    <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden">
+
+                        <button
+                            type="button"
+                            onClick={handleToggleWishlist}
+                            aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                            aria-pressed={inWishlist}
+                            className={`absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full shadow transition ${
+                                inWishlist
+                                    ? "bg-red-600 text-white"
+                                    : "bg-white/90 text-slate-700 hover:text-red-600"
+                            }`}
+                        >
+                            <Heart size={20} fill={inWishlist ? "currentColor" : "none"} />
+                        </button>
 
                         <img
                             src={product.image_url}
@@ -221,17 +251,30 @@ export default function Product() {
 
                         </div>
 
-                        <div className="mt-10">
+                        <div className="mt-10 flex gap-3">
 
                             <button
                                 onClick={handleAddToCart}
-                                className="w-full bg-[#034694] hover:bg-[#012A57] text-white py-5 rounded-xl text-lg font-bold flex justify-center items-center gap-3 transition"
+                                className="flex-1 bg-[#034694] hover:bg-[#012A57] text-white py-5 rounded-xl text-lg font-bold flex justify-center items-center gap-3 transition"
                             >
 
                                 <ShoppingCart size={24} />
 
                                 Add To Cart
 
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={handleToggleWishlist}
+                                aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                                className={`px-6 rounded-xl border-2 flex items-center justify-center transition ${
+                                    inWishlist
+                                        ? "bg-red-50 border-red-600 text-red-600"
+                                        : "border-gray-300 text-gray-700 hover:border-[#034694] hover:text-[#034694]"
+                                }`}
+                            >
+                                <Heart size={24} fill={inWishlist ? "currentColor" : "none"} />
                             </button>
 
                         </div>
