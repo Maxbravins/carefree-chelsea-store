@@ -39,7 +39,8 @@ export default function Checkout() {
     };
   });
 
-  const deliveryFee = totalPrice >= 5000 ? 0 : 300;
+  //const deliveryFee = totalPrice >= 5000 ? 0 : 300;
+  const deliveryFee = 0;
   const grandTotal = totalPrice + deliveryFee;
 
   useEffect(() => {
