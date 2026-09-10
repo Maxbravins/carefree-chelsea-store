@@ -108,7 +108,8 @@ class OrderController extends Controller
             }
 
             // Delivery fee
-            $deliveryFee = $total >= 5000 ? 0 : 300;
+           // $deliveryFee = $total >= 5000 ? 0 : 300;
+             $deliveryFee = 0;
 
             $finalTotal = $total + $deliveryFee;
 
