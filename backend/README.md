@@ -1,58 +1,111 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Carefree Chelsea Store
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack e-commerce storefront for Chelsea FC merchandise, built with a
+Laravel API/admin backend and a React (Vite) frontend — with **M-Pesa mobile
+money checkout** for the Kenyan market.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Storefront:** Home, Shop, Product detail, Cart, Wishlist, Checkout, Order
+  success, About, Contact — a complete customer purchase journey.
+- **M-Pesa payments:** STK Push integration (Safaricom Daraja API) — request
+  payment, handle the async callback, mark orders paid/failed, and roll back
+  reserved stock automatically if a payment fails.
+- **Admin panel:** Auth-gated dashboard, product management (CRUD), and order
+  management, built on Laravel Blade.
+- **Email notifications:** Order confirmation, payment receipt, order status
+  updates, contact form messages, and newsletter signup — sent via
+  [Resend](https://resend.com).
+- **Extras:** Back-in-stock notifications, newsletter subscriptions, rate
+  limiting on all public write endpoints, and a custom security-headers
+  middleware.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Backend**
+- Laravel 13 (PHP 8.3)
+- SQLite (dev) — see `config/database.php` for other drivers
+- [Resend](https://resend.com) for transactional email
+- [Cloudinary](https://cloudinary.com) for image hosting
+- Safaricom Daraja API (M-Pesa STK Push)
 
-## Learning Laravel
+**Frontend**
+- React 18 + Vite 7
+- React Router 7
+- Tailwind CSS 4
+- Axios, react-hot-toast, lucide-react / react-icons
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Project Structure
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+backend/     Laravel app — API, admin panel, auth, mail, M-Pesa integration
+frontend/    React (Vite) storefront — customer-facing SPA
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Getting Started
 
-## Contributing
+### Backend (Laravel API + Admin)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
 
-## Code of Conduct
+Configure these additional environment variables in `backend/.env` (not
+present by default in `.env.example`):
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```env
+# M-Pesa (Safaricom Daraja API)
+MPESA_ENV=sandbox
+MPESA_CONSUMER_KEY=
+MPESA_CONSUMER_SECRET=
+MPESA_SHORTCODE=
+MPESA_PASSKEY=
+MPESA_CALLBACK_URL=
 
-## Security Vulnerabilities
+# Resend (transactional email)
+RESEND_API_KEY=
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Cloudinary (product images)
+CLOUDINARY_URL=
+```
 
-## License
+An admin user can be created via the `AdminUserSeeder` (included in
+`php artisan migrate --seed`).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Frontend (React storefront)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Set the API base URL in `frontend/.env.local`:
+
+```env
+VITE_API_URL=http://localhost:8000/api
+```
+
+## Testing
+
+Backend tests run via PHPUnit:
+
+```bash
+cd backend
+php artisan test
+```
+
+> Note: test coverage currently consists of Laravel's default example tests.
+> Feature tests around order creation, stock deduction, and the M-Pesa
+> callback flow are a planned next step.
+
+## Roadmap / Known Gaps
+
+- [ ] Feature tests for order flow and M-Pesa callback handling
+- [ ] CI pipeline (lint + test on push)
+- [ ] Document `.env.example` fully (M-Pesa, Resend, Cloudinary keys)
