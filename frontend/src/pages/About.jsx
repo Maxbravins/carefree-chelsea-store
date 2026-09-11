@@ -92,7 +92,7 @@ export default function About() {
 
                         <div className="rounded-3xl overflow-hidden shadow-2xl">
                             <img
-                                src="public/images/AboutUs.jpg"
+                                src="assets/images/about-us.jpg"
                                 alt="About Us"
                                 className="w-full h-[420px] object-cover"
                             />
