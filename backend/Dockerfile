@@ -12,7 +12,7 @@ RUN composer install --no-dev --working-dir=/var/www/html --no-interaction --opt
     && chown -R nginx:nginx storage bootstrap/cache \
     && chmod -R ug+rwX storage bootstrap/cache
 
-    RUN apt-get update && apt-get install -y libpq-dev \
+    RUN apk add --no-cache postgresql-dev \
     && docker-php-ext-install pdo_pgsql pgsql
 
 ENV WEBROOT=/var/www/html/public
