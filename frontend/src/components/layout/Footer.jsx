@@ -31,7 +31,7 @@ export default function Footer() {
                         </p>
 
                         <h2 className="text-4xl font-black mt-3">
-                            Join the Chelsea Family
+                            Join the Football Family
                         </h2>
 
                         <p className="text-blue-100 mt-4 max-w-lg">
@@ -75,18 +75,17 @@ export default function Footer() {
 
                         <img
                             src="/images/logo1.png"
-                            alt="Chelsea"
+                            alt="The Jersey Room"
                             className="w-20 mb-5"
                         />
 
                         <h2 className="text-2xl font-black">
-                            Carefree Chelsea
+                            The Jersey Room
                         </h2>
 
                         <p className="text-blue-100 mt-5 leading-8">
-                            Kenya's trusted Chelsea merchandise store.
-                            Authentic jerseys, accessories,
-                            collectibles and official fan wear.
+                            Kenya's home for club and national team jerseys.
+                            Find club colours and national pride in one place.
                         </p>
 
                     </div>
@@ -115,6 +114,10 @@ export default function Footer() {
 
                             <Link to="/checkout" className="block hover:text-yellow-400">
                                 Checkout
+                            </Link>
+
+                            <Link to="/help" className="block hover:text-yellow-400">
+                                Help & FAQs
                             </Link>
 
                         </div>
@@ -196,7 +199,7 @@ export default function Footer() {
                 <div className="border-t border-white/10 mt-16 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
 
                     <p className="text-blue-200">
-                        © {new Date().getFullYear()} Carefree Chelsea Store.
+                        © {new Date().getFullYear()} The Jersey Room.
                         All Rights Reserved.
                     </p>
 

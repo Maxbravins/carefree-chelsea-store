@@ -67,7 +67,7 @@ export default function ProductCard({ product }) {
 
                 {product.category && (
                     <span className="absolute left-3 top-3 rounded-full bg-[#034694]/95 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow">
-                        {product.category}
+                        {product.team || product.category}
                     </span>
                 )}
 
@@ -120,7 +120,7 @@ export default function ProductCard({ product }) {
 
                 <p className="mt-1.5 line-clamp-2 min-h-[2.5rem] text-xs leading-relaxed text-slate-500">
                     {product.description ||
-                        "Official Chelsea Football Club merchandise."}
+                        "Quality football jerseys for every supporter."}
                 </p>
 
                 <div className="mt-4 flex items-end justify-between gap-3">

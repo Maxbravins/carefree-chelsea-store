@@ -13,6 +13,7 @@ import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import Newsletter from "./components/home/Newsletter";
 import Wishlist from "./pages/Wishlist";
+import Help from "./pages/Help";
 
 function App() {
     return (
@@ -42,6 +43,11 @@ function App() {
                     <Route
                         path="/contact"
                         element={<Contact />}
+                    />
+
+                    <Route
+                        path="/help"
+                        element={<Help />}
                     />
 
                     <Route

@@ -13,7 +13,7 @@ export default function Newsletter() {
 
     try {
       await api.post("/subscribers", { email });
-      toast.success("You have successfully subscribed to Carefree Chelsea! 💙");
+      toast.success("You are subscribed to The Jersey Room! 💙");
       setEmail("");
     } catch (error) {
       console.error(error);
@@ -44,12 +44,12 @@ export default function Newsletter() {
 
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mt-8 leading-tight">
           Never Miss A
-          <span className="block text-yellow-400">Chelsea Drop</span>
+          <span className="block text-yellow-400">Jersey Drop</span>
         </h2>
 
         <p className="text-blue-100 text-base sm:text-lg md:text-xl leading-7 sm:leading-8 md:leading-9 mt-8 max-w-3xl mx-auto">
-          Join thousands of Chelsea supporters and be the first to know about
-          new kits, exclusive offers, limited editions and matchday promotions.
+          Join football fans across Kenya and be the first to know about new
+          club and country kits, limited editions and matchday offers.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-14 max-w-3xl mx-auto">

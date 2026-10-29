@@ -44,7 +44,7 @@ export default function Cart() {
 
                     <p className="text-gray-500 mt-4">
 
-                        Browse our latest Chelsea collection.
+                        Browse club and national team jerseys.
 
                     </p>
 

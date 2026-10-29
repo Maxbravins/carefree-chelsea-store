@@ -151,7 +151,7 @@ export default function Product() {
 
                         <span className="bg-[#034694] text-white px-4 py-2 rounded-full text-sm font-semibold">
 
-                            {product.category}
+                            {product.team || product.category}
 
                         </span>
 
@@ -214,7 +214,7 @@ export default function Product() {
 
                                 <span>
 
-                                    100% Authentic Chelsea Merchandise
+                                    Quality jersey for your team
 
                                 </span>
 

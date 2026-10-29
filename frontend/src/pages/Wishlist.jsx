@@ -32,7 +32,7 @@ export default function Wishlist() {
 
                     <p className="text-gray-500 mt-4">
 
-                        Save your favorite Chelsea gear for later.
+                        Save your favourite team jerseys for later.
 
                     </p>
 

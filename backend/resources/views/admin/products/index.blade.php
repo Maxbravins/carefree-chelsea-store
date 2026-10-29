@@ -5,7 +5,7 @@
 <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
     <div>
         <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Product Catalog</h1>
-        <p class="text-sm text-slate-500 mt-1">Manage all products available in the Carefree Chelsea online store.</p>
+        <p class="text-sm text-slate-500 mt-1">Manage club and national team jerseys in The Jersey Room catalog.</p>
     </div>
     <div>
         <a href="{{ route('admin.products.create') }}"
@@ -102,4 +102,4 @@
     @endif
 </div>
 
-@endsection
+@endsection

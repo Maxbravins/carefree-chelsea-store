@@ -183,7 +183,7 @@ export default function Contact() {
                             <p className="text-gray-600 leading-7 mt-6">
                                 Whether you need help choosing the right
                                 jersey, checking an order or simply want to
-                                talk Chelsea, send us a message.
+                                talk football, send us a message.
                             </p>
 
                             <div className="space-y-6 mt-10">

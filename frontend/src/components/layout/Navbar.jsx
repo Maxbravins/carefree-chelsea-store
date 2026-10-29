@@ -37,18 +37,18 @@ export default function Navbar() {
                     >
                         <img
                             src="/images/logo1.png"
-                            alt="Chelsea"
+                            alt="The Jersey Room"
                             className="w-12 h-12 rounded-full"
                         />
 
                         <div>
 
                             <h1 className="font-black text-xl text-[#034694]">
-                                Carefree Chelsea
+                                The Jersey Room
                             </h1>
 
                             <p className="text-xs text-gray-500">
-                                Official Fan Store
+                                Club & Country Jerseys
                             </p>
 
                         </div>
@@ -85,6 +85,13 @@ export default function Navbar() {
                             className={navLink}
                         >
                             Contact
+                        </NavLink>
+
+                        <NavLink
+                            to="/help"
+                            className={navLink}
+                        >
+                            Help
                         </NavLink>
 
                     </nav>
@@ -233,6 +240,14 @@ export default function Navbar() {
                             onClick={() => setMobileOpen(false)}
                         >
                             Checkout
+                        </NavLink>
+
+                        <NavLink
+                            to="/help"
+                            className={navLink}
+                            onClick={() => setMobileOpen(false)}
+                        >
+                            Help & FAQs
                         </NavLink>
 
                     </div>

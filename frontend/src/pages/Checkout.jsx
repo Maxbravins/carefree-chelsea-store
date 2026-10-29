@@ -408,7 +408,7 @@ export default function Checkout() {
                           src={
                             item.image_url ||
                             item.image ||
-                            "/images/chelsea-home.jpg"
+                            "/images/chelsea-nike-home.avif"
                           }
                           alt={item.name}
                           className="h-16 w-16 rounded-lg border object-cover"

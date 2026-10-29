@@ -22,7 +22,7 @@ const reviews = [
     name: "Kevin Mutua",
     location: "Mombasa",
     review:
-      "Excellent customer service and genuine Chelsea merchandise. The M-Pesa checkout was smooth and delivery was quick.",
+      "Excellent customer service and a smooth M-Pesa checkout. My jersey arrived quickly and exactly as ordered.",
     image: "https://i.pravatar.cc/150?img=68",
   },
 ];
@@ -39,13 +39,12 @@ export default function Reviews() {
           </span>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mt-8 leading-tight">
-            Loved By Chelsea Fans
+            Loved By Football Fans
           </h2>
 
           <p className="text-gray-600 text-base sm:text-lg leading-7 sm:leading-8 mt-6">
-            Thousands of Chelsea supporters trust Carefree Chelsea Store for
-            premium quality merchandise, secure payments and exceptional
-            customer service.
+            Football supporters trust The Jersey Room for quality jerseys,
+            secure payments and reliable delivery across Kenya.
           </p>
         </div>
 

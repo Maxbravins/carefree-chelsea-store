@@ -34,6 +34,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
+            'team' => 'required|string|max:100',
+            'team_type' => 'required|in:club,national',
             'description' => 'required',
             'price' => 'required|numeric|min:1',
             'category' => 'required',
@@ -50,7 +52,9 @@ class ProductController extends Controller
 
         Product::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'team' => $request->team,
+            'team_type' => $request->team_type,
+            'slug' => Str::slug($request->team . '-' . $request->name),
             'description' => $request->description,
             'price' => $request->price,
             'category' => $request->category,
@@ -79,6 +83,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
+            'team' => 'required|string|max:100',
+            'team_type' => 'required|in:club,national',
             'description' => 'required',
             'price' => 'required|numeric|min:1',
             'category' => 'required',
@@ -95,7 +101,9 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'team' => $request->team,
+            'team_type' => $request->team_type,
+            'slug' => Str::slug($request->team . '-' . $request->name),
             'description' => $request->description,
             'price' => $request->price,
             'category' => $request->category,

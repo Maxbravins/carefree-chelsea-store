@@ -1,101 +1,16 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Flag, Globe2, Shield, Shirt } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import awayKit from "../../assets/chelsea-nike-away-stadium-shirt-2025-26.avif";
-import homeKit from "../../assets/chelsea-nike-home.avif";
-import trainingKit from "../../assets/chelsea-nike-strike-training.avif";
-import thirdKit from "../../assets/chelsea-nike-third-stadium-shirt.avif";
-
 const collections = [
-  {
-    title: "Home Kit",
-    image: homeKit,
-    description: "Wear the iconic Chelsea blue for the new season.",
-  },
-  {
-    title: "Away Kit",
-    image: awayKit,
-    description: "Designed for unforgettable away nights.",
-  },
-  {
-    title: "Third Kit",
-    image: thirdKit,
-    description: "Bold design inspired by London's culture.",
-  },
-  {
-    title: "Training Wear",
-    image: trainingKit,
-    description: "Train like the Blues every single day.",
-  },
+  { title: "Club Jerseys", description: "Represent your club on matchday and beyond.", label: "Club football", icon: Shield, tone: "from-blue-950 to-blue-700" },
+  { title: "National Teams", description: "Wear your country's colours with pride.", label: "International football", icon: Flag, tone: "from-emerald-950 to-emerald-700" },
+  { title: "Home & Away Kits", description: "The latest home, away and third shirts.", label: "New season", icon: Shirt, tone: "from-slate-950 to-slate-700" },
+  { title: "Retro & Classics", description: "Classic shirts from unforgettable eras.", label: "Fan favourites", icon: Globe2, tone: "from-amber-950 to-orange-700" },
 ];
 
 export default function Collections() {
-  return (
-    <section className="bg-white py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-14 gap-6">
-          <div>
-            <p className="uppercase tracking-[0.2em] sm:tracking-[0.35em] text-[#034694] font-semibold text-xs sm:text-sm">
-              Collections
-            </p>
-
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mt-3 leading-tight">
-              Shop By Collection
-            </h2>
-
-            <p className="text-gray-500 mt-5 max-w-2xl text-sm sm:text-base">
-              Discover authentic Chelsea FC merchandise designed for every
-              supporter.
-            </p>
-          </div>
-
-          <Link
-            to="/shop"
-            className="hidden md:flex items-center gap-2 font-bold text-[#034694] hover:text-yellow-500 transition"
-          >
-            View All
-            <ArrowRight size={18} />
-          </Link>
-        </div>
-
-        <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-8">
-          {collections.map((item) => (
-            <Link
-              key={item.title}
-              to="/shop"
-              className="group relative rounded-3xl overflow-hidden h-[420px] sm:h-[460px] md:h-[500px] shadow-lg hover:shadow-2xl transition duration-500"
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 duration-700"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
-
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <span className="inline-block bg-white/20 backdrop-blur-md text-white px-4 py-1 rounded-full text-xs uppercase tracking-widest mb-4">
-                  Official Collection
-                </span>
-
-                <h3 className="text-3xl font-black text-white">{item.title}</h3>
-
-                <p className="text-gray-200 mt-3 leading-7">
-                  {item.description}
-                </p>
-
-                <div className="mt-8 inline-flex items-center gap-2 bg-white text-[#034694] px-6 py-3 rounded-xl font-bold group-hover:bg-yellow-400 transition">
-                  Shop Now
-                  <ArrowRight
-                    size={18}
-                    className="group-hover:translate-x-1 duration-300"
-                  />
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  return <section className="bg-white py-20 sm:py-24"><div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <div className="mb-10 flex flex-col gap-5 sm:mb-12 md:flex-row md:items-end md:justify-between"><div><p className="text-xs font-extrabold uppercase tracking-[0.24em] text-[#034694]">Find your colours</p><h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl md:text-5xl">A shirt for every side</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">From your club to your country, find the jersey you want to wear.</p></div><Link to="/shop" className="inline-flex w-fit items-center gap-2 font-bold text-[#034694] hover:gap-3">Explore all jerseys <ArrowRight size={18} /></Link></div>
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{collections.map(({ title, description, label, icon: Icon, tone }) => <Link key={title} to="/shop" className={`group relative flex min-h-64 flex-col justify-between overflow-hidden rounded-3xl bg-gradient-to-br ${tone} p-6 text-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl`}><div className="absolute -right-9 -top-9 h-40 w-40 rounded-full border border-white/10 transition-transform duration-500 group-hover:scale-125" /><div className="relative flex items-start justify-between"><span className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-widest">{label}</span><Icon size={23} className="text-white/80" /></div><div className="relative"><h3 className="text-2xl font-black">{title}</h3><p className="mt-2 text-sm leading-6 text-white/75">{description}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-bold">Browse collection <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span></div></Link>)}</div>
+  </div></section>;
 }

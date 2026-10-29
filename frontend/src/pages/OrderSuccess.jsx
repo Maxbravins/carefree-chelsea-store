@@ -22,7 +22,7 @@ export default function OrderSuccess() {
                 </h1>
 
                 <p className="text-gray-600 mt-6 leading-8">
-                    Thank you for shopping with Carefree Chelsea
+                    Thank you for shopping with The Jersey Room
                     Store. Your M-Pesa payment has been confirmed
                     and your order has been received successfully.
                 </p>

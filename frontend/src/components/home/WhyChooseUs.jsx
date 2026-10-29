@@ -19,8 +19,8 @@ const features = [
   },
   {
     icon: BadgeCheck,
-    title: "Official Chelsea Quality",
-    text: "Premium Chelsea merchandise crafted to official standards for every supporter.",
+    title: "Jerseys for every side",
+    text: "Find shirts from club teams and national sides in one supporter focused store.",
   },
   {
     icon: RotateCcw,
@@ -50,13 +50,12 @@ export default function WhyChooseUs() {
 
           <h2 className="mt-8 text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight">
             Built For Every
-            <span className="block text-yellow-400">Chelsea Supporter</span>
+            <span className="block text-yellow-400">Football Supporter</span>
           </h2>
 
           <p className="mt-8 text-base sm:text-lg md:text-xl leading-7 sm:leading-8 md:leading-9 text-blue-100">
-            We combine premium quality merchandise, secure payments and fast
-            nationwide delivery to provide the ultimate Chelsea shopping
-            experience.
+            We bring club and national team jerseys together with secure
+            payments and delivery to supporters across Kenya.
           </p>
         </div>
 
@@ -118,7 +117,7 @@ export default function WhyChooseUs() {
                   <CheckCircle2 size={20} className="text-green-600" />
 
                   <span className="font-semibold text-[#034694]">
-                    Trusted by Chelsea Fans
+                    Trusted by Football Fans
                   </span>
                 </div>
               </div>
