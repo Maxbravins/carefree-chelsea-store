@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Status Update - Carefree Chelsea Store</title>
+    <title>Order Status Update - Kit Sphere</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 0; color: #1e293b; }
         .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
@@ -20,7 +20,7 @@
 <body>
     <div class="wrapper">
         <div class="header">
-            <h1>Carefree Chelsea Store</h1>
+            <h1>Kit Sphere</h1>
             <p>Order Status Update</p>
         </div>
         <div class="body-content">
@@ -38,10 +38,10 @@
                 Destination: {{ $order->town }}, {{ $order->county }}
             </div>
 
-            <p style="color: #475569; line-height: 1.6;">Thank you for shopping with Carefree Chelsea Store. If you have any inquiries regarding your package, reply directly to this email.</p>
+            <p style="color: #475569; line-height: 1.6;">Thank you for shopping with Kit Sphere. If you have any inquiries regarding your package, reply directly to this email.</p>
         </div>
         <div class="footer">
-            &copy; {{ date('Y') }} Carefree Chelsea Store — Official Fan Store Kenya.
+            &copy; {{ date('Y') }} Kit Sphere — Club & Country Jerseys.
         </div>
     </div>
 </body>

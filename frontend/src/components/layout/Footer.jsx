@@ -5,59 +5,33 @@ import {
     ArrowRight,
 } from "lucide-react";
 
-import {
-    FaFacebookF,
-    FaInstagram,
-    FaTwitter,
-    FaYoutube,
-} from "react-icons/fa";
-
 import { Link } from "react-router-dom";
 
 export default function Footer() {
     return (
-        <footer className="bg-[#021B3A] text-white mt-24">
+        <footer className="mt-16 bg-[#071a35] text-white sm:mt-20">
 
             {/* Newsletter */}
 
             <div className="border-b border-white/10">
 
-                <div className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-10 items-center">
+                <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between">
 
                     <div>
 
-                        <p className="uppercase tracking-widest text-blue-300">
-                            Stay Updated
-                        </p>
-
-                        <h2 className="text-4xl font-black mt-3">
-                            Join the Football Family
-                        </h2>
-
-                        <p className="text-blue-100 mt-4 max-w-lg">
-                            Receive exclusive offers, new arrivals,
-                            and matchday merchandise directly in your inbox.
+                        <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-blue-200">
+                            New arrivals by email
                         </p>
 
                     </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
-
-                    <input
-                        type="email"
-                        placeholder="Enter your email"
-                        className="flex-1 rounded-xl px-5 py-4 text-black outline-none"
-                    />
-
                     <Link
                         to="/newsletter"
-                        className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 transition"
+                        className="inline-flex items-center justify-center gap-2 border border-white/40 px-5 py-3 text-sm font-bold transition hover:bg-white hover:text-[#071a35]"
                     >
-                        Subscribe
+                        Sign up to the newsletter
                         <ArrowRight size={18} />
                     </Link>
-
-                </div>
 
                 </div>
 
@@ -73,14 +47,10 @@ export default function Footer() {
 
                     <div>
 
-                        <img
-                            src="/images/logo1.png"
-                            alt="The Jersey Room"
-                            className="w-20 mb-5"
-                        />
+                        <span aria-hidden="true" className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-white font-serif text-xl font-bold text-[#071a35]">K</span>
 
                         <h2 className="text-2xl font-black">
-                            The Jersey Room
+                            Kit Sphere
                         </h2>
 
                         <p className="text-blue-100 mt-5 leading-8">
@@ -100,24 +70,32 @@ export default function Footer() {
 
                         <div className="space-y-4">
 
-                            <Link to="/" className="block hover:text-yellow-400">
+                            <Link to="/" className="block text-blue-100 transition hover:text-white">
                                 Home
                             </Link>
 
-                            <Link to="/shop" className="block hover:text-yellow-400">
+                            <Link to="/shop" className="block text-blue-100 transition hover:text-white">
                                 Shop
                             </Link>
 
-                            <Link to="/cart" className="block hover:text-yellow-400">
+                            <Link to="/cart" className="block text-blue-100 transition hover:text-white">
                                 Cart
                             </Link>
 
-                            <Link to="/checkout" className="block hover:text-yellow-400">
+                            <Link to="/checkout" className="block text-blue-100 transition hover:text-white">
                                 Checkout
                             </Link>
 
-                            <Link to="/help" className="block hover:text-yellow-400">
+                            <Link to="/help" className="block text-blue-100 transition hover:text-white">
                                 Help & FAQs
+                            </Link>
+
+                            <Link to="/about" className="block text-blue-100 transition hover:text-white">
+                                About
+                            </Link>
+
+                            <Link to="/contact" className="block text-blue-100 transition hover:text-white">
+                                Contact
                             </Link>
 
                         </div>
@@ -133,16 +111,11 @@ export default function Footer() {
                         </h3>
 
                         <div className="space-y-4">
-
-                            <p>Home Kits</p>
-
-                            <p>Away Kits</p>
-
-                            <p>Third Kits</p>
-
-                            <p>Retro Jerseys</p>
-
-                            <p>Training Wear</p>
+                            <Link to="/shop?category=Home%20Kit" className="block text-blue-100 transition hover:text-white">Home kits</Link>
+                            <Link to="/shop?category=Away%20Kit" className="block text-blue-100 transition hover:text-white">Away kits</Link>
+                            <Link to="/shop?category=Third%20Kit" className="block text-blue-100 transition hover:text-white">Third kits</Link>
+                            <Link to="/shop?category=Retro%20Kit" className="block text-blue-100 transition hover:text-white">Retro jerseys</Link>
+                            <Link to="/shop?category=Training" className="block text-blue-100 transition hover:text-white">Training wear</Link>
 
                         </div>
 
@@ -196,44 +169,14 @@ export default function Footer() {
 
                 {/* Social */}
 
-                <div className="border-t border-white/10 mt-16 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm md:flex-row">
 
                     <p className="text-blue-200">
-                        © {new Date().getFullYear()} The Jersey Room.
+                        © {new Date().getFullYear()} Kit Sphere.
                         All Rights Reserved.
                     </p>
 
-                    <div className="flex gap-5">
-
-                        <a
-                            href="#"
-                            className="hover:text-yellow-400"
-                        >
-                            <FaFacebookF />
-                        </a>
-
-                        <a
-                            href="#"
-                            className="hover:text-yellow-400"
-                        >
-                            <FaInstagram />
-                        </a>
-
-                        <a
-                            href="#"
-                            className="hover:text-yellow-400"
-                        >
-                            <FaTwitter />
-                        </a>
-
-                        <a
-                            href="#"
-                            className="hover:text-yellow-400"
-                        >
-                            <FaYoutube />
-                        </a>
-
-                    </div>
+                    <Link to="/contact" className="font-semibold text-blue-100 transition hover:text-white">Questions? Contact us</Link>
 
                 </div>
 

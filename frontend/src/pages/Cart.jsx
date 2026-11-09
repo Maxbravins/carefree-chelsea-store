@@ -27,22 +27,22 @@ export default function Cart() {
 
         return (
 
-            <section className="min-h-screen flex items-center justify-center bg-gray-50">
+            <section className="flex min-h-[65vh] items-center justify-center bg-[#f8f7f3] px-4 py-16">
 
                 <div className="text-center">
 
                     <ShoppingBag
-                        size={90}
+                        size={48}
                         className="mx-auto text-[#034694]"
                     />
 
-                    <h2 className="text-4xl font-black mt-8">
+                    <h2 className="mt-6 font-serif text-3xl font-bold text-[#111820] sm:text-4xl">
 
                         Your Cart Is Empty
 
                     </h2>
 
-                    <p className="text-gray-500 mt-4">
+                    <p className="mt-3 text-slate-600">
 
                         Browse club and national team jerseys.
 
@@ -50,7 +50,7 @@ export default function Cart() {
 
                     <Link
                         to="/shop"
-                        className="inline-flex items-center gap-3 mt-10 bg-[#034694] hover:bg-[#012A57] text-white px-8 py-4 rounded-xl font-bold transition"
+                        className="mt-8 inline-flex items-center gap-3 bg-[#071a35] px-6 py-3.5 font-bold text-white transition hover:bg-[#034694]"
                     >
 
                         Continue Shopping
@@ -69,38 +69,40 @@ export default function Cart() {
 
     return (
 
-        <section className="bg-gray-50 py-10 sm:py-16 lg:py-20">
+        <section className="bg-[#f8f7f3] py-8 sm:py-12 lg:py-16">
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-8 sm:mb-14">
-
-                    Shopping Cart
-
-                </h1>
+                <div className="mb-8 flex items-end justify-between gap-4 sm:mb-10">
+                    <div>
+                        <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#034694]">Your selection</p>
+                        <h1 className="mt-2 font-serif text-3xl font-bold text-[#111820] sm:text-4xl lg:text-5xl">Shopping bag</h1>
+                    </div>
+                    <span className="text-sm font-semibold text-slate-500">{cart.length} {cart.length === 1 ? "item" : "items"}</span>
+                </div>
 
                 <div className="grid lg:grid-cols-3 gap-8 sm:gap-12">
 
                     {/* Cart */}
 
-                    <div className="lg:col-span-2 space-y-6 sm:space-y-8">
+                    <div className="lg:col-span-2">
 
                         {cart.map((item) => (
 
                             <div
                                 key={`${item.id}-${item.size}`}
-                                className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 flex flex-col sm:flex-row gap-6"
+                                className="flex flex-col gap-5 border-y border-slate-300 py-5 sm:flex-row sm:gap-7"
                             >
 
                                 <img
                                     src={item.image_url}
                                     alt={item.name}
-                                    className="w-full sm:w-48 h-56 sm:h-48 object-cover rounded-2xl"
+                                    className="h-56 w-full bg-[#eeece5] object-contain sm:h-48 sm:w-44"
                                 />
 
                                 <div className="flex-1">
 
-                                    <h2 className="text-xl sm:text-2xl font-black">
+                                    <h2 className="font-bold text-slate-900 sm:text-lg">
 
                                         {item.name}
 
@@ -110,15 +112,15 @@ export default function Cart() {
 
                                         {item.category}
                                         {item.size && (
-                                            <span className="ml-2 inline-block bg-gray-100 text-gray-700 px-2 py-0.5 rounded-md text-xs sm:text-sm font-semibold">
+                                            <span className="ml-2 inline-block border border-slate-300 bg-white px-2 py-0.5 text-xs font-semibold text-slate-700 sm:text-sm">
                                                 Size {item.size}
                                             </span>
                                         )}
                                     </p>
 
-                                    <p className="text-[#034694] text-2xl sm:text-3xl font-black mt-4 sm:mt-6">
+                                    <p className="mt-4 text-xl font-extrabold text-[#034694] sm:mt-6 sm:text-2xl">
 
-                                        KES {Number(item.price).toLocaleString()}
+                                        KSh {Number(item.price).toLocaleString()}
 
                                     </p>
 
@@ -126,7 +128,7 @@ export default function Cart() {
 
                                         <button
                                             onClick={() => decreaseQuantity(item.id, item.size)}
-                                            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"
+                                            className="flex h-9 w-9 items-center justify-center border border-slate-300 bg-white transition hover:bg-slate-100"
                                             aria-label="Decrease quantity"
                                         >
                                             <Minus size={18} />
@@ -140,7 +142,7 @@ export default function Cart() {
 
                                         <button
                                             onClick={() => increaseQuantity(item.id, item.size)}
-                                            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"
+                                            className="flex h-9 w-9 items-center justify-center border border-slate-300 bg-white transition hover:bg-slate-100"
                                             aria-label="Increase quantity"
                                         >
                                             <Plus size={18} />
@@ -150,11 +152,11 @@ export default function Cart() {
 
                                 </div>
 
-                                <div className="flex flex-row sm:flex-col justify-between items-center sm:items-end pt-4 sm:pt-0 border-t sm:border-0 border-gray-100">
+                                <div className="flex flex-row items-center justify-between border-t border-slate-200 pt-3 sm:flex-col sm:items-end sm:justify-between sm:border-0 sm:pt-0">
 
                                     <button
                                         onClick={() => removeFromCart(item.id, item.size)}
-                                        className="text-red-600 hover:text-red-700 p-2"
+                                        className="p-2 text-slate-500 transition hover:text-red-700"
                                         aria-label="Remove item"
                                     >
 
@@ -162,9 +164,9 @@ export default function Cart() {
 
                                     </button>
 
-                                    <h3 className="text-2xl sm:text-3xl font-black text-slate-900">
+                                    <h3 className="text-lg font-extrabold text-slate-900 sm:mt-auto sm:text-xl">
 
-                                        KES {(item.price * item.quantity).toLocaleString()}
+                                        KSh {(item.price * item.quantity).toLocaleString()}
 
                                     </h3>
 
@@ -180,9 +182,9 @@ export default function Cart() {
 
                     <div>
 
-                        <div className="bg-white rounded-3xl shadow-lg p-8 sticky top-24">
+                        <div className="sticky top-24 border border-slate-200 bg-white p-5 sm:p-7">
 
-                            <h2 className="text-3xl font-black">
+                            <h2 className="font-serif text-2xl font-bold text-[#111820]">
 
                                 Order Summary
 
@@ -194,7 +196,7 @@ export default function Cart() {
 
                                 <span>
 
-                                    KES {total.toLocaleString()}
+                                    KSh {total.toLocaleString()}
 
                                 </span>
 
@@ -220,7 +222,7 @@ export default function Cart() {
 
                                 <span>
 
-                                    KES {total.toLocaleString()}
+                                    KSh {total.toLocaleString()}
 
                                 </span>
 
@@ -228,7 +230,7 @@ export default function Cart() {
 
                             <Link
                                 to="/checkout"
-                                className="mt-10 flex justify-center items-center gap-3 w-full bg-[#034694] hover:bg-[#012A57] text-white py-5 rounded-xl font-bold transition"
+                                className="mt-8 flex w-full items-center justify-center gap-3 bg-[#071a35] py-4 font-bold text-white transition hover:bg-[#034694]"
                             >
 
                                 Proceed To Checkout

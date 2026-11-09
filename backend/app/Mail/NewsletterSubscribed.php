@@ -17,7 +17,7 @@ class NewsletterSubscribed extends Mailable
     public function build()
     {
         return $this
-            ->subject('Welcome to Carefree Chelsea 💙')
+            ->subject('Welcome to Kit Sphere 💙')
             ->view('emails.newsletter-subscribed');
     }
 }

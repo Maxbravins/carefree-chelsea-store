@@ -25,7 +25,7 @@ class PaymentReceiptMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Payment Received — Order #{$this->order->id} | Carefree Chelsea Store",
+            subject: "Payment Received — Order #{$this->order->id} | Kit Sphere",
         );
     }
 

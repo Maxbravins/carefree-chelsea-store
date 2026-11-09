@@ -37,7 +37,7 @@ export default function Help() {
       <section className="bg-[#071a35] px-4 py-16 text-center text-white sm:py-20">
         <div className="mx-auto max-w-3xl">
           <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-yellow-400"><CircleHelp size={26} /></span>
-          <p className="mt-5 text-xs font-extrabold uppercase tracking-[0.24em] text-blue-200">The Jersey Room support</p>
+          <p className="mt-5 text-xs font-extrabold uppercase tracking-[0.24em] text-blue-200">Kit Sphere support</p>
           <h1 className="mt-3 text-4xl font-black sm:text-5xl">How can we help?</h1>
           <p className="mx-auto mt-4 max-w-xl leading-7 text-blue-100">Answers about finding your jersey, sizing, payment, delivery and returns.</p>
         </div>

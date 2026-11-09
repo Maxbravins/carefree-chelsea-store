@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Welcome to Carefree Chelsea</title>
+    <title>Welcome to Kit Sphere</title>
 </head>
 
 <body style="margin:0; padding:0; background:#f4f7fb; font-family:Arial, Helvetica, sans-serif;">
@@ -15,7 +15,7 @@
         <div style="background:#021B3A; padding:35px; text-align:center;">
 
             <h1 style="color:#ffffff; margin:0; font-size:30px;">
-                Carefree Chelsea
+                Kit Sphere
             </h1>
 
             <p style="color:#9ec5ff; margin:10px 0 0;">
@@ -34,7 +34,7 @@
             </h2>
 
             <p style="color:#444; font-size:16px; line-height:1.7;">
-                Thank you for subscribing to the Carefree Chelsea newsletter.
+                Thank you for subscribing to the Kit Sphere newsletter.
             </p>
 
             <p style="color:#444; font-size:16px; line-height:1.7;">
@@ -49,7 +49,7 @@
                     href="{{ config('app.url') }}"
                     style="display:inline-block; background:#034694; color:#ffffff; text-decoration:none; padding:15px 30px; border-radius:10px; font-weight:bold;"
                 >
-                    Visit Carefree Chelsea
+                    Visit Kit Sphere
                 </a>
 
             </div>
@@ -66,7 +66,7 @@
         <div style="background:#021B3A; padding:25px; text-align:center;">
 
             <p style="color:#9ec5ff; margin:0; font-size:13px;">
-                © {{ date('Y') }} Carefree Chelsea Store.
+                © {{ date('Y') }} Kit Sphere.
                 All Rights Reserved.
             </p>
 

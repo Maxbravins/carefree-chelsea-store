@@ -217,13 +217,13 @@ export default function Checkout() {
 
 
   return (
-    <section className="bg-gray-50 py-20">
+    <section className="bg-[#f8f7f3] py-8 sm:py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <h1 className="mb-4 text-4xl font-black leading-tight sm:text-5xl">
+        <h1 className="mb-5 font-serif text-4xl font-bold leading-tight text-[#111820] sm:text-5xl">
           Secure Checkout
         </h1>
 
-        <div className="mb-10 flex items-center gap-3 text-sm font-semibold">
+        <div className="mb-8 flex items-center gap-3 border-b border-slate-300 pb-4 text-sm font-semibold">
           <span
             className={
               step === 1 ? "text-[#034694]" : "text-gray-400"
@@ -248,9 +248,9 @@ export default function Checkout() {
             {step === 1 && (
               <form
                 onSubmit={handleContinue}
-                className="rounded-3xl bg-white p-6 shadow-lg sm:p-8 lg:p-10"
+                className="border border-slate-200 bg-white p-5 sm:p-8 lg:p-10"
               >
-                <h2 className="mb-10 text-3xl font-black">
+                <h2 className="mb-8 font-serif text-2xl font-bold text-[#111820] sm:text-3xl">
                   Delivery Information
                 </h2>
 
@@ -261,7 +261,7 @@ export default function Checkout() {
                     required
                     value={form.customer_name}
                     onChange={handleChange}
-                    className="rounded-xl border px-5 py-4 outline-none focus:ring-2 focus:ring-[#034694]"
+                    className="border border-slate-300 bg-[#fbfaf7] px-4 py-3.5 outline-none focus:border-[#034694]"
                   />
 
                   <input
@@ -270,7 +270,7 @@ export default function Checkout() {
                     placeholder="Email (for order confirmation)"
                     value={form.email}
                     onChange={handleChange}
-                    className="rounded-xl border px-5 py-4 outline-none focus:ring-2 focus:ring-[#034694]"
+                    className="border border-slate-300 bg-[#fbfaf7] px-4 py-3.5 outline-none focus:border-[#034694]"
                   />
 
                   <input
@@ -279,7 +279,7 @@ export default function Checkout() {
                     required
                     value={form.phone}
                     onChange={handleChange}
-                    className="rounded-xl border px-5 py-4 outline-none focus:ring-2 focus:ring-[#034694]"
+                    className="border border-slate-300 bg-[#fbfaf7] px-4 py-3.5 outline-none focus:border-[#034694]"
                   />
 
                   <input
@@ -288,7 +288,7 @@ export default function Checkout() {
                     required
                     value={form.county}
                     onChange={handleChange}
-                    className="rounded-xl border px-5 py-4 outline-none focus:ring-2 focus:ring-[#034694]"
+                    className="border border-slate-300 bg-[#fbfaf7] px-4 py-3.5 outline-none focus:border-[#034694]"
                   />
 
                   <input
@@ -297,7 +297,7 @@ export default function Checkout() {
                     required
                     value={form.town}
                     onChange={handleChange}
-                    className="rounded-xl border px-5 py-4 outline-none focus:ring-2 focus:ring-[#034694]"
+                    className="border border-slate-300 bg-[#fbfaf7] px-4 py-3.5 outline-none focus:border-[#034694]"
                   />
                 </div>
 
@@ -308,12 +308,12 @@ export default function Checkout() {
                   required
                   value={form.address}
                   onChange={handleChange}
-                  className="mt-6 w-full rounded-xl border px-5 py-4 outline-none focus:ring-2 focus:ring-[#034694]"
+                className="mt-6 w-full border border-slate-300 bg-[#fbfaf7] px-4 py-3.5 outline-none focus:border-[#034694]"
                 />
 
                 <button
                   type="submit"
-                  className="mt-10 w-full rounded-xl bg-[#034694] py-5 text-lg font-bold text-white transition hover:bg-[#012A57]"
+                className="mt-8 w-full bg-[#071a35] py-4 text-base font-bold text-white transition hover:bg-[#034694]"
                 >
                   Continue to Payment
                 </button>
@@ -323,7 +323,7 @@ export default function Checkout() {
             {step === 2 && (
               <div className="space-y-6">
                 {paymentWaiting && (
-                  <div className="rounded-3xl border-2 border-[#034694]/20 bg-blue-50 p-8 text-center shadow-lg">
+                  <div className="border-y border-[#034694]/30 bg-[#f2f0e9] p-6 text-center sm:p-8">
                     <Loader2
                       size={48}
                       className="mx-auto animate-spin text-[#034694]"
@@ -339,14 +339,14 @@ export default function Checkout() {
                       confirm your payment.
                     </p>
 
-                    <div className="mt-5 inline-flex rounded-full bg-white px-5 py-2 text-xs font-bold text-[#034694] shadow-sm">
+                    <div className="mt-5 inline-flex border border-slate-300 bg-white px-4 py-2 text-xs font-bold text-[#034694]">
                       Waiting for payment confirmation...
                     </div>
                   </div>
                 )}
 
                 {paymentError && !paymentWaiting && (
-                  <div className="rounded-3xl border border-red-200 bg-red-50 p-6 shadow-sm">
+                  <div className="border border-red-200 bg-red-50 p-6">
                     <h3 className="font-black text-red-800">
                       Payment Not Completed
                     </h3>
@@ -358,14 +358,14 @@ export default function Checkout() {
                     <button
                       type="button"
                       onClick={handlePlaceOrder}
-                      className="mt-5 rounded-xl bg-[#034694] px-6 py-3 font-bold text-white transition hover:bg-[#012A57]"
+                      className="mt-5 bg-[#071a35] px-6 py-3 font-bold text-white transition hover:bg-[#034694]"
                     >
                       Try M-Pesa Again
                     </button>
                   </div>
                 )}
 
-                <div className="rounded-3xl bg-white p-6 shadow-lg sm:p-8">
+                <div className="border border-slate-200 bg-white p-5 sm:p-8">
                   <div className="mb-4 flex items-center justify-between">
                     <h2 className="text-xl font-black">
                       Shipping Address
@@ -393,7 +393,7 @@ export default function Checkout() {
                   </p>
                 </div>
 
-                <div className="rounded-3xl bg-white p-6 shadow-lg sm:p-8">
+                <div className="border border-slate-200 bg-white p-5 sm:p-8">
                   <h2 className="mb-6 text-xl font-black">
                     Items
                   </h2>
@@ -411,7 +411,7 @@ export default function Checkout() {
                             "/images/chelsea-nike-home.avif"
                           }
                           alt={item.name}
-                          className="h-16 w-16 rounded-lg border object-cover"
+                          className="h-16 w-16 border border-slate-200 bg-[#eeece5] object-contain"
                         />
 
                         <div className="flex-1">
@@ -426,7 +426,7 @@ export default function Checkout() {
                         </div>
 
                         <span className="font-bold">
-                          KES{" "}
+                          KSh{" "}
                           {(
                             item.price * item.quantity
                           ).toLocaleString()}
@@ -436,12 +436,12 @@ export default function Checkout() {
                   </div>
                 </div>
 
-                <div className="rounded-3xl bg-white p-6 shadow-lg sm:p-8">
+                <div className="border border-slate-200 bg-white p-5 sm:p-8">
                   <h2 className="mb-6 text-xl font-black">
                     Payment
                   </h2>
 
-                  <div className="flex items-center gap-4 rounded-2xl border-2 border-[#034694] bg-blue-50 p-6">
+                  <div className="flex items-center gap-4 border border-[#034694]/40 bg-[#f2f0e9] p-5">
                     <CreditCard className="text-[#034694]" />
 
                     <div>
@@ -459,7 +459,7 @@ export default function Checkout() {
                     <button
                       onClick={handlePlaceOrder}
                       disabled={loading}
-                      className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-[#034694] py-5 text-lg font-bold text-white transition hover:bg-[#012A57] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="mt-8 flex w-full items-center justify-center gap-2 bg-[#071a35] py-4 text-base font-bold text-white transition hover:bg-[#034694] disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {loading && (
                         <Loader2
@@ -479,8 +479,8 @@ export default function Checkout() {
           </div>
 
           <div>
-            <div className="sticky top-24 rounded-3xl bg-white p-8 shadow-lg">
-              <h2 className="text-3xl font-black">
+            <div className="sticky top-24 border border-slate-200 bg-white p-5 sm:p-7">
+              <h2 className="font-serif text-2xl font-bold text-[#111820]">
                 Order Summary
               </h2>
 
@@ -502,7 +502,7 @@ export default function Checkout() {
                     </div>
 
                     <span>
-                      KES{" "}
+                      KSh{" "}
                       {(
                         item.price * item.quantity
                       ).toLocaleString()}
@@ -516,7 +516,7 @@ export default function Checkout() {
               <div className="flex justify-between">
                 <span>Subtotal</span>
                 <span>
-                  KES {totalPrice.toLocaleString()}
+                  KSh {totalPrice.toLocaleString()}
                 </span>
               </div>
 
@@ -526,7 +526,7 @@ export default function Checkout() {
                 <span>
                   {deliveryFee === 0
                     ? "FREE"
-                    : `KES ${deliveryFee}`}
+                    : `KSh ${deliveryFee}`}
                 </span>
               </div>
 
@@ -534,7 +534,7 @@ export default function Checkout() {
                 <span>Total</span>
 
                 <span>
-                  KES {grandTotal.toLocaleString()}
+                  KSh {grandTotal.toLocaleString()}
                 </span>
               </div>
 

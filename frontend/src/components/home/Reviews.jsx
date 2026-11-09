@@ -43,7 +43,7 @@ export default function Reviews() {
           </h2>
 
           <p className="text-gray-600 text-base sm:text-lg leading-7 sm:leading-8 mt-6">
-            Football supporters trust The Jersey Room for quality jerseys,
+            Football supporters trust Kit Sphere for quality jerseys,
             secure payments and reliable delivery across Kenya.
           </p>
         </div>

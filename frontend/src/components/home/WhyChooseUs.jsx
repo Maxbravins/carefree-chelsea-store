@@ -1,128 +1,47 @@
-import {
-  BadgeCheck,
-  CheckCircle2,
-  RotateCcw,
-  ShieldCheck,
-  Truck,
-} from "lucide-react";
+import { Link } from "react-router-dom";
 
-const features = [
+const notes = [
   {
-    icon: Truck,
-    title: "Fast Nationwide Delivery",
-    text: "Reliable delivery across Kenya within 2–5 business days with order tracking.",
+    number: "01",
+    title: "Choose your side",
+    text: "Browse club collections and national teams in the same shop.",
   },
   {
-    icon: ShieldCheck,
-    title: "Secure M-Pesa Payments",
-    text: "Checkout confidently using secure M-Pesa STK Push with encrypted transactions.",
+    number: "02",
+    title: "Check each shirt",
+    text: "See its price, available stock and delivery estimate before you order.",
   },
   {
-    icon: BadgeCheck,
-    title: "Jerseys for every side",
-    text: "Find shirts from club teams and national sides in one supporter focused store.",
-  },
-  {
-    icon: RotateCcw,
-    title: "Easy Returns",
-    text: "Enjoy a hassle-free 7-day return policy on eligible products.",
+    number: "03",
+    title: "Pay with M-Pesa",
+    text: "Use the mobile money checkout when you are ready.",
   },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#021B3A] via-[#034694] to-[#0055B8] py-28">
-      {/* Background Decoration */}
-
-      <div className="absolute inset-0">
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
-
-        <div className="absolute -bottom-40 -right-32 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Heading */}
-
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-yellow-400 px-4 sm:px-5 py-2 rounded-full uppercase tracking-[0.2em] sm:tracking-[0.35em] text-xs sm:text-sm font-bold">
-            Why Choose Us
-          </span>
-
-          <h2 className="mt-8 text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight">
-            Built For Every
-            <span className="block text-yellow-400">Football Supporter</span>
+    <section className="border-y border-slate-200 bg-[#f2f0e9] py-14 sm:py-18">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-16">
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#034694]">Good to know</p>
+          <h2 className="mt-3 max-w-md font-serif text-3xl font-bold leading-tight text-[#111820] sm:text-4xl">
+            The details that make shopping easier.
           </h2>
-
-          <p className="mt-8 text-base sm:text-lg md:text-xl leading-7 sm:leading-8 md:leading-9 text-blue-100">
-            We bring club and national team jerseys together with secure
-            payments and delivery to supporters across Kenya.
-          </p>
+          <Link to="/help" className="mt-5 inline-flex border-b border-[#034694] pb-1 text-sm font-bold text-[#034694] hover:border-transparent">
+            Read help & FAQs
+          </Link>
         </div>
 
-        {/* Stats */}
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 mt-16 sm:mt-20 mb-16 sm:mb-20">
-          <div className="text-center">
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-yellow-400">
-              5K+
-            </h3>
-
-            <p className="text-blue-100 mt-3">Happy Customers</p>
-          </div>
-
-          <div className="text-center">
-            <h3 className="text-5xl font-black text-yellow-400">100+</h3>
-
-            <p className="text-blue-100 mt-3">Official Products</p>
-          </div>
-
-          <div className="text-center">
-            <h3 className="text-5xl font-black text-yellow-400">24/7</h3>
-
-            <p className="text-blue-100 mt-3">Customer Support</p>
-          </div>
-
-          <div className="text-center">
-            <h3 className="text-5xl font-black text-yellow-400">100%</h3>
-
-            <p className="text-blue-100 mt-3">Secure Checkout</p>
-          </div>
-        </div>
-
-        {/* Cards */}
-
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-
-            return (
-              <div
-                key={feature.title}
-                className="group bg-white/95 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-300"
-              >
-                <div className="w-18 h-18 rounded-2xl bg-[#034694] group-hover:bg-yellow-400 flex items-center justify-center transition duration-300 mb-8">
-                  <Icon
-                    size={32}
-                    className="text-yellow-400 group-hover:text-[#034694] transition"
-                  />
-                </div>
-
-                <h3 className="text-2xl font-black text-slate-900">
-                  {feature.title}
-                </h3>
-
-                <p className="mt-5 text-gray-600 leading-8">{feature.text}</p>
-
-                <div className="flex items-center gap-3 mt-8">
-                  <CheckCircle2 size={20} className="text-green-600" />
-
-                  <span className="font-semibold text-[#034694]">
-                    Trusted by Football Fans
-                  </span>
-                </div>
+        <div className="divide-y divide-slate-300 border-y border-slate-300">
+          {notes.map((note) => (
+            <article key={note.number} className="grid gap-2 py-5 sm:grid-cols-[3rem_1fr] sm:gap-5">
+              <span className="text-xs font-extrabold tracking-widest text-[#034694]">{note.number}</span>
+              <div className="grid gap-1 sm:grid-cols-[minmax(10rem,0.7fr)_1fr] sm:gap-6">
+                <h3 className="font-bold text-slate-900">{note.title}</h3>
+                <p className="text-sm leading-6 text-slate-600">{note.text}</p>
               </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
       </div>
     </section>

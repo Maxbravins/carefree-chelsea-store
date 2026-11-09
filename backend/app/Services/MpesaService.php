@@ -73,7 +73,7 @@ class MpesaService
                 'PhoneNumber' => $phone,
                 'CallBackURL' => $this->callbackUrl,
                 'AccountReference' => "Order {$orderId}",
-                'TransactionDesc' => 'Carefree Chelsea Store',
+                'TransactionDesc' => 'Kit Sphere',
             ]
         );
 

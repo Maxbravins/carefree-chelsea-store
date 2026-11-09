@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Login - Carefree Chelsea Store</title>
+    <title>Admin Login - Kit Sphere</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body { font-family: system-ui, sans-serif; background: #f3f4f6; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
@@ -16,7 +16,7 @@
 <body>
     <form method="POST" action="{{ route('login.attempt') }}">
         @csrf
-        <h1>Carefree Chelsea Admin</h1>
+        <h1>Kit Sphere Admin</h1>
 
         @if ($errors->any())
             <div class="error">{{ $errors->first() }}</div>

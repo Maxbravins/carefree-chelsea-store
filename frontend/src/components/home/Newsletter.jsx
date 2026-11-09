@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../../api/api";
 
@@ -7,13 +7,12 @@ export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit(event) {
+    event.preventDefault();
     setLoading(true);
-
     try {
       await api.post("/subscribers", { email });
-      toast.success("You are subscribed to The Jersey Room! 💙");
+      toast.success("You are subscribed to Kit Sphere!");
       setEmail("");
     } catch (error) {
       console.error(error);
@@ -24,57 +23,40 @@ export default function Newsletter() {
   }
 
   return (
-    <section className="relative overflow-hidden py-28 bg-gradient-to-r from-[#021B3A] via-[#034694] to-[#0055B8]">
-      {/* Background Decoration */}
-
-      <div className="absolute inset-0">
-        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-yellow-400/10 rounded-full blur-3xl"></div>
-
-        <div className="absolute -bottom-40 -right-40 w-[450px] h-[450px] bg-white/10 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-md mb-8">
-          <Mail size={36} className="text-yellow-400" />
+    <section className="border-b border-slate-200 bg-white py-14 sm:py-20">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#034694]">The Kit Sphere letter</p>
+          <h2 className="mt-3 max-w-lg font-serif text-3xl font-bold leading-tight text-[#111820] sm:text-4xl">
+            New shirts, when they arrive.
+          </h2>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600 sm:text-base">
+            A short note about new arrivals, restocks and shop updates.
+          </p>
         </div>
 
-        <span className="uppercase tracking-[0.35em] text-yellow-400 font-bold">
-          Newsletter
-        </span>
-
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mt-8 leading-tight">
-          Never Miss A
-          <span className="block text-yellow-400">Jersey Drop</span>
-        </h2>
-
-        <p className="text-blue-100 text-base sm:text-lg md:text-xl leading-7 sm:leading-8 md:leading-9 mt-8 max-w-3xl mx-auto">
-          Join football fans across Kenya and be the first to know about new
-          club and country kits, limited editions and matchday offers.
-        </p>
-
-        <form onSubmit={handleSubmit} className="mt-14 max-w-3xl mx-auto">
-          <div className="bg-white rounded-2xl p-3 flex flex-col md:flex-row gap-3 shadow-2xl">
+        <div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:flex-row">
+            <label className="sr-only" htmlFor="newsletter-email">Email address</label>
             <input
+              id="newsletter-email"
               type="email"
-              placeholder="Enter your email address"
+              placeholder="Your email address"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
               required
-              className="flex-1 px-6 py-4 rounded-xl outline-none text-lg"
+              className="min-w-0 flex-1 border border-slate-300 bg-[#f8f7f3] px-4 py-3.5 text-sm outline-none focus:border-[#034694]"
             />
-
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#034694] hover:bg-[#012A57] text-white font-bold px-10 py-4 rounded-xl flex items-center justify-center gap-3 transition"
+              className="inline-flex items-center justify-center gap-2 bg-[#071a35] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#034694] disabled:opacity-60"
             >
-              {loading ? "Subscribing..." : "Subscribe"}
-              <ArrowRight size={20} />
+              {loading ? "Joining…" : "Sign me up"}<ArrowRight size={16} />
             </button>
-          </div>
-        </form>
-
-        <p className="text-blue-200 mt-8">No spam. Unsubscribe anytime.</p>
+          </form>
+          <p className="mt-3 text-xs text-slate-500">You can unsubscribe at any time.</p>
+        </div>
       </div>
     </section>
   );

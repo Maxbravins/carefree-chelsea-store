@@ -15,22 +15,22 @@ export default function Wishlist() {
 
         return (
 
-            <section className="min-h-screen flex items-center justify-center bg-gray-50">
+            <section className="flex min-h-[65vh] items-center justify-center bg-[#f8f7f3] px-4 py-16">
 
                 <div className="text-center">
 
                     <Heart
-                        size={90}
+                        size={48}
                         className="mx-auto text-[#034694]"
                     />
 
-                    <h2 className="text-4xl font-black mt-8">
+                    <h2 className="mt-6 font-serif text-3xl font-bold text-[#111820] sm:text-4xl">
 
                         Your Wishlist Is Empty
 
                     </h2>
 
-                    <p className="text-gray-500 mt-4">
+                    <p className="mt-3 text-slate-600">
 
                         Save your favourite team jerseys for later.
 
@@ -38,7 +38,7 @@ export default function Wishlist() {
 
                     <Link
                         to="/shop"
-                        className="inline-flex items-center gap-3 mt-10 bg-[#034694] hover:bg-[#012A57] text-white px-8 py-4 rounded-xl font-bold transition"
+                        className="mt-8 inline-flex items-center gap-3 bg-[#071a35] px-6 py-3.5 font-bold text-white transition hover:bg-[#034694]"
                     >
 
                         Browse Shop
@@ -57,42 +57,41 @@ export default function Wishlist() {
 
     return (
 
-        <section className="bg-gray-50 py-20">
+        <section className="bg-[#f8f7f3] py-8 sm:py-12 lg:py-16">
 
             <div className="max-w-7xl mx-auto px-6">
 
-                <h1 className="text-5xl font-black mb-14">
+                <div className="mb-8">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#034694]">Saved for later</p>
+                    <h1 className="mt-2 font-serif text-3xl font-bold text-[#111820] sm:text-4xl">My wishlist</h1>
+                </div>
 
-                    My Wishlist
-
-                </h1>
-
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
 
                     {wishlist.map((item) => (
 
                         <div
                             key={item.id}
-                            className="bg-white rounded-3xl shadow-lg overflow-hidden"
+                            className="overflow-hidden border-b border-slate-200 bg-white"
                         >
 
                             <img
                                 src={item.image_url}
                                 alt={item.name}
-                                className="w-full h-64 object-cover"
+                                className="aspect-[4/5] w-full bg-[#eeece5] object-contain mix-blend-multiply"
                             />
 
-                            <div className="p-6">
+                            <div className="px-1 py-4 sm:px-2">
 
-                                <h3 className="text-xl font-black">
+                                <h3 className="text-sm font-bold sm:text-base">
 
                                     {item.name}
 
                                 </h3>
 
-                                <p className="text-[#034694] text-2xl font-black mt-3">
+                                <p className="mt-3 text-lg font-extrabold text-[#034694]">
 
-                                    KES {Number(item.price).toLocaleString()}
+                                    KSh {Number(item.price).toLocaleString()}
 
                                 </p>
 
@@ -103,7 +102,7 @@ export default function Wishlist() {
                                             addToCart({ ...item, size: item.size || "M" });
                                             toast.success(`${item.name} added to cart`);
                                         }}
-                                        className="flex-1 flex items-center justify-center gap-2 bg-[#034694] hover:bg-[#012A57] text-white py-3 rounded-xl font-bold transition"
+                                        className="flex-1 flex items-center justify-center gap-2 bg-[#071a35] py-3 text-xs font-bold text-white transition hover:bg-[#034694] sm:text-sm"
                                     >
                                         <ShoppingBag size={18} />
                                         Add To Cart
@@ -111,7 +110,7 @@ export default function Wishlist() {
 
                                     <button
                                         onClick={() => removeFromWishlist(item.id)}
-                                        className="p-3 rounded-xl bg-gray-100 text-red-600 hover:bg-red-50 transition"
+                                        className="border border-slate-300 p-3 text-slate-500 transition hover:border-red-300 hover:text-red-700"
                                     >
                                         <Trash2 size={18} />
                                     </button>

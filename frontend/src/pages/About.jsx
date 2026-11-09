@@ -1,18 +1,71 @@
-import { Heart, ShieldCheck, Truck, Users, Award } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const values = [
-  { icon: Heart, title: "Made for supporters", text: "A place for fans to find shirts from the clubs they follow and the countries they cheer for." },
-  { icon: ShieldCheck, title: "A jersey for every side", text: "Browse home, away, retro and national team shirts in one easy to explore collection." },
-  { icon: Truck, title: "Delivery across Kenya", text: "Get your chosen colours delivered to supporters across the country." },
-  { icon: Users, title: "Football brings us together", text: "Whatever badge or flag you wear, you are welcome in our supporter community." },
-];
-
 export default function About() {
-  return <div className="bg-white">
-    <section className="bg-gradient-to-r from-[#071a35] via-[#034694] to-[#0055B8] py-20 text-white sm:py-24"><div className="mx-auto max-w-6xl px-6 text-center"><p className="font-bold uppercase tracking-[0.3em] text-yellow-400">About The Jersey Room</p><h1 className="mt-6 text-4xl font-black sm:text-6xl">One home for every side</h1><p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-blue-100 sm:text-xl">A football jersey store for club loyalty, national pride and the beautiful game we all share.</p></div></section>
-    <section className="py-16 sm:py-20"><div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2"><div><p className="font-bold uppercase tracking-widest text-[#034694]">Our story</p><h2 className="mt-4 text-3xl font-black text-slate-950 sm:text-4xl">Wear the team that means something to you</h2><p className="mt-6 text-lg leading-8 text-slate-600">The Jersey Room is growing from its Chelsea roots into a home for football fans of every kind. We are bringing club jerseys and national team shirts together so supporters can find their colours in one place.</p><p className="mt-4 text-lg leading-8 text-slate-600">From matchday shirts to classic designs, we want it to be simple to discover a jersey you are proud to wear, with delivery available across Kenya.</p><div className="mt-7 flex items-center gap-3 font-bold text-slate-900"><Award className="text-amber-500" size={30} /> Your colours. Your story.</div></div><div className="rounded-3xl bg-gradient-to-br from-[#071a35] to-[#034694] p-8 text-white shadow-xl sm:p-12"><p className="text-sm font-bold uppercase tracking-[0.2em] text-blue-200">The collection</p><div className="mt-8 grid grid-cols-2 gap-4">{["Club teams", "National sides", "New season kits", "Retro classics"].map((item, index) => <div key={item} className="rounded-2xl border border-white/15 bg-white/10 p-5"><span className="text-2xl" aria-hidden="true">{["⚽", "🌍", "👕", "🏆"][index]}</span><p className="mt-4 font-extrabold">{item}</p></div>)}</div></div></div></section>
-    <section className="bg-slate-50 py-16 sm:py-20"><div className="mx-auto max-w-7xl px-6"><div className="mb-10 text-center"><p className="font-bold uppercase tracking-widest text-[#034694]">What matters to us</p><h2 className="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">Built around the fans</h2></div><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{values.map(({ icon: Icon, title, text }) => <div key={title} className="rounded-2xl bg-white p-7 shadow-sm"><div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-[#034694]"><Icon size={24} /></div><h3 className="mt-5 text-lg font-extrabold">{title}</h3><p className="mt-3 leading-7 text-slate-600">{text}</p></div>)}</div></div></section>
-    <section className="py-16 text-center sm:py-20"><div className="mx-auto max-w-4xl px-6"><h2 className="text-3xl font-black text-slate-950 sm:text-4xl">Ready to find your colours?</h2><p className="mt-4 text-lg text-slate-600">Browse club and country jerseys in the collection.</p><Link to="/shop" className="mt-7 inline-flex rounded-xl bg-[#034694] px-8 py-4 font-bold text-white transition hover:bg-[#012A57]">Explore all jerseys</Link></div></section>
-  </div>;
+  return (
+    <main className="bg-[#f8f7f3]">
+      <section className="border-b border-slate-200 bg-[#f2f0e9] py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#034694]">About Kit Sphere</p>
+          <h1 className="mt-4 max-w-3xl font-serif text-4xl font-bold leading-tight text-[#111820] sm:text-6xl">
+            The shirt is part of the story.
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+            The club you follow. The country you cheer for. The shirt you keep reaching for. We bring club and national team jerseys together for supporters in Kenya.
+          </p>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+        <div className="grid grid-cols-2 gap-3 sm:gap-5">
+          <figure className="bg-[#eeece5] p-3 sm:p-5">
+            <div className="flex aspect-[4/5] items-center justify-center">
+              <img src="/images/chelsea-nike-home.avif" alt="Chelsea home jersey" className="h-full w-full object-contain mix-blend-multiply" />
+            </div>
+            <figcaption className="border-t border-slate-300 pt-3 text-xs font-bold uppercase tracking-wider text-slate-600">Club colours</figcaption>
+          </figure>
+          <figure className="mt-8 bg-[#eeece5] p-3 sm:mt-12 sm:p-5">
+            <div className="flex aspect-[4/5] items-center justify-center">
+              <img src="/images/argentina-26-home-authentic-kids.avif" alt="Argentina home jersey" className="h-full w-full object-contain mix-blend-multiply" />
+            </div>
+            <figcaption className="border-t border-slate-300 pt-3 text-xs font-bold uppercase tracking-wider text-slate-600">Country pride</figcaption>
+          </figure>
+        </div>
+
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#034694]">Our point of view</p>
+          <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-[#111820] sm:text-4xl">A place for every side you stand with.</h2>
+          <p className="mt-5 leading-7 text-slate-600">
+            Football shirts move between matchday, memory and everyday life. We are building a shop where it is easy to find the team, country and style you came for.
+          </p>
+          <p className="mt-4 leading-7 text-slate-600">
+            Browse a team collection to compare its available home, away and other jerseys. Each listing shows its own price, stock and delivery estimate.
+          </p>
+          <Link to="/shop" className="mt-7 inline-flex items-center gap-2 border-b border-[#034694] pb-1 text-sm font-bold text-[#034694] hover:border-transparent">
+            Explore the collection <ArrowRight size={16} />
+          </Link>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-white py-10 sm:py-14">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-3 md:gap-10">
+          <article className="border-t-2 border-[#034694] pt-4">
+            <p className="text-xs font-extrabold tracking-widest text-[#034694]">01 / CLUBS</p>
+            <h3 className="mt-3 font-serif text-2xl font-bold text-[#111820]">Follow your badge</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">Find the clubs whose colours are part of your week.</p>
+          </article>
+          <article className="border-t-2 border-[#034694] pt-4">
+            <p className="text-xs font-extrabold tracking-widest text-[#034694]">02 / COUNTRIES</p>
+            <h3 className="mt-3 font-serif text-2xl font-bold text-[#111820]">Wear your colours</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">Browse national sides and their available jerseys.</p>
+          </article>
+          <article className="border-t-2 border-[#034694] pt-4">
+            <p className="text-xs font-extrabold tracking-widest text-[#034694]">03 / THE DETAILS</p>
+            <h3 className="mt-3 font-serif text-2xl font-bold text-[#111820]">Know what is in stock</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">Check sizing, price and delivery details before checkout.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  );
 }

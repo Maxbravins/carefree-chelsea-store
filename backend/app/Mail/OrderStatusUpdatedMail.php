@@ -27,7 +27,7 @@ class OrderStatusUpdatedMail extends Mailable
         $readableStatus = ucfirst(str_replace('_', ' ', $this->status));
 
         return new Envelope(
-            subject: "Order #{$this->order->id} Status Update: {$readableStatus} | Carefree Chelsea Store",
+            subject: "Order #{$this->order->id} Status Update: {$readableStatus} | Kit Sphere",
         );
     }
 

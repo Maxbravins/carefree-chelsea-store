@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carefree Chelsea Admin</title>
+    <title>Kit Sphere Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,9 +18,9 @@
         <!-- Mobile Top Navbar -->
         <header class="lg:hidden bg-slate-900 text-white px-4 py-3.5 flex items-center justify-between sticky top-0 z-40 shadow-md">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-lg shadow-lg">C</div>
+                <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-lg shadow-lg">K</div>
                 <div>
-                    <h1 class="text-base font-bold text-white leading-tight">Carefree Chelsea</h1>
+                    <h1 class="text-base font-bold text-white leading-tight">Kit Sphere</h1>
                     <p class="text-[10px] text-blue-400 font-semibold uppercase tracking-wider">Admin Portal</p>
                 </div>
             </div>
@@ -50,9 +50,9 @@
             <div>
                 <div class="p-6 border-b border-slate-800 flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-xl shadow-lg">C</div>
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-xl shadow-lg">K</div>
                         <div>
-                            <h1 class="text-lg font-bold tracking-tight text-white">Carefree Chelsea</h1>
+                            <h1 class="text-lg font-bold tracking-tight text-white">Kit Sphere</h1>
                             <p class="text-xs text-blue-400 font-semibold tracking-wider uppercase">Admin Portal</p>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
         <main class="flex-1 flex flex-col min-w-0">
             <header class="bg-white border-b border-slate-200 px-4 sm:px-8 py-4 flex justify-between items-center sticky top-0 z-30 shadow-sm">
                 <div>
-                    <h2 class="text-base sm:text-xl font-bold text-slate-900 tracking-tight">Carefree Chelsea Management</h2>
+                    <h2 class="text-base sm:text-xl font-bold text-slate-900 tracking-tight">Kit Sphere Management</h2>
                     <p class="text-xs text-slate-500 hidden sm:block">Real-time database and store controller</p>
                 </div>
                 <div class="flex items-center gap-4">

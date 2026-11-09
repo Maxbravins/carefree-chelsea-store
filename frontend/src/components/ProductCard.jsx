@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Eye, ShoppingCart, Zap, Heart } from "lucide-react";
+import { ShoppingCart, Zap, Heart } from "lucide-react";
 import { useCart } from "../CartContext";
 import { useWishlist } from "../WishlistContext";
 import toast from "react-hot-toast";
@@ -52,21 +52,21 @@ export default function ProductCard({ product }) {
     }
 
     return (
-        <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <div className="relative overflow-hidden bg-slate-100">
+        <article className="group flex h-full flex-col overflow-hidden border-b border-slate-200 bg-white transition-colors hover:border-[#034694]">
+            <div className="relative overflow-hidden bg-[#eeece5]">
                 <Link
                     to={`/product/${product.slug}`}
-                    className="block aspect-square"
+                    className="block aspect-[4/5]"
                 >
                     <img
                         src={imageUrl}
                         alt={product.name}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                 </Link>
 
                 {product.category && (
-                    <span className="absolute left-3 top-3 rounded-full bg-[#034694]/95 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow">
+                    <span className="absolute left-3 top-3 bg-white/95 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-700">
                         {product.team || product.category}
                     </span>
                 )}
@@ -88,32 +88,23 @@ export default function ProductCard({ product }) {
                 </button>
 
                 {stock > 0 && stock <= 5 && (
-                    <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-rose-600 px-2.5 py-1.5 text-[10px] font-extrabold text-white shadow">
+                    <span className="absolute right-3 top-3 flex items-center gap-1 bg-rose-700 px-2.5 py-1.5 text-[10px] font-extrabold text-white">
                         <Zap size={11} />
                         Only {stock} left
                     </span>
                 )}
 
                 {stock <= 0 && (
-                    <span className="absolute right-3 top-12 rounded-full bg-slate-900/90 px-2.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-white shadow">
+                    <span className="absolute right-3 top-12 bg-slate-900 px-2.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-white">
                         Sold Out
                     </span>
                 )}
 
-                <div className="absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 transition-transform duration-300 group-hover:translate-y-0">
-                    <Link
-                        to={`/product/${product.slug}`}
-                        className="flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-slate-900 shadow-md transition hover:bg-[#034694] hover:text-white"
-                    >
-                        <Eye size={15} />
-                        View Details
-                    </Link>
-                </div>
             </div>
 
-            <div className="flex flex-1 flex-col p-5">
+            <div className="flex flex-1 flex-col px-1 py-4 sm:px-2">
                 <Link to={`/product/${product.slug}`}>
-                    <h3 className="line-clamp-1 text-base font-extrabold text-slate-900 transition-colors hover:text-[#034694]">
+                    <h3 className="line-clamp-1 text-sm font-bold text-slate-900 transition-colors hover:text-[#034694] sm:text-base">
                         {product.name}
                     </h3>
                 </Link>
@@ -175,10 +166,10 @@ export default function ProductCard({ product }) {
                                         aria-pressed={
                                             selectedSize === size
                                         }
-                                        className={`flex h-9 min-w-9 items-center justify-center rounded-lg border-2 px-2.5 text-xs font-bold transition ${
+                                        className={`flex h-9 min-w-9 items-center justify-center border px-2.5 text-xs font-bold transition ${
                                             selectedSize === size
-                                                ? "border-[#034694] bg-[#034694] text-white shadow-sm"
-                                                : "border-slate-200 bg-white text-slate-700 hover:border-[#034694] hover:text-[#034694]"
+                                                ? "border-[#034694] bg-[#034694] text-white"
+                                                : "border-slate-300 bg-white text-slate-700 hover:border-[#034694] hover:text-[#034694]"
                                         }`}
                                     >
                                         {size}
@@ -190,7 +181,7 @@ export default function ProductCard({ product }) {
                         <button
                             type="button"
                             onClick={handleAddToCart}
-                            className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#034694] py-3.5 text-sm font-bold text-white shadow-md transition hover:bg-[#012A57] hover:shadow-lg active:scale-[0.98]"
+                            className="mt-5 flex w-full items-center justify-center gap-2 bg-[#034694] py-3.5 text-sm font-bold text-white transition hover:bg-[#012A57] active:scale-[0.98]"
                         >
                             <ShoppingCart size={17} />
                             Add To Cart

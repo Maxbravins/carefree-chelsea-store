@@ -133,37 +133,37 @@ export default function Contact() {
     }
 
     const inputClass = (field) =>
-        `w-full rounded-xl border px-5 py-4 outline-none transition ${
+        `w-full border bg-[#fbfaf7] px-4 py-3.5 outline-none transition ${
             errors[field]
-                ? "border-red-500 focus:ring-2 focus:ring-red-200"
-                : "border-gray-200 focus:border-[#034694] focus:ring-2 focus:ring-blue-100"
+                ? "border-red-500"
+                : "border-slate-300 focus:border-[#034694]"
         }`;
 
     return (
-        <div className="bg-gray-50">
+        <div className="bg-[#f8f7f3]">
 
             {/* Header */}
-            <section className="bg-gradient-to-r from-[#021B3A] via-[#034694] to-[#0055B8] text-white py-24">
-                <div className="max-w-6xl mx-auto px-6 text-center">
+            <section className="border-b border-slate-200 bg-[#f2f0e9] py-12 sm:py-16">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6">
 
-                    <p className="text-yellow-400 uppercase tracking-[0.3em] font-bold">
-                        Contact Us
+                    <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#034694]">
+                        Contact
                     </p>
 
-                    <h1 className="text-5xl md:text-6xl font-black mt-5">
-                        Let's Talk
+                    <h1 className="mt-4 font-serif text-4xl font-bold text-[#111820] sm:text-6xl">
+                        How can we help?
                     </h1>
 
-                    <p className="text-blue-100 text-lg md:text-xl mt-6 max-w-2xl mx-auto">
+                    <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
                         Have a question about an order, product or delivery?
-                        We're here to help.
+                        Send us a message and we will get back to you.
                     </p>
 
                 </div>
             </section>
 
             {/* Contact Section */}
-            <section className="py-20">
+            <section className="py-10 sm:py-14">
 
                 <div className="max-w-7xl mx-auto px-6">
 
@@ -172,12 +172,12 @@ export default function Contact() {
                         {/* Contact information */}
                         <div className="lg:col-span-2">
 
-                            <p className="text-[#034694] uppercase tracking-widest font-bold">
-                                Get In Touch
+                            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#034694]">
+                                Customer support
                             </p>
 
-                            <h2 className="text-4xl font-black text-gray-900 mt-4">
-                                We're Here For You
+                            <h2 className="mt-3 font-serif text-3xl font-bold text-[#111820] sm:text-4xl">
+                                Talk to a person.
                             </h2>
 
                             <p className="text-gray-600 leading-7 mt-6">
@@ -189,7 +189,7 @@ export default function Contact() {
                             <div className="space-y-6 mt-10">
 
                                 <div className="flex gap-4">
-                                    <div className="w-12 h-12 bg-[#034694]/10 rounded-xl flex items-center justify-center">
+                                    <div className="flex h-10 w-10 items-center justify-center border border-slate-300 bg-white text-[#034694]">
                                         <MapPin className="text-[#034694]" />
                                     </div>
 
@@ -204,7 +204,7 @@ export default function Contact() {
                                 </div>
 
                                 <div className="flex gap-4">
-                                    <div className="w-12 h-12 bg-[#034694]/10 rounded-xl flex items-center justify-center">
+                                    <div className="flex h-10 w-10 items-center justify-center border border-slate-300 bg-white text-[#034694]">
                                         <Phone className="text-[#034694]" />
                                     </div>
 
@@ -219,7 +219,7 @@ export default function Contact() {
                                 </div>
 
                                 <div className="flex gap-4">
-                                    <div className="w-12 h-12 bg-[#034694]/10 rounded-xl flex items-center justify-center">
+                                    <div className="flex h-10 w-10 items-center justify-center border border-slate-300 bg-white text-[#034694]">
                                         <Mail className="text-[#034694]" />
                                     </div>
 
@@ -240,7 +240,7 @@ export default function Contact() {
                         {/* Form */}
                         <div className="lg:col-span-3">
 
-                            <div className="bg-white rounded-3xl shadow-xl p-6 md:p-10">
+                            <div className="border border-slate-200 bg-white p-5 sm:p-8 md:p-10">
 
                                 <form onSubmit={handleSubmit} noValidate>
 
@@ -377,7 +377,7 @@ export default function Contact() {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full mt-8 bg-[#034694] hover:bg-[#012A57] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition"
+                                        className="mt-8 flex w-full items-center justify-center gap-3 bg-[#071a35] py-4 font-bold text-white transition hover:bg-[#034694] disabled:cursor-not-allowed disabled:opacity-60"
                                     >
                                         {loading
                                             ? "Sending..."

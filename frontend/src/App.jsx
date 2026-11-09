@@ -5,6 +5,7 @@ import Footer from "./components/layout/Footer";
 
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
+import TeamCollection from "./pages/TeamCollection";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Product from "./pages/Product";
@@ -33,6 +34,11 @@ function App() {
                     <Route
                         path="/shop"
                         element={<Shop />}
+                    />
+
+                    <Route
+                        path="/teams/:teamType/:teamSlug"
+                        element={<TeamCollection />}
                     />
 
                      <Route

@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import {
     ShoppingCart,
     Truck,
-    ShieldCheck,
-    Star,
     Heart,
 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -113,7 +111,7 @@ export default function Product() {
 
     return (
 
-        <section className="bg-gray-50 py-10 sm:py-16 lg:py-20">
+        <section className="bg-[#f8f7f3] py-8 sm:py-12 lg:py-16">
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
@@ -121,7 +119,7 @@ export default function Product() {
 
                     {/* Image */}
 
-                    <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden">
+                    <div className="relative overflow-hidden bg-[#eeece5]">
 
                         <button
                             type="button"
@@ -140,7 +138,7 @@ export default function Product() {
                         <img
                             src={product.image_url}
                             alt={product.name}
-                            className="w-full h-80 sm:h-[480px] lg:h-[650px] object-cover"
+                            className="h-80 w-full object-contain mix-blend-multiply sm:h-[480px] lg:h-[650px]"
                         />
 
                     </div>
@@ -149,42 +147,21 @@ export default function Product() {
 
                     <div>
 
-                        <span className="bg-[#034694] text-white px-4 py-2 rounded-full text-sm font-semibold">
+                        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#034694]">
 
                             {product.team || product.category}
 
                         </span>
 
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-6">
+                        <h1 className="mt-4 font-serif text-3xl font-bold leading-tight text-[#111820] sm:text-4xl lg:text-5xl">
 
                             {product.name}
 
                         </h1>
 
-                        <div className="flex items-center gap-1 mt-5">
+                        <p className="mt-7 text-3xl font-extrabold text-[#034694] sm:text-4xl">
 
-                            {[1,2,3,4,5].map((star)=>(
-
-                                <Star
-                                    key={star}
-                                    size={20}
-                                    fill="#FFD700"
-                                    strokeWidth={0}
-                                />
-
-                            ))}
-
-                            <span className="ml-2 text-gray-500">
-
-                                (5.0)
-
-                            </span>
-
-                        </div>
-
-                        <p className="text-4xl font-black text-[#034694] mt-8">
-
-                            KES {Number(product.price).toLocaleString()}
+                            KSh {Number(product.price).toLocaleString()}
 
                         </p>
 
@@ -194,27 +171,15 @@ export default function Product() {
 
                         </p>
 
-                        <div className="mt-10 space-y-5">
+                        <div className="mt-8 border-y border-slate-200 py-5">
 
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-3">
 
                                 <Truck className="text-[#034694]" />
 
                                 <span>
 
                                     {product.delivery_estimate}
-
-                                </span>
-
-                            </div>
-
-                            <div className="flex items-center gap-4">
-
-                                <ShieldCheck className="text-green-600" />
-
-                                <span>
-
-                                    Quality jersey for your team
 
                                 </span>
 

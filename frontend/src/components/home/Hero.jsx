@@ -1,11 +1,53 @@
-import { ArrowRight, ShoppingBag, Shirt, Truck } from "lucide-react";
+import { ArrowRight, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Hero() {
-  return <section className="relative isolate overflow-hidden bg-[#061a35]"><div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_15%,rgba(31,111,235,0.5),transparent_48%),radial-gradient(ellipse_at_10%_100%,rgba(9,48,105,0.9),transparent_55%)]" /><div className="absolute -right-24 top-10 hidden h-[34rem] w-[34rem] rounded-full border border-white/10 lg:block" /><div className="absolute -right-6 top-28 hidden h-[25rem] w-[25rem] rounded-full border border-white/10 lg:block" />
-    <div className="relative mx-auto grid min-h-[620px] max-w-7xl items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:py-20">
-      <div className="max-w-2xl text-center lg:text-left"><span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-blue-100"><Shirt size={15} /> The home of football shirts</span><h1 className="mt-7 text-4xl font-black leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">Your team.<br /><span className="text-yellow-400">Your colours.</span></h1><p className="mx-auto mt-6 max-w-xl text-base leading-7 text-blue-100 sm:text-lg sm:leading-8 lg:mx-0">Shop jerseys from the clubs you follow and the countries you cheer for. Find your colours, choose your fit, and get matchday ready.</p><div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start"><Link to="/shop" className="inline-flex items-center justify-center gap-2 rounded-xl bg-yellow-400 px-7 py-4 font-extrabold text-slate-950 shadow-lg transition hover:bg-yellow-300"><ShoppingBag size={19} /> Shop all jerseys</Link><Link to="/shop" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/5 px-7 py-4 font-bold text-white transition hover:bg-white/10">Explore teams <ArrowRight size={18} /></Link></div><div className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm font-semibold text-blue-100/90 lg:justify-start"><span className="inline-flex items-center gap-2"><Shirt size={17} className="text-yellow-400" /> Club jerseys</span><span className="inline-flex items-center gap-2"><span aria-hidden="true">🌍</span> National teams</span><span className="inline-flex items-center gap-2"><Truck size={17} className="text-yellow-400" /> Delivery across Kenya</span></div></div>
-      <div className="relative mx-auto flex h-[330px] w-full max-w-lg items-center justify-center sm:h-[420px]"><div className="absolute h-64 w-64 rounded-full bg-blue-500/30 blur-3xl sm:h-80 sm:w-80" /><div className="relative grid w-full grid-cols-2 gap-3 sm:gap-4"><div className="mt-8 rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-sm sm:mt-12 sm:p-7"><span className="text-3xl sm:text-5xl" role="img" aria-label="Club football">🔵</span><p className="mt-7 text-xs font-bold uppercase tracking-widest text-blue-200">Club pride</p><h2 className="mt-1 text-lg font-black text-white sm:text-2xl">Your badge</h2></div><div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-sm sm:p-7"><span className="text-3xl sm:text-5xl" role="img" aria-label="National team football">🌍</span><p className="mt-7 text-xs font-bold uppercase tracking-widest text-blue-200">Country first</p><h2 className="mt-1 text-lg font-black text-white sm:text-2xl">Your nation</h2></div><div className="col-span-2 flex items-center justify-between rounded-3xl bg-yellow-400 p-5 text-slate-950 shadow-xl sm:p-7"><div><p className="text-xs font-extrabold uppercase tracking-widest">The jersey room</p><p className="mt-1 text-xl font-black sm:text-2xl">One place. Every side.</p></div><Link to="/shop" aria-label="Browse all jerseys" className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white transition hover:scale-105"><ArrowRight size={22} /></Link></div></div></div>
-    </div>
-  </section>;
+  return (
+    <section className="bg-[#f2f0e9]">
+      <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:min-h-[600px] lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:py-14">
+        <div className="py-4 sm:py-8">
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#034694]">
+            Club shirts · National colours · Classics
+          </p>
+          <h1 className="mt-5 max-w-xl font-serif text-5xl font-bold leading-[0.98] tracking-tight text-[#111820] sm:text-6xl lg:text-7xl">
+            Some shirts <span className="text-[#034694]">mean more.</span>
+          </h1>
+          <p className="mt-6 max-w-lg text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+            The colours you grew up with. The team you found along the way. Find your next matchday shirt here.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <Link to="/shop" className="inline-flex items-center gap-2 bg-[#034694] px-6 py-4 text-sm font-bold text-white transition hover:bg-[#012f68]">
+              <ShoppingBag size={17} /> Shop the collection
+            </Link>
+            <Link to="/shop?type=national" className="inline-flex items-center gap-2 border-b border-slate-400 py-3 text-sm font-bold text-slate-800 transition hover:border-[#034694] hover:text-[#034694]">
+              Shop national teams <ArrowRight size={16} />
+            </Link>
+          </div>
+          <div className="mt-9 flex items-center gap-3 border-t border-slate-300 pt-5 text-xs font-semibold uppercase tracking-wider text-slate-600">
+            <span>Delivery across Kenya</span><span className="text-[#034694]">/</span><span>M-Pesa checkout</span>
+          </div>
+        </div>
+
+        <Link to="/shop?type=club" className="group relative block bg-[#e5e2da]">
+          <div className="flex min-h-[360px] items-center justify-center overflow-hidden sm:min-h-[470px] lg:min-h-[520px]">
+            <img
+              src="/images/chelsea-nike-home.avif"
+              alt="Chelsea home jersey"
+              className="h-full max-h-[520px] w-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+            <span className="absolute left-4 top-4 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.16em] text-slate-700 sm:left-6 sm:top-6">
+              The home shirt · 2026/27
+            </span>
+          </div>
+          <div className="flex items-center justify-between border-t border-black/10 bg-white px-5 py-4 sm:px-7">
+            <div>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.17em] text-slate-500">From the club collection</p>
+              <p className="mt-1 font-bold text-slate-900">Chelsea · Home</p>
+            </div>
+            <span className="flex h-10 w-10 items-center justify-center bg-[#034694] text-white transition group-hover:bg-[#012f68]"><ArrowRight size={18} /></span>
+          </div>
+        </Link>
+      </div>
+    </section>
+  );
 }

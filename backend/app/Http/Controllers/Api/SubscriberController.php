@@ -30,8 +30,8 @@ class SubscriberController extends Controller
 
         return response()->json([
             'message' => $subscriber->wasRecentlyCreated
-                ? 'You have successfully subscribed to Carefree Chelsea!'
-                : 'You are already subscribed to Carefree Chelsea.',
+                ? 'You have successfully subscribed to Kit Sphere!'
+                : 'You are already subscribed to Kit Sphere.',
             'subscriber' => $subscriber,
             'new_subscription' => $subscriber->wasRecentlyCreated,
         ], 201);

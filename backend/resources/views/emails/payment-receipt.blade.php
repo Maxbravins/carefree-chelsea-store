@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Receipt - Carefree Chelsea Store</title>
+    <title>Payment Receipt - Kit Sphere</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 0; color: #1e293b; }
         .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
@@ -24,7 +24,7 @@
     <div class="wrapper">
         <div class="header">
             <h1>Payment Confirmed!</h1>
-            <p>Carefree Chelsea Store</p>
+            <p>Kit Sphere</p>
         </div>
         <div class="body-content">
             <h2 class="greeting">Hi {{ $order->customer_name }},</h2>
@@ -53,7 +53,7 @@
             <p style="color: #475569; line-height: 1.6;">We will send you another update as soon as your items ship to <strong>{{ $order->town }}, {{ $order->county }}</strong>.</p>
         </div>
         <div class="footer">
-            &copy; {{ date('Y') }} Carefree Chelsea Store — Official Fan Store Kenya.
+            &copy; {{ date('Y') }} Kit Sphere — Club & Country Jerseys.
         </div>
     </div>
 </body>
