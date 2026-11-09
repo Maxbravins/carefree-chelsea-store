@@ -24,7 +24,7 @@ money checkout** for the Kenyan market.
 
 **Backend**
 - Laravel 13 (PHP 8.3)
-- SQLite (dev) — see `config/database.php` for other drivers
+- SQLite for local development; PostgreSQL for production so catalog and order data survive deploys
 - [Resend](https://resend.com) for transactional email
 - [Cloudinary](https://cloudinary.com) for image hosting
 - Safaricom Daraja API (M-Pesa STK Push)
@@ -73,6 +73,12 @@ RESEND_API_KEY=
 # Cloudinary (product images)
 CLOUDINARY_URL=
 ```
+
+For production, set `DB_CONNECTION=pgsql` and connect the backend to a persistent
+PostgreSQL database using `DATABASE_URL` or the `DB_HOST`, `DB_PORT`,
+`DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` variables. The Render startup
+script rejects production SQLite configuration because the service filesystem is
+ephemeral. Product images uploaded from the admin panel are stored in Cloudinary.
 
 An admin user can be created via the `AdminUserSeeder` (included in
 `php artisan migrate --seed`).

@@ -6,7 +6,9 @@ use Pdo\Mysql;
 return [
 
   // Default Database Connection Name
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    // Keep SQLite convenient for local development, but never silently store
+    // production data inside a disposable application container.
+    'default' => env('DB_CONNECTION', env('APP_ENV') === 'production' ? 'pgsql' : 'sqlite'),
 
     // Database Connections
     'connections' => [

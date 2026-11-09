@@ -8,6 +8,13 @@ class ProductSeeder extends Seeder
 {
     public function run(): void
     {
+        // The production startup script invokes this seeder on every deploy.
+        // Seed only a brand-new catalog; never overwrite or replace products
+        // that have been added or edited through the admin panel.
+        if (Product::query()->exists()) {
+            return;
+        }
+
         $products = [
             [
                 'name' => 'Argentina 2026 Home Authentic Kids Jersey',
@@ -91,7 +98,7 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $product) {
-            Product::updateOrCreate(['slug' => $product['slug']], $product);
+            Product::create($product);
         }
     }
 }
