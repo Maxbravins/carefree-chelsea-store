@@ -10,6 +10,19 @@ class ProductSeeder extends Seeder
     {
         $products = [
             [
+                'name' => 'Argentina 2026 Home Authentic Kids Jersey',
+                'team' => 'Argentina',
+                'team_type' => 'national',
+                'slug' => 'argentina-2026-home-authentic-kids',
+                'category' => 'Home Kit',
+                'price' => 2500,
+                'stock' => 20,
+                'delivery_estimate' => 'Ships within 2-5 business days',
+                'image' => 'images/argentina-26-home-authentic-kids.avif',
+                'description' => 'Argentina 2026 home authentic kids jersey, made for young supporters.',
+                'active' => true,
+            ],
+            [
                 'name' => 'Chelsea Home Jersey 2026/27',
                 'slug' => 'chelsea-home-2026',
                 'category' => 'Home Kit',
