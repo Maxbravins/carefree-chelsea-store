@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../CartContext";
 import api from "../api/api";
 
-const POLL_INTERVAL = 3000;
-const MAX_POLL_ATTEMPTS = 60;
+const POLL_INTERVAL = 1500;
+const MAX_POLL_ATTEMPTS = 40;
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ export default function Checkout() {
 
   const pollTimerRef = useRef(null);
   const pollAttemptsRef = useRef(0);
+  const stopPollingRef = useRef(false);
 
   const [form, setForm] = useState(() => {
     try {
@@ -45,6 +46,7 @@ export default function Checkout() {
 
   useEffect(() => {
     return () => {
+      stopPollingRef.current = true;
       if (pollTimerRef.current) {
         clearTimeout(pollTimerRef.current);
       }
@@ -79,8 +81,11 @@ export default function Checkout() {
   }
 
   async function checkPaymentStatus(orderId) {
+    if (stopPollingRef.current) return;
+
     try {
       const response = await api.get(`/orders/${orderId}/status`);
+      if (stopPollingRef.current) return;
 
       const orderStatus = response.data?.order?.status;
       const paymentStatus = response.data?.payment?.status;
@@ -89,6 +94,7 @@ export default function Checkout() {
         orderStatus === "paid" ||
         paymentStatus === "success"
       ) {
+        stopPollingRef.current = true;
         clearCart();
         navigate("/success", {
           state: {
@@ -101,8 +107,10 @@ export default function Checkout() {
 
       if (
         orderStatus === "failed" ||
+        orderStatus === "payment_failed" ||
         paymentStatus === "failed"
       ) {
+        stopPollingRef.current = true;
         setPaymentWaiting(false);
         setLoading(false);
         setPaymentError(
@@ -115,6 +123,7 @@ export default function Checkout() {
       pollAttemptsRef.current += 1;
 
       if (pollAttemptsRef.current >= MAX_POLL_ATTEMPTS) {
+        stopPollingRef.current = true;
         setPaymentWaiting(false);
         setLoading(false);
         setPaymentError(
@@ -128,11 +137,13 @@ export default function Checkout() {
         checkPaymentStatus(orderId);
       }, POLL_INTERVAL);
     } catch (error) {
+      if (stopPollingRef.current) return;
       console.error("Payment status check failed:", error);
 
       pollAttemptsRef.current += 1;
 
       if (pollAttemptsRef.current >= MAX_POLL_ATTEMPTS) {
+        stopPollingRef.current = true;
         setPaymentWaiting(false);
         setLoading(false);
         setPaymentError(
@@ -150,6 +161,8 @@ export default function Checkout() {
 
   async function handlePlaceOrder() {
   setLoading(true);
+  setPaymentError("");
+  stopPollingRef.current = false;
 
   try {
     const items = cart.flatMap((item) =>
@@ -167,44 +180,21 @@ export default function Checkout() {
 
     const orderId = response.data.order.id;
 
+    const orderStatus = response.data.order?.status;
+    const paymentStatus = response.data.order?.payment?.status;
+    if (orderStatus === "failed" || orderStatus === "payment_failed" || paymentStatus === "failed") {
+      throw new Error("M-Pesa could not start this payment. Please try again.");
+    }
+
     toast.success("M-Pesa prompt sent. Enter your PIN on your phone.");
-
-    // Wait for M-Pesa callback/payment confirmation.
-    let paid = false;
-
-    for (let attempt = 0; attempt < 30; attempt++) {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      const statusResponse = await api.get(`/orders/${orderId}/status`);
-
-      const orderStatus = statusResponse.data.order?.status;
-      const paymentStatus = statusResponse.data.payment?.status;
-
-      if (orderStatus === "paid" || paymentStatus === "success") {
-        paid = true;
-        break;
-      }
-
-      if (
-        orderStatus === "failed" ||
-        paymentStatus === "failed"
-      ) {
-        throw new Error("M-Pesa payment failed.");
-      }
-    }
-
-    if (!paid) {
-      toast.error(
-        "Payment confirmation is taking longer than expected. Please check your M-Pesa message."
-      );
-      return;
-    }
-
-    clearCart();
-    navigate("/success");
+    pollAttemptsRef.current = 0;
+    setLoading(false);
+    setPaymentWaiting(true);
+    checkPaymentStatus(orderId);
   } catch (error) {
     console.error(error);
-
+    setPaymentWaiting(false);
+    setPaymentError(error.response?.data?.message || error.message || "Failed to complete payment. Please try again.");
     toast.error(
       error.response?.data?.message ||
         error.message ||
@@ -214,6 +204,14 @@ export default function Checkout() {
     setLoading(false);
   }
 }
+
+  function stopWaitingForPayment() {
+    stopPollingRef.current = true;
+    if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
+    setPaymentWaiting(false);
+    setLoading(false);
+    setPaymentError("We stopped waiting for the M-Pesa confirmation. If you cancelled the prompt, you can try again. If you approved it, check your M-Pesa messages before starting another payment.");
+  }
 
 
   return (
@@ -342,6 +340,14 @@ export default function Checkout() {
                     <div className="mt-5 inline-flex border border-slate-300 bg-white px-4 py-2 text-xs font-bold text-[#034694]">
                       Waiting for payment confirmation...
                     </div>
+
+                    <button
+                      type="button"
+                      onClick={stopWaitingForPayment}
+                      className="mx-auto mt-5 block text-sm font-bold text-[#034694] underline underline-offset-4 hover:text-[#071a35]"
+                    >
+                      I cancelled the prompt — stop waiting
+                    </button>
                   </div>
                 )}
 

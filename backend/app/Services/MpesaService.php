@@ -26,7 +26,7 @@ class MpesaService
         $response = Http::withBasicAuth(
             $this->consumerKey,
             $this->consumerSecret
-        )->get(
+        )->connectTimeout(5)->timeout(15)->get(
             'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
         );
 
@@ -60,7 +60,7 @@ class MpesaService
             $phone = '254' . substr($phone, 1);
         }
 
-        $response = Http::withToken($token)->post(
+        $response = Http::withToken($token)->connectTimeout(5)->timeout(15)->post(
             'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
             [
                 'BusinessShortCode' => $this->shortCode,

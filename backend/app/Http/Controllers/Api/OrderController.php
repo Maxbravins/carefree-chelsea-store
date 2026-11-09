@@ -156,36 +156,38 @@ class OrderController extends Controller
                         $order->id
                     );
 
-                    // Save M-Pesa CheckoutRequestID
-                    if (!empty($stkResponse['CheckoutRequestID'])) {
+                    if ((string) ($stkResponse['ResponseCode'] ?? '') !== '0' || empty($stkResponse['CheckoutRequestID'])) {
+                        $this->failPendingPayment($order);
 
-                        $payment->update([
-                            'checkout_request_id' =>
-                                $stkResponse['CheckoutRequestID'],
-                        ]);
-
-                        Log::info('M-Pesa STK Push initiated', [
+                        return response()->json([
+                            'message' => $stkResponse['ResponseDescription']
+                                ?? 'M-Pesa could not start this payment. Please try again.',
                             'order_id' => $order->id,
-                            'payment_id' => $payment->id,
-                            'checkout_request_id' =>
-                                $stkResponse['CheckoutRequestID'],
-                        ]);
-                    } else {
-                        Log::warning(
-                            'M-Pesa STK Push returned no CheckoutRequestID',
-                            [
-                                'order_id' => $order->id,
-                                'response' => $stkResponse,
-                            ]
-                        );
+                        ], 422);
                     }
+
+                    $payment->update([
+                        'checkout_request_id' => $stkResponse['CheckoutRequestID'],
+                    ]);
+
+                    Log::info('M-Pesa STK Push initiated', [
+                        'order_id' => $order->id,
+                        'payment_id' => $payment->id,
+                        'checkout_request_id' => $stkResponse['CheckoutRequestID'],
+                    ]);
                 }
             } catch (\Throwable $e) {
-                // Do not delete the order if STK Push fails
+                $this->failPendingPayment($order);
+
                 Log::error('M-Pesa STK Push failed', [
                     'order_id' => $order->id,
                     'error' => $e->getMessage(),
                 ]);
+
+                return response()->json([
+                    'message' => 'M-Pesa could not start this payment. Please try again.',
+                    'order_id' => $order->id,
+                ], 502);
             }
         }
 
@@ -235,5 +237,26 @@ class OrderController extends Controller
         ] : null,
     ]);
 }
+
+    private function failPendingPayment(Order $order): void
+    {
+        DB::transaction(function () use ($order) {
+            $payment = Payment::where('order_id', $order->id)->lockForUpdate()->first();
+            $lockedOrder = Order::whereKey($order->id)->lockForUpdate()->first();
+
+            if (!$payment || !$lockedOrder || $payment->status !== 'pending') {
+                return;
+            }
+
+            foreach ($lockedOrder->items()->with('product')->get() as $item) {
+                if ($item->product) {
+                    $item->product->increment('stock', 1);
+                }
+            }
+
+            $payment->update(['status' => 'failed']);
+            $lockedOrder->update(['status' => 'payment_failed']);
+        });
+    }
 
 }

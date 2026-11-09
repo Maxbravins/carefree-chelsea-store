@@ -191,7 +191,7 @@ class MpesaController extends Controller
                 ]);
 
                 $order->update([
-                    'status' => 'failed',
+                    'status' => 'payment_failed',
                 ]);
 
                 Log::warning('M-Pesa Payment Failed - Stock Restored', [

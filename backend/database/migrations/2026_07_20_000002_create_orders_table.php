@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('town');
             $table->string('landmark')->nullable();
             $table->unsignedInteger('total'); // KES
-            $table->enum('status', ['pending', 'paid', 'shipped', 'delivered', 'cancelled'])
-                  ->default('pending');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
